@@ -49,34 +49,14 @@
 #include <stdint.h>
 #include "ui/ui.h"
 
-unsigned char readTC74 (void)
-{
-	unsigned char value;
-do{
-	IdleI2C();
-	StartI2C(); IdleI2C();
-    
-	WriteI2C(0x9a | 0x00); IdleI2C();
-	WriteI2C(0x01); IdleI2C();
-	RestartI2C(); IdleI2C();
-	WriteI2C(0x9a | 0x01); IdleI2C();
-	value = ReadI2C(); IdleI2C();
-	NotAckI2C(); IdleI2C();
-	StopI2C();
-} while (!(value & 0x40));
+/*--------------------------------  MACROS(values for variable init mostly) -------------------------------------*/
+#define PMON 5   /*5 sec monitoring period*/
+#define TALA 3   /*3 seconds duration of alarm signal (PWM)*/
+#define TINA 10  /*10 sec inactivity time*/
+#define CLKH 0   /*clock hours*/
+#define CLKM 0   /*clock minutes*/
 
-	IdleI2C();
-	StartI2C(); IdleI2C();
-	WriteI2C(0x9a | 0x00); IdleI2C();
-	WriteI2C(0x00); IdleI2C();
-	RestartI2C(); IdleI2C();
-	WriteI2C(0x9a | 0x01); IdleI2C();
-	value = ReadI2C(); IdleI2C();
-	NotAckI2C(); IdleI2C();
-	StopI2C();
 
-	return value;
-}
 
 void main(void)
 {
@@ -94,32 +74,32 @@ void main(void)
     
     
     /*S1 interrupt setup*/
-    INT_SetInterruptHandler(S1_Callback); 
     EXT_INT_Initialize();
+    INT_SetInterruptHandler(S1_Callback); 
+    
     
     /*S2 setup*/
-    IOCCF5_SetInterruptHandler(S2_Callback);
     PIN_MANAGER_Initialize();
+    IOCCF5_SetInterruptHandler(S2_Callback);
+
     
     while (1)
     {
-        if (S1_check() == 1){Reset_flag_S1();LATAbits.LATA7 ^= 1;}
-        if (S2_check() == 1){Reset_flag_S2();LATAbits.LATA7 ^= 1;}
+        if (S1_check() ){Reset_flag_S1(); OnS1Pressed();}
+        if (S2_check() ){Reset_flag_S2(); OnS2Pressed();}
 
         if (AppClock_ConsumeTick1s()) /*one second has passed*/
         {
-            uint32_t now = AppClock_Seconds();
-            UI_OnTick1s();   // updates hh:mm:ss and renders again
-            if ((now - last_update) >= 5 | last_update == 0)
+            Clock_Tick1s(); /*tick the clock inside the interrupt!!*/
+            uint32_t now = AppClock_Seconds();     
+            
+            if ((now - last_update) >= PMON | last_update == 0)
             {
                 last_update = now;
-                c = readTC74();
-                LCDcmd(0xC0);
-                sprintf(buf, "%02d C", c);
-                LCDstr(buf);
-                  
+                ReadSensors();    
             }
             
+        UI_OnTick1s();   // updates hh:mm:ss and renders again    
         SLEEP();
         NOP();
         }

@@ -10,7 +10,7 @@ static void TMR1_1sCallback(void)
 {
     s_seconds++;
     s_tick1s = 1;
-    LATAbits.LATA7 ^= 1;   // debug: blink each second
+    //LATAbits.LATA7 ^= 1;   // debug: blink each second
 }
 
 void AppClock_Init(void)

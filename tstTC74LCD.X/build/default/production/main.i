@@ -21225,50 +21225,36 @@ uint8_t AppClock_ConsumeTick1s(void);
 
 
 
+
+
+void Clock_Tick1s(void);
+void ClearAlarmFlags(void);
+
+
+void OnS1Pressed(void);
+void OnS2Pressed(void);
+
+
+
 void UI_Init(void);
 void UI_OnTick1s(void);
+void RenderConfig(void);
+void RenderNormal(void);
+
+
+unsigned char readTC74 (void);
+void ReadSensors(void);
 
 
 
 void S1_Callback(void);
 void S2_Callback(void);
-
 int S1_check(void);
 int S2_check(void);
-
 void Reset_flag_S1(void);
 void Reset_flag_S2(void);
 # 51 "main.c" 2
-
-unsigned char readTC74 (void)
-{
- unsigned char value;
-do{
- while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- do { SSP1CON2bits.SEN=1;while(SSP1CON2bits.SEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-
- WriteI2C(0x9a | 0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- WriteI2C(0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- do { SSP1CON2bits.RSEN=1;while(SSP1CON2bits.RSEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- WriteI2C(0x9a | 0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- value = ReadI2C(); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- do { SSP1CON2bits.ACKDT=1;SSP1CON2bits.ACKEN=1;while(SSP1CON2bits.ACKEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- do { SSP1CON2bits.PEN = 1;while(SSP1CON2bits.PEN); } while (0);
-} while (!(value & 0x40));
-
- while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- do { SSP1CON2bits.SEN=1;while(SSP1CON2bits.SEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- WriteI2C(0x9a | 0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- WriteI2C(0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- do { SSP1CON2bits.RSEN=1;while(SSP1CON2bits.RSEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- WriteI2C(0x9a | 0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- value = ReadI2C(); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- do { SSP1CON2bits.ACKDT=1;SSP1CON2bits.ACKEN=1;while(SSP1CON2bits.ACKEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- do { SSP1CON2bits.PEN = 1;while(SSP1CON2bits.PEN); } while (0);
-
- return value;
-}
-
+# 61 "main.c"
 void main(void)
 {
     unsigned char c;
@@ -21285,32 +21271,32 @@ void main(void)
 
 
 
-    INT_SetInterruptHandler(S1_Callback);
     EXT_INT_Initialize();
+    INT_SetInterruptHandler(S1_Callback);
 
 
-    IOCCF5_SetInterruptHandler(S2_Callback);
+
     PIN_MANAGER_Initialize();
+    IOCCF5_SetInterruptHandler(S2_Callback);
+
 
     while (1)
     {
-        if (S1_check() == 1){Reset_flag_S1();LATAbits.LATA7 ^= 1;}
-        if (S2_check() == 1){Reset_flag_S2();LATAbits.LATA7 ^= 1;}
+        if (S1_check() ){Reset_flag_S1(); OnS1Pressed();}
+        if (S2_check() ){Reset_flag_S2(); OnS2Pressed();}
 
         if (AppClock_ConsumeTick1s())
         {
+            Clock_Tick1s();
             uint32_t now = AppClock_Seconds();
-            UI_OnTick1s();
+
             if ((now - last_update) >= 5 | last_update == 0)
             {
                 last_update = now;
-                c = readTC74();
-                LCDcmd(0xC0);
-                sprintf(buf, "%02d C", c);
-                LCDstr(buf);
-
+                ReadSensors();
             }
 
+        UI_OnTick1s();
         __asm("sleep");
         __nop();
         }

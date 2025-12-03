@@ -118,17 +118,32 @@ typedef uint32_t uint_fast32_t;
 
 
 
+
+
+void Clock_Tick1s(void);
+void ClearAlarmFlags(void);
+
+
+void OnS1Pressed(void);
+void OnS2Pressed(void);
+
+
+
 void UI_Init(void);
 void UI_OnTick1s(void);
+void RenderConfig(void);
+void RenderNormal(void);
+
+
+unsigned char readTC74 (void);
+void ReadSensors(void);
 
 
 
 void S1_Callback(void);
 void S2_Callback(void);
-
 int S1_check(void);
 int S2_check(void);
-
 void Reset_flag_S1(void);
 void Reset_flag_S2(void);
 # 2 "ui/ui.c" 2
@@ -21228,8 +21243,17 @@ int LCDbusy(void);
 
 void LCDpos(unsigned char l, unsigned char c);
 # 4 "ui/ui.c" 2
+# 1 "ui/../I2C/i2c.h" 1
+# 155 "ui/../I2C/i2c.h"
+void OpenI2C( void );
 
+signed char WriteI2C( unsigned char data_out );
 
+signed char putsI2C( unsigned char *wrptr );
+
+unsigned char ReadI2C( void );
+# 5 "ui/ui.c" 2
+# 16 "ui/ui.c"
 typedef enum { UI_NORMAL, UI_CONFIG, UI_SHOW_RECORDS } ui_mode_t;
 
 
@@ -21248,77 +21272,45 @@ typedef enum {
 static ui_mode_t mode;
 static cfg_field_t field;
 
+
 static uint8_t hh, mm, ss;
-static uint8_t alarmsEnabled;
+static unsigned char temp;
+static unsigned char light;
+static uint8_t alarmsEnabled = 0;
 static uint8_t alarmFlagC, alarmFlagT, alarmFlagL;
 
 
-static uint8_t thrTemp;
-static uint8_t thrLum;
+uint8_t thrSecond = 0;
+uint8_t thrMinute = 0;
+uint8_t thrHour = 12;
+uint8_t thrTemp = 20;
+uint8_t thrLum = 2;
 
 
 static uint8_t s1_prev = 1, s2_prev = 1;
 
 
-extern volatile _Bool S1_pressed = 0;
-extern volatile _Bool S2_pressed = 0;
+static volatile int S1_pressed ;
+static volatile int S2_pressed ;
 
-static void Clock_Tick1s(void)
+
+
+void Clock_Tick1s(void)
 {
-    if (++ss >= 60) { ss = 0;
-    if (++mm >= 60) { mm = 0;
-    if (++hh >= 24) hh = 0; } }
+    if (++ss >= 60) {
+        ss = 0;
+        if (++mm >= 60) {
+            mm = 0;
+            if (++hh >= 24) {hh = 0;}
+        }
+    }
 }
 
-static void ClearAlarmFlags(void) { alarmFlagC = alarmFlagT = alarmFlagL = 0; }
-
-static void RenderNormal(void)
-{
-    char line1[17], line2[17];
+void ClearAlarmFlags(void) { alarmFlagC = alarmFlagT = alarmFlagL = 0; }
 
 
 
-    snprintf(line1, sizeof(line1), "%02u:%02u:%02u %c%c%c  %c ",
-             hh, mm, ss,
-             alarmFlagC ? 'C' : ' ',
-             alarmFlagT ? 'T' : ' ',
-             alarmFlagL ? 'L' : ' ',
-             alarmsEnabled ? 'A' : 'a');
-
-
-
-
-
-    LCDcmd(0x80); LCDstr(line1);
-
-}
-
-static void RenderConfig(void)
-{
-
-
-    char line1[17], line2[17];
-
-char mC = (field == CF_CTL_C) ? '^' : ' ';
-char mT = (field == CF_CTL_T) ? '^' : ' ';
-char mL = (field == CF_CTL_L) ? '^' : ' ';
-
-
-
-    snprintf(line1, sizeof(line1), "%02u:%02u:%02u %c%c%c %cR",
-             hh, mm, ss, mC, mT, mL, alarmsEnabled ? 'A' : 'a');
-
-    snprintf(line2, sizeof(line2), "%02u C   L  %u",
-             thrTemp, thrLum);
-
-    LCDcmd(0x80); LCDstr(line1);
-    LCDcmd(0xC0); LCDstr(line2);
-
-
-
-}
-
-static void OnS1Pressed(void)
+void OnS1Pressed(void)
 {
 
     ClearAlarmFlags();
@@ -21337,9 +21329,10 @@ static void OnS1Pressed(void)
         }
         return;
     }
+    return;
 }
 
-static void OnS2Pressed(void)
+void OnS2Pressed(void)
 {
     if (mode == UI_CONFIG) {
         switch (field) {
@@ -21361,7 +21354,11 @@ static void OnS2Pressed(void)
 
         return;
     }
+
+    return;
 }
+
+
 
 void UI_Init(void)
 {
@@ -21381,28 +21378,173 @@ void UI_Init(void)
 void UI_OnTick1s(void)
 {
 
-    Clock_Tick1s();
 
-
-
-    uint8_t s1 = PORTBbits.RB4;
-    uint8_t s2 = PORTCbits.RC5;
-
-    if (s1_prev == 0) OnS1Pressed();
-    if (s2_prev == 0) OnS2Pressed();
-
-    s1_prev = s1;
-    s2_prev = s2;
-
-
-    if (mode == UI_NORMAL) RenderNormal();
-    else if (mode == UI_CONFIG) RenderConfig();
+    if (mode == UI_NORMAL){ RenderNormal(); }
+    else if (mode == UI_CONFIG){ RenderConfig(); }
+    else if (mode == UI_SHOW_RECORDS){ return; }
+    return;
 
 
 
 
 
 }
+
+void RenderConfig(void)
+{
+# 169 "ui/ui.c"
+    char line1[17], line2[17];
+
+
+    sprintf(line1,"                ");
+    sprintf(line2,"                ");
+    LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());
+    LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
+
+
+    switch (field) {
+        case CF_CLK_HH:
+            if(alarmsEnabled==1)
+            { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            sprintf(line2,"%02d              L%01d ",thrTemp,thrLum);
+            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
+            LCDcmd(0x80); LCDpos(0,1);
+        break;
+        case CF_CLK_MM:
+            if(alarmsEnabled==1)
+            { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            sprintf(line2,"%02d              L%01d ",thrTemp,thrLum);
+            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
+            LCDcmd(0x80);LCDpos(0,4);
+        break;
+        case CF_CLK_SS:
+            if(alarmsEnabled==1)
+            { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            sprintf(line2,"%02d              L%01d ",thrTemp,thrLum);
+            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
+            LCDcmd(0x80);LCDpos(0,7);
+        break;
+        case CF_CTL_C:
+            if(alarmsEnabled==1)
+            { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            sprintf(line2,"%02d              L%01d ",thrTemp,thrLum);
+            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
+            LCDcmd(0x80);LCDpos(0,11);
+        break;
+        case CF_CTL_T:
+            if(alarmsEnabled==1)
+            { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            sprintf(line2,"%02d              L%01d ",thrTemp,thrLum);
+            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
+            LCDcmd(0x80);LCDpos(0,12);
+        break;
+        case CF_CTL_L:
+            if(alarmsEnabled==1)
+            { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            sprintf(line2,"%02d              L%01d ",thrTemp,thrLum);
+            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
+            LCDcmd(0x80);LCDpos(0,13);
+        break;
+        case CF_ALARM_EN:
+            if(alarmsEnabled==1)
+            { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            sprintf(line2,"%02d              L%01d ",thrTemp,thrLum);
+            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
+            LCDcmd(0x80);LCDpos(0,14);
+        break;
+        case CF_RESET:
+            if(alarmsEnabled==1)
+            { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            sprintf(line2,"%02d            L%01d ",thrTemp,thrLum);
+            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
+            LCDcmd(0x80);LCDpos(0,15);
+        break;
+        default: break;
+    }
+
+}
+
+void RenderNormal(void)
+{
+    char line1[17], line2[17];
+
+    sprintf(line1,"                ");
+    sprintf(line2,"                ");
+
+    LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
+
+
+
+    int any_alarm = alarmFlagC+alarmFlagL+alarmFlagT;
+    if (alarmsEnabled == 1){
+        if (any_alarm == 0){
+            sprintf(line1,"%02u:%02u:%02u      A ",hh,mm,ss);
+            LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());
+        }
+        else{
+            if (alarmFlagC == 1){
+                sprintf(line1,"%02u:%02u:%02u CA ",hh,mm,ss);
+                LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            if (alarmFlagT == 1){
+                sprintf(line1,"%02u:%02u:%02u TA ",hh,mm,ss);
+                LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            if (alarmFlagL == 1){
+                sprintf(line1,"%02u:%02u:%02u LA ",hh,mm,ss);
+                LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+        }
+    }else{
+        sprintf(line1,"%02u:%02u:%02u      a ",hh,mm,ss);
+        LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());
+    }
+
+    sprintf(line2,"%02d C          L%c ",temp,light);
+
+    LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
+}
+
+
+unsigned char readTC74 (void)
+{
+ unsigned char value;
+    do{
+ while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+ do { SSP1CON2bits.SEN=1;while(SSP1CON2bits.SEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+
+ WriteI2C(0x9a | 0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+ WriteI2C(0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+ do { SSP1CON2bits.RSEN=1;while(SSP1CON2bits.RSEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+ WriteI2C(0x9a | 0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+ value = ReadI2C(); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+ do { SSP1CON2bits.ACKDT=1;SSP1CON2bits.ACKEN=1;while(SSP1CON2bits.ACKEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+ do { SSP1CON2bits.PEN = 1;while(SSP1CON2bits.PEN); } while (0);
+    } while (!(value & 0x40));
+
+ while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+ do { SSP1CON2bits.SEN=1;while(SSP1CON2bits.SEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+ WriteI2C(0x9a | 0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+ WriteI2C(0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+ do { SSP1CON2bits.RSEN=1;while(SSP1CON2bits.RSEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+ WriteI2C(0x9a | 0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+ value = ReadI2C(); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+ do { SSP1CON2bits.ACKDT=1;SSP1CON2bits.ACKEN=1;while(SSP1CON2bits.ACKEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+ do { SSP1CON2bits.PEN = 1;while(SSP1CON2bits.PEN); } while (0);
+
+ return value;
+}
+
+void ReadSensors(){
+    temp = readTC74();
+    light = 65;
+}
+
 
 
 void S1_Callback(void){ S1_pressed = 1; }

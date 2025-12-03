@@ -45,6 +45,9 @@
 #include "I2C/i2c.h"
 #include "LCD/lcd.h"
 #include "stdio.h"
+#include "Clock/clock.h"
+#include <stdint.h>
+#include "ui/ui.h"
 
 /*
                          Main application
@@ -83,6 +86,9 @@
 #define CONFIG_SELECT_A      6
 #define CONFIG_SELECT_R      7
 
+#define true  1
+#define false 0
+
 
 /*------------------GLOBAL VARIABLES(good for interrupt handling) ----------------*/
 extern volatile int curr_mode        = NORMAL_MODE;
@@ -93,10 +99,11 @@ extern volatile int inactive_time      = 0;  /*for counting the time in record m
 extern volatile int pwm_active_time    = -1; /*start at -1 to even out the increments*/
 
 
-extern volatile bool S1_pressed      = false;
-extern volatile bool S2_pressed      = false;
-extern volatile bool alarms_enabled  = false;
-extern volatile bool sound_PWM       = false;
+extern volatile int second_has_passed      = false;
+extern volatile int S1_pressed             = false;
+extern volatile int S2_pressed             = false;
+extern volatile int alarms_enabled         = false;
+extern volatile int sound_PWM              = false;
 
 extern volatile int alarm_hour   = ALAS;
 extern volatile int alarm_minute = ALAM;
@@ -184,8 +191,13 @@ void main(void)
     //WPUC4 = 1;
     LCDinit();
 
+
+
     while (1)
     {
+      second_has_passed = AppClock_ConsumeTick1s();
+      S1_pressed = S1_check();
+      S2_pressed = S2_check();
 
       if     (curr_mode == NORMAL_MODE){resolve_NORMAL_MODE();}
       else if(curr_mode == CONFIG_MODE){resolve_CONFIG_MODE();}
@@ -216,16 +228,14 @@ void resolve_NORMAL_MODE(){
       /*update temperature reading*/
       SensorData.temp = readTC74();
       LCDcmd(0xc0);       // second line, first column
-      sprintf(buf, "%02d C", SensorData.temp);
-      LCDstr(buf);
+      sprintf(buf, "%02d C", SensorData.temp); LCDstr(buf);
+      
       while (LCDbusy());
 
       /*update light reading*/
       SensorData.light = readLight();
-      LCDcmd(0xc0);       // second line, first column
-      LCDpos(0,13);
-      sprintf(buf, "L %1d", SensorData.light); /*limit to 1 character*/
-      LCDstr(buf);
+      LCDcmd(0xc0); LCDpos(0,13);      // second line, first column
+      sprintf(buf, "L %1d", SensorData.light); LCDstr(buf);
       while (LCDbusy());
     }
 
@@ -344,18 +354,18 @@ void resolve_CONFIG_MODE(){
     switch (config_selection){
       case CONFIG_SELECT_HOUR   : 
         /*move cursor to the right of hours*/
-        LCDcmd(0x80);
-        LCDpos(0,1);
+        LCDcmd(0x80);LCDpos(0,1);
+        
       break;
       case CONFIG_SELECT_MINUTE : 
         /*move cursor to the right of minutes*/
-        LCDcmd(0x80);
-        LCDpos(0,4);
+        LCDcmd(0x80);LCDpos(0,4);
+        
       break;
       case CONFIG_SELECT_SECOND : 
         /*move cursor to the right of seconds*/
-        LCDcmd(0x80);
-        LCDpos(0,7);
+        LCDcmd(0x80);LCDpos(0,7);
+        
       break;
       case CONFIG_SELECT_C      : 
         /*move cursor to C*/
@@ -372,26 +382,26 @@ void resolve_CONFIG_MODE(){
       break;
       case CONFIG_SELECT_T      : 
         /*move cursor to T*/
-        LCDcmd(0x80);
-        LCDpos(0,11);
+        LCDcmd(0x80);LCDpos(0,11);
+        
         /*show current time value*/
         /*show alarm temperature value*/
       break;
       case CONFIG_SELECT_L      : 
         /*move cursor to L*/
-        LCDcmd(0x80);
-        LCDpos(0,12);
+        LCDcmd(0x80);LCDpos(0,12);
+        
         /*show alarm light value*/
       break;
       case CONFIG_SELECT_A      : 
         /*move cursor to A*/
-        LCDcmd(0x80);
-        LCDpos(0,14);
+        LCDcmd(0x80);LCDpos(0,14);
+        
       break;
       case CONFIG_SELECT_R      : 
         /*move cursor to R*/
-        LCDcmd(0x80);
-        LCDpos(0,15);
+        LCDcmd(0x80);LCDpos(0,15);
+        
       break;
       default:
         /*went out of selections, exit config mode*/
@@ -400,6 +410,7 @@ void resolve_CONFIG_MODE(){
       return;
     }
   }
+  
   if(S2_pressed == true){ 
     switch (config_selection){
       case CONFIG_SELECT_HOUR   : 

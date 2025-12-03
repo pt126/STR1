@@ -1,17 +1,6 @@
 Version 4.0 HI-TECH Software Intermediate Code
 [v F12628 `(v ~T0 @X0 0 tf ]
-"957 /home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/proc/pic16f18875.h
-[; ;/home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/proc/pic16f18875.h: 957:     struct {
-[s S53 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S53 . LATA0 LATA1 LATA2 LATA3 LATA4 LATA5 LATA6 LATA7 ]
-"956
-[; ;/home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/proc/pic16f18875.h: 956: typedef union {
-[u S52 `S53 1 ]
-[n S52 . . ]
-"968
-[; ;/home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/proc/pic16f18875.h: 968: extern volatile LATAbits_t LATAbits __attribute__((address(0x016)));
-[v _LATAbits `VS52 ~T0 @X0 0 e@22 ]
-"33700
+"33700 /home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/proc/pic16f18875.h
 [; ;/home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/proc/pic16f18875.h: 33700:     struct {
 [s S1505 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S1505 . ANSA0 ANSA1 ANSA2 ANSA3 ANSA4 ANSA5 ANSA6 ANSA7 ]
@@ -33,6 +22,17 @@ Version 4.0 HI-TECH Software Intermediate Code
 "688
 [; ;/home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/proc/pic16f18875.h: 688: extern volatile TRISAbits_t TRISAbits __attribute__((address(0x011)));
 [v _TRISAbits `VS42 ~T0 @X0 0 e@17 ]
+"957
+[; ;/home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/proc/pic16f18875.h: 957:     struct {
+[s S53 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S53 . LATA0 LATA1 LATA2 LATA3 LATA4 LATA5 LATA6 LATA7 ]
+"956
+[; ;/home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/proc/pic16f18875.h: 956: typedef union {
+[u S52 `S53 1 ]
+[n S52 . . ]
+"968
+[; ;/home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/proc/pic16f18875.h: 968: extern volatile LATAbits_t LATAbits __attribute__((address(0x016)));
+[v _LATAbits `VS52 ~T0 @X0 0 e@22 ]
 [v F12672 `(v ~T0 @X0 0 tf ]
 "385 Clock/../mcc_generated_files/tmr1.h
 [; ;Clock/../mcc_generated_files/tmr1.h: 385:  void TMR1_SetInterruptHandler(void (* InterruptHandler)(void));
@@ -1718,9 +1718,6 @@ Version 4.0 HI-TECH Software Intermediate Code
 "12
 [; ;Clock/clock.c: 12:     s_tick1s = 1;
 [e = _s_tick1s -> -> 1 `i `uc ]
-"13
-[; ;Clock/clock.c: 13:     LATAbits.LATA7 ^= 1;
-[e =^ . . _LATAbits 0 7 -> -> 1 `i `Vuc ]
 "14
 [; ;Clock/clock.c: 14: }
 [e :UE 1622 ]

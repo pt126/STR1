@@ -11,4 +11,5 @@ ui/../mcc_generated_files/ext_int.h  \
 ui/../mcc_generated_files/tmr1.h  \
 ui/../mcc_generated_files/tmr0.h  \
 ui/../mcc_generated_files/clkref.h  \
-ui/../LCD/lcd.h 
+ui/../LCD/lcd.h  \
+ui/../I2C/i2c.h 

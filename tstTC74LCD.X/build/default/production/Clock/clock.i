@@ -21195,7 +21195,7 @@ static void TMR1_1sCallback(void)
 {
     s_seconds++;
     s_tick1s = 1;
-    LATAbits.LATA7 ^= 1;
+
 }
 
 void AppClock_Init(void)
