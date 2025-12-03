@@ -92,12 +92,21 @@ void main(void)
     AppClock_Init();
     UI_Init();
     
-   
-        
-
+    
+    /*S1 interrupt setup*/
+    INT_SetInterruptHandler(S1_Callback); 
+    EXT_INT_Initialize();
+    
+    /*S2 setup*/
+    IOCCF5_SetInterruptHandler(S2_Callback);
+    PIN_MANAGER_Initialize();
+    
     while (1)
     {
-        if (AppClock_ConsumeTick1s())
+        if (S1_check() == 1){Reset_flag_S1();LATAbits.LATA7 ^= 1;}
+        if (S2_check() == 1){Reset_flag_S2();LATAbits.LATA7 ^= 1;}
+
+        if (AppClock_ConsumeTick1s()) /*one second has passed*/
         {
             uint32_t now = AppClock_Seconds();
             UI_OnTick1s();   // updates hh:mm:ss and renders again
@@ -108,31 +117,11 @@ void main(void)
                 LCDcmd(0xC0);
                 sprintf(buf, "%02d C", c);
                 LCDstr(buf);
+                  
             }
-                /*
-                LCDpos(0, 8);
-                sprintf(buff, "%02d", last_update);  para confirmar o last update
-                LCDstr(buff);
-            every 2 seconds 
-            if ((now - last_update) >= 2)
-            {
-                last_update = now;
-
-                c = readTC74();
-
-                LCDcmd(0x80);
-                LCDstr("Temp");
-
-                LCDpos(0, 8);
-                LCDstr("STR-RTS");
-
-                LCDcmd(0xC0);
-                sprintf(buf, "%02d C", c);
-                LCDstr(buf);
-            } */ 
-        } 
-
+            
         SLEEP();
         NOP();
+        }
     }
 }

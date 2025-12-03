@@ -23,14 +23,18 @@ static cfg_field_t field;
 
 static uint8_t hh, mm, ss;
 static uint8_t alarmsEnabled;       // 0/1  -> shows 'a' or 'A'
-static uint8_t alarmFlagC, alarmFlagT, alarmFlagL; // shows letters CTL until S1 clears :contentReference[oaicite:8]{index=8}
+static uint8_t alarmFlagC, alarmFlagT, alarmFlagL; // shows letters CTL until S1 clears
 
-// thresholds shown in config mode (spec says tt and l show threshold values there) :contentReference[oaicite:9]{index=9}
+// thresholds shown in config mode (spec says tt and l show threshold values there)
 static uint8_t thrTemp;   // 0..50
 static uint8_t thrLum;    // 0..3
 
 // simple ?previous sampled state? for polling buttons once per second
 static uint8_t s1_prev = 1, s2_prev = 1;
+
+/*----------- Flags for the button interrupts --------------*/
+extern volatile bool S1_pressed      = 0;
+extern volatile bool S2_pressed      = 0;
 
 static void Clock_Tick1s(void)
 {
@@ -169,5 +173,14 @@ void UI_OnTick1s(void)
 
     // 4) LEDs for normal mode (later add other LEDs + PWM alarm)
     // D5/RA7 clock activity: toggle every 1 second :contentReference[oaicite:21]{index=21}
-    LATAbits.LATA7 ^= 1;
+   //LATAbits.LATA7 ^= 1;
+    //IO_RA7_Toggle();
 }
+
+/*-- button flag setting--*/
+void S1_Callback(void){ S1_pressed = 1; }
+void S2_Callback(void){ S2_pressed = 1; }
+int S1_check(void){return S1_pressed;}
+int S2_check(void){return S2_pressed;}
+void Reset_flag_S1(void){S1_pressed = 0;}
+void Reset_flag_S2(void){S2_pressed = 0;}

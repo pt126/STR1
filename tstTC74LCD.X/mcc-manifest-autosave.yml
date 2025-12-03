@@ -2,14 +2,14 @@
 
 manifest_file_version: 1.0.0
 project: tstTC74LCD
-creation_date: 2025-12-03T10:49:10.104Z[Europe/London]
-operating_system: Windows 10
+creation_date: 2025-12-03T13:42:28.030Z[Europe/Lisbon]
+operating_system: Linux
 mcc_mode: IDE
 mcc_mode_version: v6.20
 device_name: PIC16F18875
 compiler: XC8 3.10
-mcc_version: 5.5.0
-mcc_core_version: 5.7.0
+mcc_version: 5.5.1
+mcc_core_version: 5.7.1
 content_manager_version: 5.0.1
 is_mcc_offline: false
 is_using_prerelease_versions: false

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-  <executable name="dist/default/production\tstTC74LCD.X.production.hex">
+  <executable name="dist/default/production/tstTC74LCD.X.production.hex">
     <memory name="program">
       <units>words</units>
       <length>8192</length>
-      <used>3881</used>
-      <free>4311</free>
+      <used>3976</used>
+      <free>4216</free>
     </memory>
     <memory name="data">
       <units>bytes</units>
       <length>1024</length>
-      <used>297</used>
-      <free>727</free>
+      <used>298</used>
+      <free>726</free>
     </memory>
   </executable>
 </project>
