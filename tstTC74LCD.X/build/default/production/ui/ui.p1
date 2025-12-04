@@ -2152,9 +2152,6 @@ Version 4.0 HI-TECH Software Intermediate Code
 "172
 [; ;ui/ui.c: 172:     sprintf(line1,"                ");
 [e ( _sprintf (1 , &U _line1 :s 1C ]
-"173
-[; ;ui/ui.c: 173:     sprintf(line2,"                ");
-[e ( _sprintf (1 , &U _line2 :s 2C ]
 "174
 [; ;ui/ui.c: 174:     LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());
 [e ( _LCDcmd (1 -> -> 128 `i `uc ]
@@ -2165,479 +2162,469 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U 1653 ]
 [e $ != ( _LCDbusy ..  -> 0 `i 1654  ]
 [e :U 1655 ]
-"175
-[; ;ui/ui.c: 175:     LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
-[e ( _LCDcmd (1 -> -> 192 `i `uc ]
-[e ( _LCDpos (2 , -> -> 8 `i `uc -> -> 0 `i `uc ]
-[e ( _LCDstr (1 &U _line2 ]
-[e $U 1656  ]
-[e :U 1657 ]
-[e :U 1656 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1657  ]
-[e :U 1658 ]
 "178
 [; ;ui/ui.c: 178:     switch (field) {
-[e $U 1660  ]
+[e $U 1657  ]
 {
 "179
 [; ;ui/ui.c: 179:         case CF_CLK_HH:
-[e :U 1661 ]
+[e :U 1658 ]
 "180
 [; ;ui/ui.c: 180:             if(alarmsEnabled==1)
-[e $ ! == -> _alarmsEnabled `i -> 1 `i 1662  ]
+[e $ ! == -> _alarmsEnabled `i -> 1 `i 1659  ]
 "181
 [; ;ui/ui.c: 181:             { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+{
+[e ( _sprintf (1 , , , (. , &U _line1 :s 2C -> _hh `i -> _mm `i -> _ss `i ]
+[e ( _LCDcmd (1 -> -> 128 `i `uc ]
+[e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
+[e ( _LCDstr (1 &U _line1 ]
+[e $U 1660  ]
+[e :U 1661 ]
+[e :U 1660 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1661  ]
+[e :U 1662 ]
+}
+[e $U 1663  ]
+"182
+[; ;ui/ui.c: 182:             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+[e :U 1659 ]
 {
 [e ( _sprintf (1 , , , (. , &U _line1 :s 3C -> _hh `i -> _mm `i -> _ss `i ]
 [e ( _LCDcmd (1 -> -> 128 `i `uc ]
 [e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
 [e ( _LCDstr (1 &U _line1 ]
-[e $U 1663  ]
-[e :U 1664 ]
-[e :U 1663 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1664  ]
+[e $U 1664  ]
 [e :U 1665 ]
-}
-[e $U 1666  ]
-"182
-[; ;ui/ui.c: 182:             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-[e :U 1662 ]
-{
-[e ( _sprintf (1 , , , (. , &U _line1 :s 4C -> _hh `i -> _mm `i -> _ss `i ]
-[e ( _LCDcmd (1 -> -> 128 `i `uc ]
-[e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
-[e ( _LCDstr (1 &U _line1 ]
-[e $U 1667  ]
-[e :U 1668 ]
-[e :U 1667 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1668  ]
-[e :U 1669 ]
-}
+[e :U 1664 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1665  ]
 [e :U 1666 ]
+}
+[e :U 1663 ]
 "183
-[; ;ui/ui.c: 183:             sprintf(line2,"%02d              L%01d ",thrTemp,thrLum);
-[e ( _sprintf (1 , , (. , &U _line2 :s 5C -> _thrTemp `i -> _thrLum `i ]
+[; ;ui/ui.c: 183:             sprintf(line2,"                ");
+[e ( _sprintf (1 , &U _line2 :s 4C ]
 "184
 [; ;ui/ui.c: 184:             LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
 [e ( _LCDcmd (1 -> -> 192 `i `uc ]
 [e ( _LCDpos (2 , -> -> 8 `i `uc -> -> 0 `i `uc ]
 [e ( _LCDstr (1 &U _line2 ]
-[e $U 1670  ]
-[e :U 1671 ]
-[e :U 1670 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1671  ]
-[e :U 1672 ]
+[e $U 1667  ]
+[e :U 1668 ]
+[e :U 1667 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1668  ]
+[e :U 1669 ]
 "185
 [; ;ui/ui.c: 185:             LCDcmd(0x80); LCDpos(0,1);
 [e ( _LCDcmd (1 -> -> 128 `i `uc ]
 [e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 1 `i `uc ]
 "186
 [; ;ui/ui.c: 186:         break;
-[e $U 1659  ]
+[e $U 1656  ]
 "187
 [; ;ui/ui.c: 187:         case CF_CLK_MM:
-[e :U 1673 ]
+[e :U 1670 ]
 "188
 [; ;ui/ui.c: 188:             if(alarmsEnabled==1)
-[e $ ! == -> _alarmsEnabled `i -> 1 `i 1674  ]
+[e $ ! == -> _alarmsEnabled `i -> 1 `i 1671  ]
 "189
 [; ;ui/ui.c: 189:             { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+{
+[e ( _sprintf (1 , , , (. , &U _line1 :s 5C -> _hh `i -> _mm `i -> _ss `i ]
+[e ( _LCDcmd (1 -> -> 128 `i `uc ]
+[e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
+[e ( _LCDstr (1 &U _line1 ]
+[e $U 1672  ]
+[e :U 1673 ]
+[e :U 1672 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1673  ]
+[e :U 1674 ]
+}
+[e $U 1675  ]
+"190
+[; ;ui/ui.c: 190:             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+[e :U 1671 ]
 {
 [e ( _sprintf (1 , , , (. , &U _line1 :s 6C -> _hh `i -> _mm `i -> _ss `i ]
 [e ( _LCDcmd (1 -> -> 128 `i `uc ]
 [e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
 [e ( _LCDstr (1 &U _line1 ]
-[e $U 1675  ]
-[e :U 1676 ]
-[e :U 1675 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1676  ]
+[e $U 1676  ]
 [e :U 1677 ]
-}
-[e $U 1678  ]
-"190
-[; ;ui/ui.c: 190:             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-[e :U 1674 ]
-{
-[e ( _sprintf (1 , , , (. , &U _line1 :s 7C -> _hh `i -> _mm `i -> _ss `i ]
-[e ( _LCDcmd (1 -> -> 128 `i `uc ]
-[e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
-[e ( _LCDstr (1 &U _line1 ]
-[e $U 1679  ]
-[e :U 1680 ]
-[e :U 1679 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1680  ]
-[e :U 1681 ]
-}
+[e :U 1676 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1677  ]
 [e :U 1678 ]
+}
+[e :U 1675 ]
 "191
-[; ;ui/ui.c: 191:             sprintf(line2,"%02d              L%01d ",thrTemp,thrLum);
-[e ( _sprintf (1 , , (. , &U _line2 :s 8C -> _thrTemp `i -> _thrLum `i ]
+[; ;ui/ui.c: 191:             sprintf(line2,"                   ");
+[e ( _sprintf (1 , &U _line2 :s 7C ]
 "192
 [; ;ui/ui.c: 192:             LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
 [e ( _LCDcmd (1 -> -> 192 `i `uc ]
 [e ( _LCDpos (2 , -> -> 8 `i `uc -> -> 0 `i `uc ]
 [e ( _LCDstr (1 &U _line2 ]
-[e $U 1682  ]
-[e :U 1683 ]
-[e :U 1682 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1683  ]
-[e :U 1684 ]
+[e $U 1679  ]
+[e :U 1680 ]
+[e :U 1679 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1680  ]
+[e :U 1681 ]
 "193
 [; ;ui/ui.c: 193:             LCDcmd(0x80);LCDpos(0,4);
 [e ( _LCDcmd (1 -> -> 128 `i `uc ]
 [e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 4 `i `uc ]
 "194
 [; ;ui/ui.c: 194:         break;
-[e $U 1659  ]
+[e $U 1656  ]
 "195
 [; ;ui/ui.c: 195:         case CF_CLK_SS:
-[e :U 1685 ]
+[e :U 1682 ]
 "196
 [; ;ui/ui.c: 196:             if(alarmsEnabled==1)
-[e $ ! == -> _alarmsEnabled `i -> 1 `i 1686  ]
+[e $ ! == -> _alarmsEnabled `i -> 1 `i 1683  ]
 "197
 [; ;ui/ui.c: 197:             { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+{
+[e ( _sprintf (1 , , , (. , &U _line1 :s 8C -> _hh `i -> _mm `i -> _ss `i ]
+[e ( _LCDcmd (1 -> -> 128 `i `uc ]
+[e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
+[e ( _LCDstr (1 &U _line1 ]
+[e $U 1684  ]
+[e :U 1685 ]
+[e :U 1684 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1685  ]
+[e :U 1686 ]
+}
+[e $U 1687  ]
+"198
+[; ;ui/ui.c: 198:             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+[e :U 1683 ]
 {
 [e ( _sprintf (1 , , , (. , &U _line1 :s 9C -> _hh `i -> _mm `i -> _ss `i ]
 [e ( _LCDcmd (1 -> -> 128 `i `uc ]
 [e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
 [e ( _LCDstr (1 &U _line1 ]
-[e $U 1687  ]
-[e :U 1688 ]
-[e :U 1687 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1688  ]
+[e $U 1688  ]
 [e :U 1689 ]
-}
-[e $U 1690  ]
-"198
-[; ;ui/ui.c: 198:             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-[e :U 1686 ]
-{
-[e ( _sprintf (1 , , , (. , &U _line1 :s 10C -> _hh `i -> _mm `i -> _ss `i ]
-[e ( _LCDcmd (1 -> -> 128 `i `uc ]
-[e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
-[e ( _LCDstr (1 &U _line1 ]
-[e $U 1691  ]
-[e :U 1692 ]
-[e :U 1691 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1692  ]
-[e :U 1693 ]
-}
+[e :U 1688 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1689  ]
 [e :U 1690 ]
+}
+[e :U 1687 ]
 "199
-[; ;ui/ui.c: 199:             sprintf(line2,"%02d              L%01d ",thrTemp,thrLum);
-[e ( _sprintf (1 , , (. , &U _line2 :s 11C -> _thrTemp `i -> _thrLum `i ]
+[; ;ui/ui.c: 199:             sprintf(line2,"                   ");
+[e ( _sprintf (1 , &U _line2 :s 10C ]
 "200
 [; ;ui/ui.c: 200:             LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
 [e ( _LCDcmd (1 -> -> 192 `i `uc ]
 [e ( _LCDpos (2 , -> -> 8 `i `uc -> -> 0 `i `uc ]
 [e ( _LCDstr (1 &U _line2 ]
-[e $U 1694  ]
-[e :U 1695 ]
-[e :U 1694 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1695  ]
-[e :U 1696 ]
+[e $U 1691  ]
+[e :U 1692 ]
+[e :U 1691 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1692  ]
+[e :U 1693 ]
 "201
 [; ;ui/ui.c: 201:             LCDcmd(0x80);LCDpos(0,7);
 [e ( _LCDcmd (1 -> -> 128 `i `uc ]
 [e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 7 `i `uc ]
 "202
 [; ;ui/ui.c: 202:         break;
-[e $U 1659  ]
+[e $U 1656  ]
 "203
 [; ;ui/ui.c: 203:         case CF_CTL_C:
-[e :U 1697 ]
+[e :U 1694 ]
 "204
 [; ;ui/ui.c: 204:             if(alarmsEnabled==1)
-[e $ ! == -> _alarmsEnabled `i -> 1 `i 1698  ]
+[e $ ! == -> _alarmsEnabled `i -> 1 `i 1695  ]
 "205
-[; ;ui/ui.c: 205:             { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+[; ;ui/ui.c: 205:             { sprintf(line1,"%02u:%02u:%02u   CTLAR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
 {
-[e ( _sprintf (1 , , , (. , &U _line1 :s 12C -> _hh `i -> _mm `i -> _ss `i ]
+[e ( _sprintf (1 , , , (. , &U _line1 :s 11C -> _thrHour `i -> _thrMinute `i -> _thrSecond `i ]
 [e ( _LCDcmd (1 -> -> 128 `i `uc ]
 [e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
 [e ( _LCDstr (1 &U _line1 ]
-[e $U 1699  ]
-[e :U 1700 ]
-[e :U 1699 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1700  ]
-[e :U 1701 ]
-}
-[e $U 1702  ]
-"206
-[; ;ui/ui.c: 206:             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+[e $U 1696  ]
+[e :U 1697 ]
+[e :U 1696 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1697  ]
 [e :U 1698 ]
+}
+[e $U 1699  ]
+"206
+[; ;ui/ui.c: 206:             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+[e :U 1695 ]
 {
-[e ( _sprintf (1 , , , (. , &U _line1 :s 13C -> _hh `i -> _mm `i -> _ss `i ]
+[e ( _sprintf (1 , , , (. , &U _line1 :s 12C -> _thrHour `i -> _thrMinute `i -> _thrSecond `i ]
 [e ( _LCDcmd (1 -> -> 128 `i `uc ]
 [e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
 [e ( _LCDstr (1 &U _line1 ]
-[e $U 1703  ]
-[e :U 1704 ]
-[e :U 1703 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1704  ]
-[e :U 1705 ]
-}
+[e $U 1700  ]
+[e :U 1701 ]
+[e :U 1700 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1701  ]
 [e :U 1702 ]
+}
+[e :U 1699 ]
 "207
-[; ;ui/ui.c: 207:             sprintf(line2,"%02d              L%01d ",thrTemp,thrLum);
-[e ( _sprintf (1 , , (. , &U _line2 :s 14C -> _thrTemp `i -> _thrLum `i ]
+[; ;ui/ui.c: 207:             sprintf(line2,"                   ");
+[e ( _sprintf (1 , &U _line2 :s 13C ]
 "208
 [; ;ui/ui.c: 208:             LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
 [e ( _LCDcmd (1 -> -> 192 `i `uc ]
 [e ( _LCDpos (2 , -> -> 8 `i `uc -> -> 0 `i `uc ]
 [e ( _LCDstr (1 &U _line2 ]
-[e $U 1706  ]
-[e :U 1707 ]
-[e :U 1706 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1707  ]
-[e :U 1708 ]
+[e $U 1703  ]
+[e :U 1704 ]
+[e :U 1703 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1704  ]
+[e :U 1705 ]
 "209
 [; ;ui/ui.c: 209:             LCDcmd(0x80);LCDpos(0,11);
 [e ( _LCDcmd (1 -> -> 128 `i `uc ]
 [e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 11 `i `uc ]
 "210
 [; ;ui/ui.c: 210:         break;
-[e $U 1659  ]
+[e $U 1656  ]
 "211
 [; ;ui/ui.c: 211:         case CF_CTL_T:
-[e :U 1709 ]
+[e :U 1706 ]
 "212
 [; ;ui/ui.c: 212:             if(alarmsEnabled==1)
-[e $ ! == -> _alarmsEnabled `i -> 1 `i 1710  ]
+[e $ ! == -> _alarmsEnabled `i -> 1 `i 1707  ]
 "213
 [; ;ui/ui.c: 213:             { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+{
+[e ( _sprintf (1 , , , (. , &U _line1 :s 14C -> _hh `i -> _mm `i -> _ss `i ]
+[e ( _LCDcmd (1 -> -> 128 `i `uc ]
+[e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
+[e ( _LCDstr (1 &U _line1 ]
+[e $U 1708  ]
+[e :U 1709 ]
+[e :U 1708 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1709  ]
+[e :U 1710 ]
+}
+[e $U 1711  ]
+"214
+[; ;ui/ui.c: 214:             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+[e :U 1707 ]
 {
 [e ( _sprintf (1 , , , (. , &U _line1 :s 15C -> _hh `i -> _mm `i -> _ss `i ]
 [e ( _LCDcmd (1 -> -> 128 `i `uc ]
 [e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
 [e ( _LCDstr (1 &U _line1 ]
-[e $U 1711  ]
-[e :U 1712 ]
-[e :U 1711 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1712  ]
+[e $U 1712  ]
 [e :U 1713 ]
-}
-[e $U 1714  ]
-"214
-[; ;ui/ui.c: 214:             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-[e :U 1710 ]
-{
-[e ( _sprintf (1 , , , (. , &U _line1 :s 16C -> _hh `i -> _mm `i -> _ss `i ]
-[e ( _LCDcmd (1 -> -> 128 `i `uc ]
-[e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
-[e ( _LCDstr (1 &U _line1 ]
-[e $U 1715  ]
-[e :U 1716 ]
-[e :U 1715 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1716  ]
-[e :U 1717 ]
-}
+[e :U 1712 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1713  ]
 [e :U 1714 ]
+}
+[e :U 1711 ]
 "215
-[; ;ui/ui.c: 215:             sprintf(line2,"%02d              L%01d ",thrTemp,thrLum);
-[e ( _sprintf (1 , , (. , &U _line2 :s 17C -> _thrTemp `i -> _thrLum `i ]
+[; ;ui/ui.c: 215:             sprintf(line2,"%02d                 ",thrTemp);
+[e ( _sprintf (1 , (. , &U _line2 :s 16C -> _thrTemp `i ]
 "216
 [; ;ui/ui.c: 216:             LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
 [e ( _LCDcmd (1 -> -> 192 `i `uc ]
 [e ( _LCDpos (2 , -> -> 8 `i `uc -> -> 0 `i `uc ]
 [e ( _LCDstr (1 &U _line2 ]
-[e $U 1718  ]
-[e :U 1719 ]
-[e :U 1718 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1719  ]
-[e :U 1720 ]
+[e $U 1715  ]
+[e :U 1716 ]
+[e :U 1715 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1716  ]
+[e :U 1717 ]
 "217
 [; ;ui/ui.c: 217:             LCDcmd(0x80);LCDpos(0,12);
 [e ( _LCDcmd (1 -> -> 128 `i `uc ]
 [e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 12 `i `uc ]
 "218
 [; ;ui/ui.c: 218:         break;
-[e $U 1659  ]
+[e $U 1656  ]
 "219
 [; ;ui/ui.c: 219:         case CF_CTL_L:
-[e :U 1721 ]
+[e :U 1718 ]
 "220
 [; ;ui/ui.c: 220:             if(alarmsEnabled==1)
-[e $ ! == -> _alarmsEnabled `i -> 1 `i 1722  ]
+[e $ ! == -> _alarmsEnabled `i -> 1 `i 1719  ]
 "221
 [; ;ui/ui.c: 221:             { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+{
+[e ( _sprintf (1 , , , (. , &U _line1 :s 17C -> _hh `i -> _mm `i -> _ss `i ]
+[e ( _LCDcmd (1 -> -> 128 `i `uc ]
+[e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
+[e ( _LCDstr (1 &U _line1 ]
+[e $U 1720  ]
+[e :U 1721 ]
+[e :U 1720 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1721  ]
+[e :U 1722 ]
+}
+[e $U 1723  ]
+"222
+[; ;ui/ui.c: 222:             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+[e :U 1719 ]
 {
 [e ( _sprintf (1 , , , (. , &U _line1 :s 18C -> _hh `i -> _mm `i -> _ss `i ]
 [e ( _LCDcmd (1 -> -> 128 `i `uc ]
 [e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
 [e ( _LCDstr (1 &U _line1 ]
-[e $U 1723  ]
-[e :U 1724 ]
-[e :U 1723 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1724  ]
+[e $U 1724  ]
 [e :U 1725 ]
-}
-[e $U 1726  ]
-"222
-[; ;ui/ui.c: 222:             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-[e :U 1722 ]
-{
-[e ( _sprintf (1 , , , (. , &U _line1 :s 19C -> _hh `i -> _mm `i -> _ss `i ]
-[e ( _LCDcmd (1 -> -> 128 `i `uc ]
-[e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
-[e ( _LCDstr (1 &U _line1 ]
-[e $U 1727  ]
-[e :U 1728 ]
-[e :U 1727 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1728  ]
-[e :U 1729 ]
-}
+[e :U 1724 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1725  ]
 [e :U 1726 ]
+}
+[e :U 1723 ]
 "223
-[; ;ui/ui.c: 223:             sprintf(line2,"%02d              L%01d ",thrTemp,thrLum);
-[e ( _sprintf (1 , , (. , &U _line2 :s 20C -> _thrTemp `i -> _thrLum `i ]
+[; ;ui/ui.c: 223:             sprintf(line2,"                L%02d ",thrLum);
+[e ( _sprintf (1 , (. , &U _line2 :s 19C -> _thrLum `i ]
 "224
 [; ;ui/ui.c: 224:             LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
 [e ( _LCDcmd (1 -> -> 192 `i `uc ]
 [e ( _LCDpos (2 , -> -> 8 `i `uc -> -> 0 `i `uc ]
 [e ( _LCDstr (1 &U _line2 ]
-[e $U 1730  ]
-[e :U 1731 ]
-[e :U 1730 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1731  ]
-[e :U 1732 ]
+[e $U 1727  ]
+[e :U 1728 ]
+[e :U 1727 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1728  ]
+[e :U 1729 ]
 "225
 [; ;ui/ui.c: 225:             LCDcmd(0x80);LCDpos(0,13);
 [e ( _LCDcmd (1 -> -> 128 `i `uc ]
 [e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 13 `i `uc ]
 "226
 [; ;ui/ui.c: 226:         break;
-[e $U 1659  ]
+[e $U 1656  ]
 "227
 [; ;ui/ui.c: 227:         case CF_ALARM_EN:
-[e :U 1733 ]
+[e :U 1730 ]
 "228
 [; ;ui/ui.c: 228:             if(alarmsEnabled==1)
-[e $ ! == -> _alarmsEnabled `i -> 1 `i 1734  ]
+[e $ ! == -> _alarmsEnabled `i -> 1 `i 1731  ]
 "229
 [; ;ui/ui.c: 229:             { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+{
+[e ( _sprintf (1 , , , (. , &U _line1 :s 20C -> _hh `i -> _mm `i -> _ss `i ]
+[e ( _LCDcmd (1 -> -> 128 `i `uc ]
+[e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
+[e ( _LCDstr (1 &U _line1 ]
+[e $U 1732  ]
+[e :U 1733 ]
+[e :U 1732 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1733  ]
+[e :U 1734 ]
+}
+[e $U 1735  ]
+"230
+[; ;ui/ui.c: 230:             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+[e :U 1731 ]
 {
 [e ( _sprintf (1 , , , (. , &U _line1 :s 21C -> _hh `i -> _mm `i -> _ss `i ]
 [e ( _LCDcmd (1 -> -> 128 `i `uc ]
 [e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
 [e ( _LCDstr (1 &U _line1 ]
-[e $U 1735  ]
-[e :U 1736 ]
-[e :U 1735 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1736  ]
+[e $U 1736  ]
 [e :U 1737 ]
-}
-[e $U 1738  ]
-"230
-[; ;ui/ui.c: 230:             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-[e :U 1734 ]
-{
-[e ( _sprintf (1 , , , (. , &U _line1 :s 22C -> _hh `i -> _mm `i -> _ss `i ]
-[e ( _LCDcmd (1 -> -> 128 `i `uc ]
-[e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
-[e ( _LCDstr (1 &U _line1 ]
-[e $U 1739  ]
-[e :U 1740 ]
-[e :U 1739 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1740  ]
-[e :U 1741 ]
-}
+[e :U 1736 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1737  ]
 [e :U 1738 ]
+}
+[e :U 1735 ]
 "231
-[; ;ui/ui.c: 231:             sprintf(line2,"%02d              L%01d ",thrTemp,thrLum);
-[e ( _sprintf (1 , , (. , &U _line2 :s 23C -> _thrTemp `i -> _thrLum `i ]
+[; ;ui/ui.c: 231:             sprintf(line2,"                ");
+[e ( _sprintf (1 , &U _line2 :s 22C ]
 "232
 [; ;ui/ui.c: 232:             LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
 [e ( _LCDcmd (1 -> -> 192 `i `uc ]
 [e ( _LCDpos (2 , -> -> 8 `i `uc -> -> 0 `i `uc ]
 [e ( _LCDstr (1 &U _line2 ]
-[e $U 1742  ]
-[e :U 1743 ]
-[e :U 1742 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1743  ]
-[e :U 1744 ]
+[e $U 1739  ]
+[e :U 1740 ]
+[e :U 1739 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1740  ]
+[e :U 1741 ]
 "233
 [; ;ui/ui.c: 233:             LCDcmd(0x80);LCDpos(0,14);
 [e ( _LCDcmd (1 -> -> 128 `i `uc ]
 [e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 14 `i `uc ]
 "234
 [; ;ui/ui.c: 234:         break;
-[e $U 1659  ]
+[e $U 1656  ]
 "235
 [; ;ui/ui.c: 235:         case CF_RESET:
-[e :U 1745 ]
+[e :U 1742 ]
 "236
 [; ;ui/ui.c: 236:             if(alarmsEnabled==1)
-[e $ ! == -> _alarmsEnabled `i -> 1 `i 1746  ]
+[e $ ! == -> _alarmsEnabled `i -> 1 `i 1743  ]
 "237
 [; ;ui/ui.c: 237:             { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+{
+[e ( _sprintf (1 , , , (. , &U _line1 :s 23C -> _hh `i -> _mm `i -> _ss `i ]
+[e ( _LCDcmd (1 -> -> 128 `i `uc ]
+[e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
+[e ( _LCDstr (1 &U _line1 ]
+[e $U 1744  ]
+[e :U 1745 ]
+[e :U 1744 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1745  ]
+[e :U 1746 ]
+}
+[e $U 1747  ]
+"238
+[; ;ui/ui.c: 238:             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+[e :U 1743 ]
 {
 [e ( _sprintf (1 , , , (. , &U _line1 :s 24C -> _hh `i -> _mm `i -> _ss `i ]
 [e ( _LCDcmd (1 -> -> 128 `i `uc ]
 [e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
 [e ( _LCDstr (1 &U _line1 ]
-[e $U 1747  ]
-[e :U 1748 ]
-[e :U 1747 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1748  ]
+[e $U 1748  ]
 [e :U 1749 ]
-}
-[e $U 1750  ]
-"238
-[; ;ui/ui.c: 238:             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-[e :U 1746 ]
-{
-[e ( _sprintf (1 , , , (. , &U _line1 :s 25C -> _hh `i -> _mm `i -> _ss `i ]
-[e ( _LCDcmd (1 -> -> 128 `i `uc ]
-[e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
-[e ( _LCDstr (1 &U _line1 ]
-[e $U 1751  ]
-[e :U 1752 ]
-[e :U 1751 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1752  ]
-[e :U 1753 ]
-}
+[e :U 1748 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1749  ]
 [e :U 1750 ]
+}
+[e :U 1747 ]
 "239
-[; ;ui/ui.c: 239:             sprintf(line2,"%02d            L%01d ",thrTemp,thrLum);
-[e ( _sprintf (1 , , (. , &U _line2 :s 26C -> _thrTemp `i -> _thrLum `i ]
+[; ;ui/ui.c: 239:             sprintf(line2,"                ");
+[e ( _sprintf (1 , &U _line2 :s 25C ]
 "240
 [; ;ui/ui.c: 240:             LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
 [e ( _LCDcmd (1 -> -> 192 `i `uc ]
 [e ( _LCDpos (2 , -> -> 8 `i `uc -> -> 0 `i `uc ]
 [e ( _LCDstr (1 &U _line2 ]
-[e $U 1754  ]
-[e :U 1755 ]
-[e :U 1754 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1755  ]
-[e :U 1756 ]
+[e $U 1751  ]
+[e :U 1752 ]
+[e :U 1751 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1752  ]
+[e :U 1753 ]
 "241
 [; ;ui/ui.c: 241:             LCDcmd(0x80);LCDpos(0,15);
 [e ( _LCDcmd (1 -> -> 128 `i `uc ]
 [e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 15 `i `uc ]
 "242
 [; ;ui/ui.c: 242:         break;
-[e $U 1659  ]
+[e $U 1656  ]
 "243
 [; ;ui/ui.c: 243:         default: break;
-[e :U 1757 ]
-[e $U 1659  ]
+[e :U 1754 ]
+[e $U 1656  ]
 "244
 [; ;ui/ui.c: 244:     }
 }
-[e $U 1659  ]
-[e :U 1660 ]
-[e [\ -> _field `ui , $ -> . `E12748 0 `ui 1661
- , $ -> . `E12748 1 `ui 1673
- , $ -> . `E12748 2 `ui 1685
- , $ -> . `E12748 3 `ui 1697
- , $ -> . `E12748 4 `ui 1709
- , $ -> . `E12748 5 `ui 1721
- , $ -> . `E12748 6 `ui 1733
- , $ -> . `E12748 7 `ui 1745
- 1757 ]
-[e :U 1659 ]
+[e $U 1656  ]
+[e :U 1657 ]
+[e [\ -> _field `ui , $ -> . `E12748 0 `ui 1658
+ , $ -> . `E12748 1 `ui 1670
+ , $ -> . `E12748 2 `ui 1682
+ , $ -> . `E12748 3 `ui 1694
+ , $ -> . `E12748 4 `ui 1706
+ , $ -> . `E12748 5 `ui 1718
+ , $ -> . `E12748 6 `ui 1730
+ , $ -> . `E12748 7 `ui 1742
+ 1754 ]
+[e :U 1656 ]
 "246
 [; ;ui/ui.c: 246: }
 [e :UE 1652 ]
@@ -2656,153 +2643,153 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _line2 `uc ~T0 @X0 -> 17 `i a ]
 "252
 [; ;ui/ui.c: 252:     sprintf(line1,"                ");
-[e ( _sprintf (1 , &U _line1 :s 27C ]
+[e ( _sprintf (1 , &U _line1 :s 26C ]
 "253
 [; ;ui/ui.c: 253:     sprintf(line2,"                ");
-[e ( _sprintf (1 , &U _line2 :s 28C ]
+[e ( _sprintf (1 , &U _line2 :s 27C ]
 "255
 [; ;ui/ui.c: 255:     LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
 [e ( _LCDcmd (1 -> -> 192 `i `uc ]
 [e ( _LCDpos (2 , -> -> 8 `i `uc -> -> 0 `i `uc ]
 [e ( _LCDstr (1 &U _line2 ]
-[e $U 1759  ]
-[e :U 1760 ]
-[e :U 1759 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1760  ]
-[e :U 1761 ]
+[e $U 1756  ]
+[e :U 1757 ]
+[e :U 1756 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1757  ]
+[e :U 1758 ]
 "259
 [; ;ui/ui.c: 259:     int any_alarm = alarmFlagC+alarmFlagL+alarmFlagT;
 [v _any_alarm `i ~T0 @X0 1 a ]
 [e = _any_alarm + + -> _alarmFlagC `i -> _alarmFlagL `i -> _alarmFlagT `i ]
 "260
 [; ;ui/ui.c: 260:     if (alarmsEnabled == 1){
-[e $ ! == -> _alarmsEnabled `i -> 1 `i 1762  ]
+[e $ ! == -> _alarmsEnabled `i -> 1 `i 1759  ]
 {
 "261
 [; ;ui/ui.c: 261:         if (any_alarm == 0){
-[e $ ! == _any_alarm -> 0 `i 1763  ]
+[e $ ! == _any_alarm -> 0 `i 1760  ]
 {
 "262
 [; ;ui/ui.c: 262:             sprintf(line1,"%02u:%02u:%02u      A ",hh,mm,ss);
-[e ( _sprintf (1 , , , (. , &U _line1 :s 29C -> _hh `i -> _mm `i -> _ss `i ]
+[e ( _sprintf (1 , , , (. , &U _line1 :s 28C -> _hh `i -> _mm `i -> _ss `i ]
 "263
 [; ;ui/ui.c: 263:             LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());
 [e ( _LCDcmd (1 -> -> 128 `i `uc ]
 [e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
 [e ( _LCDstr (1 &U _line1 ]
-[e $U 1764  ]
-[e :U 1765 ]
-[e :U 1764 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1765  ]
-[e :U 1766 ]
+[e $U 1761  ]
+[e :U 1762 ]
+[e :U 1761 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1762  ]
+[e :U 1763 ]
 "264
 [; ;ui/ui.c: 264:         }
 }
-[e $U 1767  ]
+[e $U 1764  ]
 "265
 [; ;ui/ui.c: 265:         else{
-[e :U 1763 ]
+[e :U 1760 ]
 {
 "266
 [; ;ui/ui.c: 266:             if (alarmFlagC == 1){
-[e $ ! == -> _alarmFlagC `i -> 1 `i 1768  ]
+[e $ ! == -> _alarmFlagC `i -> 1 `i 1765  ]
 {
 "267
 [; ;ui/ui.c: 267:                 sprintf(line1,"%02u:%02u:%02u CA ",hh,mm,ss);
-[e ( _sprintf (1 , , , (. , &U _line1 :s 30C -> _hh `i -> _mm `i -> _ss `i ]
+[e ( _sprintf (1 , , , (. , &U _line1 :s 29C -> _hh `i -> _mm `i -> _ss `i ]
 "268
 [; ;ui/ui.c: 268:                 LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
 [e ( _LCDcmd (1 -> -> 128 `i `uc ]
 [e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
 [e ( _LCDstr (1 &U _line1 ]
-[e $U 1769  ]
-[e :U 1770 ]
-[e :U 1769 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1770  ]
-[e :U 1771 ]
-}
+[e $U 1766  ]
+[e :U 1767 ]
+[e :U 1766 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1767  ]
 [e :U 1768 ]
+}
+[e :U 1765 ]
 "269
 [; ;ui/ui.c: 269:             if (alarmFlagT == 1){
-[e $ ! == -> _alarmFlagT `i -> 1 `i 1772  ]
+[e $ ! == -> _alarmFlagT `i -> 1 `i 1769  ]
 {
 "270
 [; ;ui/ui.c: 270:                 sprintf(line1,"%02u:%02u:%02u TA ",hh,mm,ss);
-[e ( _sprintf (1 , , , (. , &U _line1 :s 31C -> _hh `i -> _mm `i -> _ss `i ]
+[e ( _sprintf (1 , , , (. , &U _line1 :s 30C -> _hh `i -> _mm `i -> _ss `i ]
 "271
 [; ;ui/ui.c: 271:                 LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
 [e ( _LCDcmd (1 -> -> 128 `i `uc ]
 [e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
 [e ( _LCDstr (1 &U _line1 ]
-[e $U 1773  ]
-[e :U 1774 ]
-[e :U 1773 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1774  ]
-[e :U 1775 ]
-}
+[e $U 1770  ]
+[e :U 1771 ]
+[e :U 1770 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1771  ]
 [e :U 1772 ]
+}
+[e :U 1769 ]
 "272
 [; ;ui/ui.c: 272:             if (alarmFlagL == 1){
-[e $ ! == -> _alarmFlagL `i -> 1 `i 1776  ]
+[e $ ! == -> _alarmFlagL `i -> 1 `i 1773  ]
 {
 "273
 [; ;ui/ui.c: 273:                 sprintf(line1,"%02u:%02u:%02u LA ",hh,mm,ss);
-[e ( _sprintf (1 , , , (. , &U _line1 :s 32C -> _hh `i -> _mm `i -> _ss `i ]
+[e ( _sprintf (1 , , , (. , &U _line1 :s 31C -> _hh `i -> _mm `i -> _ss `i ]
 "274
 [; ;ui/ui.c: 274:                 LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
 [e ( _LCDcmd (1 -> -> 128 `i `uc ]
 [e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
 [e ( _LCDstr (1 &U _line1 ]
-[e $U 1777  ]
-[e :U 1778 ]
-[e :U 1777 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1778  ]
-[e :U 1779 ]
-}
+[e $U 1774  ]
+[e :U 1775 ]
+[e :U 1774 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1775  ]
 [e :U 1776 ]
+}
+[e :U 1773 ]
 "275
 [; ;ui/ui.c: 275:         }
 }
-[e :U 1767 ]
+[e :U 1764 ]
 "276
 [; ;ui/ui.c: 276:     }else{
 }
-[e $U 1780  ]
-[e :U 1762 ]
+[e $U 1777  ]
+[e :U 1759 ]
 {
 "277
 [; ;ui/ui.c: 277:         sprintf(line1,"%02u:%02u:%02u      a ",hh,mm,ss);
-[e ( _sprintf (1 , , , (. , &U _line1 :s 33C -> _hh `i -> _mm `i -> _ss `i ]
+[e ( _sprintf (1 , , , (. , &U _line1 :s 32C -> _hh `i -> _mm `i -> _ss `i ]
 "278
 [; ;ui/ui.c: 278:         LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());
 [e ( _LCDcmd (1 -> -> 128 `i `uc ]
 [e ( _LCDpos (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
 [e ( _LCDstr (1 &U _line1 ]
-[e $U 1781  ]
-[e :U 1782 ]
-[e :U 1781 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1782  ]
-[e :U 1783 ]
+[e $U 1778  ]
+[e :U 1779 ]
+[e :U 1778 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1779  ]
+[e :U 1780 ]
 "279
 [; ;ui/ui.c: 279:     }
 }
-[e :U 1780 ]
+[e :U 1777 ]
 "281
-[; ;ui/ui.c: 281:     sprintf(line2,"%02d C          L%c ",temp,light);
-[e ( _sprintf (1 , , (. , &U _line2 :s 34C -> _temp `i -> _light `i ]
+[; ;ui/ui.c: 281:     sprintf(line2,"%02d C         L %c ",temp,light);
+[e ( _sprintf (1 , , (. , &U _line2 :s 33C -> _temp `i -> _light `i ]
 "283
 [; ;ui/ui.c: 283:     LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
 [e ( _LCDcmd (1 -> -> 192 `i `uc ]
 [e ( _LCDpos (2 , -> -> 8 `i `uc -> -> 0 `i `uc ]
 [e ( _LCDstr (1 &U _line2 ]
-[e $U 1784  ]
-[e :U 1785 ]
-[e :U 1784 ]
-[e $ != ( _LCDbusy ..  -> 0 `i 1785  ]
-[e :U 1786 ]
+[e $U 1781  ]
+[e :U 1782 ]
+[e :U 1781 ]
+[e $ != ( _LCDbusy ..  -> 0 `i 1782  ]
+[e :U 1783 ]
 "284
 [; ;ui/ui.c: 284: }
-[e :UE 1758 ]
+[e :UE 1755 ]
 }
 "287
 [; ;ui/ui.c: 287: unsigned char readTC74 (void)
@@ -2817,226 +2804,226 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _value `uc ~T0 @X0 1 a ]
 "290
 [; ;ui/ui.c: 290:     do{
-[e :U 1790 ]
+[e :U 1787 ]
 {
 "291
 [; ;ui/ui.c: 291:  while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-[e $U 1791  ]
-[e :U 1792 ]
-[e :U 1791 ]
-[e $ != | & -> _SSP1CON2 `i -> 31 `i -> . . _SSP1STATbits 1 1 `i -> 0 `i 1792  ]
-[e :U 1793 ]
+[e $U 1788  ]
+[e :U 1789 ]
+[e :U 1788 ]
+[e $ != | & -> _SSP1CON2 `i -> 31 `i -> . . _SSP1STATbits 1 1 `i -> 0 `i 1789  ]
+[e :U 1790 ]
 "292
 [; ;ui/ui.c: 292:  do { SSP1CON2bits.SEN=1;while(SSP1CON2bits.SEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-[e :U 1796 ]
+[e :U 1793 ]
 {
 [e = . . _SSP1CON2bits 0 0 -> -> 1 `i `uc ]
+[e $U 1794  ]
+[e :U 1795 ]
+[e :U 1794 ]
+[e $ != -> . . _SSP1CON2bits 0 0 `i -> 0 `i 1795  ]
+[e :U 1796 ]
+}
+[e :U 1792 ]
 [e $U 1797  ]
 [e :U 1798 ]
 [e :U 1797 ]
-[e $ != -> . . _SSP1CON2bits 0 0 `i -> 0 `i 1798  ]
+[e $ != | & -> _SSP1CON2 `i -> 31 `i -> . . _SSP1STATbits 1 1 `i -> 0 `i 1798  ]
 [e :U 1799 ]
-}
-[e :U 1795 ]
+"294
+[; ;ui/ui.c: 294:  WriteI2C(0x9a | 0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+[e ( _WriteI2C (1 -> | -> 154 `i -> 0 `i `uc ]
 [e $U 1800  ]
 [e :U 1801 ]
 [e :U 1800 ]
 [e $ != | & -> _SSP1CON2 `i -> 31 `i -> . . _SSP1STATbits 1 1 `i -> 0 `i 1801  ]
 [e :U 1802 ]
-"294
-[; ;ui/ui.c: 294:  WriteI2C(0x9a | 0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-[e ( _WriteI2C (1 -> | -> 154 `i -> 0 `i `uc ]
+"295
+[; ;ui/ui.c: 295:  WriteI2C(0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+[e ( _WriteI2C (1 -> -> 1 `i `uc ]
 [e $U 1803  ]
 [e :U 1804 ]
 [e :U 1803 ]
 [e $ != | & -> _SSP1CON2 `i -> 31 `i -> . . _SSP1STATbits 1 1 `i -> 0 `i 1804  ]
 [e :U 1805 ]
-"295
-[; ;ui/ui.c: 295:  WriteI2C(0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-[e ( _WriteI2C (1 -> -> 1 `i `uc ]
-[e $U 1806  ]
-[e :U 1807 ]
-[e :U 1806 ]
-[e $ != | & -> _SSP1CON2 `i -> 31 `i -> . . _SSP1STATbits 1 1 `i -> 0 `i 1807  ]
-[e :U 1808 ]
 "296
 [; ;ui/ui.c: 296:  do { SSP1CON2bits.RSEN=1;while(SSP1CON2bits.RSEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-[e :U 1811 ]
+[e :U 1808 ]
 {
 [e = . . _SSP1CON2bits 0 1 -> -> 1 `i `uc ]
+[e $U 1809  ]
+[e :U 1810 ]
+[e :U 1809 ]
+[e $ != -> . . _SSP1CON2bits 0 1 `i -> 0 `i 1810  ]
+[e :U 1811 ]
+}
+[e :U 1807 ]
 [e $U 1812  ]
 [e :U 1813 ]
 [e :U 1812 ]
-[e $ != -> . . _SSP1CON2bits 0 1 `i -> 0 `i 1813  ]
+[e $ != | & -> _SSP1CON2 `i -> 31 `i -> . . _SSP1STATbits 1 1 `i -> 0 `i 1813  ]
 [e :U 1814 ]
-}
-[e :U 1810 ]
+"297
+[; ;ui/ui.c: 297:  WriteI2C(0x9a | 0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+[e ( _WriteI2C (1 -> | -> 154 `i -> 1 `i `uc ]
 [e $U 1815  ]
 [e :U 1816 ]
 [e :U 1815 ]
 [e $ != | & -> _SSP1CON2 `i -> 31 `i -> . . _SSP1STATbits 1 1 `i -> 0 `i 1816  ]
 [e :U 1817 ]
-"297
-[; ;ui/ui.c: 297:  WriteI2C(0x9a | 0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-[e ( _WriteI2C (1 -> | -> 154 `i -> 1 `i `uc ]
+"298
+[; ;ui/ui.c: 298:  value = ReadI2C(); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+[e = _value ( _ReadI2C ..  ]
 [e $U 1818  ]
 [e :U 1819 ]
 [e :U 1818 ]
 [e $ != | & -> _SSP1CON2 `i -> 31 `i -> . . _SSP1STATbits 1 1 `i -> 0 `i 1819  ]
 [e :U 1820 ]
-"298
-[; ;ui/ui.c: 298:  value = ReadI2C(); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-[e = _value ( _ReadI2C ..  ]
-[e $U 1821  ]
-[e :U 1822 ]
-[e :U 1821 ]
-[e $ != | & -> _SSP1CON2 `i -> 31 `i -> . . _SSP1STATbits 1 1 `i -> 0 `i 1822  ]
-[e :U 1823 ]
 "299
 [; ;ui/ui.c: 299:  do { SSP1CON2bits.ACKDT=1;SSP1CON2bits.ACKEN=1;while(SSP1CON2bits.ACKEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-[e :U 1826 ]
+[e :U 1823 ]
 {
 [e = . . _SSP1CON2bits 0 5 -> -> 1 `i `uc ]
 [e = . . _SSP1CON2bits 0 4 -> -> 1 `i `uc ]
+[e $U 1824  ]
+[e :U 1825 ]
+[e :U 1824 ]
+[e $ != -> . . _SSP1CON2bits 0 4 `i -> 0 `i 1825  ]
+[e :U 1826 ]
+}
+[e :U 1822 ]
 [e $U 1827  ]
 [e :U 1828 ]
 [e :U 1827 ]
-[e $ != -> . . _SSP1CON2bits 0 4 `i -> 0 `i 1828  ]
+[e $ != | & -> _SSP1CON2 `i -> 31 `i -> . . _SSP1STATbits 1 1 `i -> 0 `i 1828  ]
 [e :U 1829 ]
-}
-[e :U 1825 ]
-[e $U 1830  ]
-[e :U 1831 ]
-[e :U 1830 ]
-[e $ != | & -> _SSP1CON2 `i -> 31 `i -> . . _SSP1STATbits 1 1 `i -> 0 `i 1831  ]
-[e :U 1832 ]
 "300
 [; ;ui/ui.c: 300:  do { SSP1CON2bits.PEN = 1;while(SSP1CON2bits.PEN); } while (0);
-[e :U 1835 ]
+[e :U 1832 ]
 {
 [e = . . _SSP1CON2bits 0 2 -> -> 1 `i `uc ]
-[e $U 1836  ]
-[e :U 1837 ]
-[e :U 1836 ]
-[e $ != -> . . _SSP1CON2bits 0 2 `i -> 0 `i 1837  ]
-[e :U 1838 ]
-}
+[e $U 1833  ]
 [e :U 1834 ]
+[e :U 1833 ]
+[e $ != -> . . _SSP1CON2bits 0 2 `i -> 0 `i 1834  ]
+[e :U 1835 ]
+}
+[e :U 1831 ]
 "301
 [; ;ui/ui.c: 301:     } while (!(value & 0x40));
 }
-[e $ ! != & -> _value `i -> 64 `i -> 0 `i 1790  ]
-[e :U 1789 ]
+[e $ ! != & -> _value `i -> 64 `i -> 0 `i 1787  ]
+[e :U 1786 ]
 "303
 [; ;ui/ui.c: 303:  while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-[e $U 1839  ]
-[e :U 1840 ]
-[e :U 1839 ]
-[e $ != | & -> _SSP1CON2 `i -> 31 `i -> . . _SSP1STATbits 1 1 `i -> 0 `i 1840  ]
-[e :U 1841 ]
+[e $U 1836  ]
+[e :U 1837 ]
+[e :U 1836 ]
+[e $ != | & -> _SSP1CON2 `i -> 31 `i -> . . _SSP1STATbits 1 1 `i -> 0 `i 1837  ]
+[e :U 1838 ]
 "304
 [; ;ui/ui.c: 304:  do { SSP1CON2bits.SEN=1;while(SSP1CON2bits.SEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-[e :U 1844 ]
+[e :U 1841 ]
 {
 [e = . . _SSP1CON2bits 0 0 -> -> 1 `i `uc ]
+[e $U 1842  ]
+[e :U 1843 ]
+[e :U 1842 ]
+[e $ != -> . . _SSP1CON2bits 0 0 `i -> 0 `i 1843  ]
+[e :U 1844 ]
+}
+[e :U 1840 ]
 [e $U 1845  ]
 [e :U 1846 ]
 [e :U 1845 ]
-[e $ != -> . . _SSP1CON2bits 0 0 `i -> 0 `i 1846  ]
+[e $ != | & -> _SSP1CON2 `i -> 31 `i -> . . _SSP1STATbits 1 1 `i -> 0 `i 1846  ]
 [e :U 1847 ]
-}
-[e :U 1843 ]
+"305
+[; ;ui/ui.c: 305:  WriteI2C(0x9a | 0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+[e ( _WriteI2C (1 -> | -> 154 `i -> 0 `i `uc ]
 [e $U 1848  ]
 [e :U 1849 ]
 [e :U 1848 ]
 [e $ != | & -> _SSP1CON2 `i -> 31 `i -> . . _SSP1STATbits 1 1 `i -> 0 `i 1849  ]
 [e :U 1850 ]
-"305
-[; ;ui/ui.c: 305:  WriteI2C(0x9a | 0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-[e ( _WriteI2C (1 -> | -> 154 `i -> 0 `i `uc ]
+"306
+[; ;ui/ui.c: 306:  WriteI2C(0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+[e ( _WriteI2C (1 -> -> 0 `i `uc ]
 [e $U 1851  ]
 [e :U 1852 ]
 [e :U 1851 ]
 [e $ != | & -> _SSP1CON2 `i -> 31 `i -> . . _SSP1STATbits 1 1 `i -> 0 `i 1852  ]
 [e :U 1853 ]
-"306
-[; ;ui/ui.c: 306:  WriteI2C(0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-[e ( _WriteI2C (1 -> -> 0 `i `uc ]
-[e $U 1854  ]
-[e :U 1855 ]
-[e :U 1854 ]
-[e $ != | & -> _SSP1CON2 `i -> 31 `i -> . . _SSP1STATbits 1 1 `i -> 0 `i 1855  ]
-[e :U 1856 ]
 "307
 [; ;ui/ui.c: 307:  do { SSP1CON2bits.RSEN=1;while(SSP1CON2bits.RSEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-[e :U 1859 ]
+[e :U 1856 ]
 {
 [e = . . _SSP1CON2bits 0 1 -> -> 1 `i `uc ]
+[e $U 1857  ]
+[e :U 1858 ]
+[e :U 1857 ]
+[e $ != -> . . _SSP1CON2bits 0 1 `i -> 0 `i 1858  ]
+[e :U 1859 ]
+}
+[e :U 1855 ]
 [e $U 1860  ]
 [e :U 1861 ]
 [e :U 1860 ]
-[e $ != -> . . _SSP1CON2bits 0 1 `i -> 0 `i 1861  ]
+[e $ != | & -> _SSP1CON2 `i -> 31 `i -> . . _SSP1STATbits 1 1 `i -> 0 `i 1861  ]
 [e :U 1862 ]
-}
-[e :U 1858 ]
+"308
+[; ;ui/ui.c: 308:  WriteI2C(0x9a | 0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+[e ( _WriteI2C (1 -> | -> 154 `i -> 1 `i `uc ]
 [e $U 1863  ]
 [e :U 1864 ]
 [e :U 1863 ]
 [e $ != | & -> _SSP1CON2 `i -> 31 `i -> . . _SSP1STATbits 1 1 `i -> 0 `i 1864  ]
 [e :U 1865 ]
-"308
-[; ;ui/ui.c: 308:  WriteI2C(0x9a | 0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-[e ( _WriteI2C (1 -> | -> 154 `i -> 1 `i `uc ]
+"309
+[; ;ui/ui.c: 309:  value = ReadI2C(); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+[e = _value ( _ReadI2C ..  ]
 [e $U 1866  ]
 [e :U 1867 ]
 [e :U 1866 ]
 [e $ != | & -> _SSP1CON2 `i -> 31 `i -> . . _SSP1STATbits 1 1 `i -> 0 `i 1867  ]
 [e :U 1868 ]
-"309
-[; ;ui/ui.c: 309:  value = ReadI2C(); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-[e = _value ( _ReadI2C ..  ]
-[e $U 1869  ]
-[e :U 1870 ]
-[e :U 1869 ]
-[e $ != | & -> _SSP1CON2 `i -> 31 `i -> . . _SSP1STATbits 1 1 `i -> 0 `i 1870  ]
-[e :U 1871 ]
 "310
 [; ;ui/ui.c: 310:  do { SSP1CON2bits.ACKDT=1;SSP1CON2bits.ACKEN=1;while(SSP1CON2bits.ACKEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
-[e :U 1874 ]
+[e :U 1871 ]
 {
 [e = . . _SSP1CON2bits 0 5 -> -> 1 `i `uc ]
 [e = . . _SSP1CON2bits 0 4 -> -> 1 `i `uc ]
+[e $U 1872  ]
+[e :U 1873 ]
+[e :U 1872 ]
+[e $ != -> . . _SSP1CON2bits 0 4 `i -> 0 `i 1873  ]
+[e :U 1874 ]
+}
+[e :U 1870 ]
 [e $U 1875  ]
 [e :U 1876 ]
 [e :U 1875 ]
-[e $ != -> . . _SSP1CON2bits 0 4 `i -> 0 `i 1876  ]
+[e $ != | & -> _SSP1CON2 `i -> 31 `i -> . . _SSP1STATbits 1 1 `i -> 0 `i 1876  ]
 [e :U 1877 ]
-}
-[e :U 1873 ]
-[e $U 1878  ]
-[e :U 1879 ]
-[e :U 1878 ]
-[e $ != | & -> _SSP1CON2 `i -> 31 `i -> . . _SSP1STATbits 1 1 `i -> 0 `i 1879  ]
-[e :U 1880 ]
 "311
 [; ;ui/ui.c: 311:  do { SSP1CON2bits.PEN = 1;while(SSP1CON2bits.PEN); } while (0);
-[e :U 1883 ]
+[e :U 1880 ]
 {
 [e = . . _SSP1CON2bits 0 2 -> -> 1 `i `uc ]
-[e $U 1884  ]
-[e :U 1885 ]
-[e :U 1884 ]
-[e $ != -> . . _SSP1CON2bits 0 2 `i -> 0 `i 1885  ]
-[e :U 1886 ]
-}
+[e $U 1881  ]
 [e :U 1882 ]
+[e :U 1881 ]
+[e $ != -> . . _SSP1CON2bits 0 2 `i -> 0 `i 1882  ]
+[e :U 1883 ]
+}
+[e :U 1879 ]
 "313
 [; ;ui/ui.c: 313:  return value;
 [e ) _value ]
-[e $UE 1787  ]
+[e $UE 1784  ]
 "314
 [; ;ui/ui.c: 314: }
-[e :UE 1787 ]
+[e :UE 1784 ]
 }
 "316
 [; ;ui/ui.c: 316: void ReadSensors(){
@@ -3052,7 +3039,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = _light -> -> 65 `i `uc ]
 "319
 [; ;ui/ui.c: 319: }
-[e :UE 1887 ]
+[e :UE 1884 ]
 }
 "323
 [; ;ui/ui.c: 323: void S1_Callback(void){ S1_pressed = 1; }
@@ -3061,7 +3048,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U _S1_Callback ]
 [f ]
 [e = _S1_pressed -> 1 `i ]
-[e :UE 1888 ]
+[e :UE 1885 ]
 }
 "324
 [; ;ui/ui.c: 324: void S2_Callback(void){ S2_pressed = 1; }
@@ -3070,7 +3057,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U _S2_Callback ]
 [f ]
 [e = _S2_pressed -> 1 `i ]
-[e :UE 1889 ]
+[e :UE 1886 ]
 }
 "325
 [; ;ui/ui.c: 325: int S1_check(void){return S1_pressed;}
@@ -3079,8 +3066,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U _S1_check ]
 [f ]
 [e ) _S1_pressed ]
-[e $UE 1890  ]
-[e :UE 1890 ]
+[e $UE 1887  ]
+[e :UE 1887 ]
 }
 "326
 [; ;ui/ui.c: 326: int S2_check(void){return S2_pressed;}
@@ -3089,8 +3076,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U _S2_check ]
 [f ]
 [e ) _S2_pressed ]
-[e $UE 1891  ]
-[e :UE 1891 ]
+[e $UE 1888  ]
+[e :UE 1888 ]
 }
 "327
 [; ;ui/ui.c: 327: void Reset_flag_S1(void){S1_pressed = 0;}
@@ -3099,7 +3086,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U _Reset_flag_S1 ]
 [f ]
 [e = _S1_pressed -> 0 `i ]
-[e :UE 1892 ]
+[e :UE 1889 ]
 }
 "328
 [; ;ui/ui.c: 328: void Reset_flag_S2(void){S2_pressed = 0;}
@@ -3108,40 +3095,39 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U _Reset_flag_S2 ]
 [f ]
 [e = _S2_pressed -> 0 `i ]
-[e :UE 1893 ]
+[e :UE 1890 ]
 }
 [p f _sprintf 8946820 ]
-[a 4C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 97 82 0 ]
-[a 7C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 97 82 0 ]
-[a 10C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 97 82 0 ]
-[a 13C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 97 82 0 ]
-[a 16C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 97 82 0 ]
-[a 19C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 97 82 0 ]
-[a 22C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 97 82 0 ]
-[a 25C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 97 82 0 ]
-[a 3C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 65 82 0 ]
-[a 6C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 65 82 0 ]
-[a 9C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 65 82 0 ]
-[a 12C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 65 82 0 ]
-[a 15C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 65 82 0 ]
-[a 18C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 65 82 0 ]
-[a 21C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 65 82 0 ]
-[a 24C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 65 82 0 ]
-[a 26C 37 48 50 100 32 32 32 32 32 32 32 32 32 32 32 32 76 37 48 49 100 32 0 ]
-[a 5C 37 48 50 100 32 32 32 32 32 32 32 32 32 32 32 32 32 32 76 37 48 49 100 32 0 ]
-[a 8C 37 48 50 100 32 32 32 32 32 32 32 32 32 32 32 32 32 32 76 37 48 49 100 32 0 ]
-[a 11C 37 48 50 100 32 32 32 32 32 32 32 32 32 32 32 32 32 32 76 37 48 49 100 32 0 ]
-[a 14C 37 48 50 100 32 32 32 32 32 32 32 32 32 32 32 32 32 32 76 37 48 49 100 32 0 ]
-[a 17C 37 48 50 100 32 32 32 32 32 32 32 32 32 32 32 32 32 32 76 37 48 49 100 32 0 ]
-[a 20C 37 48 50 100 32 32 32 32 32 32 32 32 32 32 32 32 32 32 76 37 48 49 100 32 0 ]
-[a 23C 37 48 50 100 32 32 32 32 32 32 32 32 32 32 32 32 32 32 76 37 48 49 100 32 0 ]
-[a 34C 37 48 50 100 32 67 32 32 32 32 32 32 32 32 32 32 76 37 99 32 0 ]
-[a 33C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 32 32 32 97 32 0 ]
-[a 31C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 84 65 32 0 ]
-[a 32C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 76 65 32 0 ]
-[a 30C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 67 65 32 0 ]
-[a 29C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 32 32 32 65 32 0 ]
+[a 3C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 97 82 0 ]
+[a 6C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 97 82 0 ]
+[a 9C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 97 82 0 ]
+[a 12C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 97 82 0 ]
+[a 15C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 97 82 0 ]
+[a 18C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 97 82 0 ]
+[a 21C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 97 82 0 ]
+[a 24C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 97 82 0 ]
+[a 2C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 65 82 0 ]
+[a 5C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 65 82 0 ]
+[a 8C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 65 82 0 ]
+[a 11C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 65 82 0 ]
+[a 14C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 65 82 0 ]
+[a 17C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 65 82 0 ]
+[a 20C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 65 82 0 ]
+[a 23C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 67 84 76 65 82 0 ]
+[a 19C 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 76 37 48 50 100 32 0 ]
+[a 33C 37 48 50 100 32 67 32 32 32 32 32 32 32 32 32 76 32 37 99 32 0 ]
+[a 32C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 32 32 32 97 32 0 ]
+[a 30C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 84 65 32 0 ]
+[a 31C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 76 65 32 0 ]
+[a 29C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 67 65 32 0 ]
+[a 28C 37 48 50 117 58 37 48 50 117 58 37 48 50 117 32 32 32 32 32 32 65 32 0 ]
+[a 16C 37 48 50 100 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 0 ]
+[a 7C 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 0 ]
+[a 10C 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 0 ]
+[a 13C 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 0 ]
 [a 1C 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 0 ]
-[a 2C 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 0 ]
+[a 4C 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 0 ]
+[a 22C 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 0 ]
+[a 25C 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 0 ]
+[a 26C 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 0 ]
 [a 27C 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 0 ]
-[a 28C 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 0 ]

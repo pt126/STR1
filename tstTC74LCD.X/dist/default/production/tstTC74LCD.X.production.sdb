@@ -1069,10 +1069,10 @@ CF_DONE 8
 "9 /opt/microchip/xc8/v3.10/pic/sources/c99/common/nf_sprintf.c
 [v _sprintf sprintf `(i  1 e 2 0 ]
 {
-[u S3101 . 2 `*.39uc 1 buffer 2 0 `*.2DCuc 1 source 2 0 ]
+[u S3100 . 2 `*.39uc 1 buffer 2 0 `*.2DCuc 1 source 2 0 ]
 "13
-[s S3104 _IO_FILE 11 `S3101 1 . 2 0 `i 1 count 2 2 `[3]uc 1 ungetbuf 3 4 `i 1 ungetcnt 2 7 `i 1 limit 2 9 ]
-[v sprintf@f f `S3104  1 a 11 65 ]
+[s S3103 _IO_FILE 11 `S3100 1 . 2 0 `i 1 count 2 2 `[3]uc 1 ungetbuf 3 4 `i 1 ungetcnt 2 7 `i 1 limit 2 9 ]
+[v sprintf@f f `S3103  1 a 11 65 ]
 "12
 [v sprintf@ap ap `[1]*.4v  1 a 1 64 ]
 "9
@@ -1085,9 +1085,9 @@ CF_DONE 8
 {
 "1820
 [v vfprintf@cfmt cfmt `*.25uc  1 a 2 53 ]
-[s S3136 _IO_FILE 0 ]
+[s S3135 _IO_FILE 0 ]
 "1817
-[v vfprintf@fp fp `*.39S3136  1 p 2 47 ]
+[v vfprintf@fp fp `*.39S3135  1 p 2 47 ]
 [v vfprintf@fmt fmt `*.25DCuc  1 p 2 49 ]
 [v vfprintf@ap ap `*.4*.4v  1 p 1 51 ]
 "1840
@@ -1095,18 +1095,18 @@ CF_DONE 8
 "1177
 [v _vfpfcnvrt vfpfcnvrt `(v  1 s 1 vfpfcnvrt ]
 {
-[u S3160 . 4 `i 1 sint 2 0 `ui 1 uint 2 0 `d 1 f 4 0 ]
+[u S3159 . 4 `i 1 sint 2 0 `ui 1 uint 2 0 `d 1 f 4 0 ]
 "1188
-[v vfpfcnvrt@convarg convarg `S3160  1 a 4 41 ]
+[v vfpfcnvrt@convarg convarg `S3159  1 a 4 41 ]
 "1179
 [v vfpfcnvrt@cp cp `*.25uc  1 a 2 45 ]
 "1180
 [v vfpfcnvrt@done done `a  1 a 1 40 ]
 "1179
 [v vfpfcnvrt@c c `uc  1 a 1 39 ]
-[s S3136 _IO_FILE 0 ]
+[s S3135 _IO_FILE 0 ]
 "1177
-[v vfpfcnvrt@fp fp `*.39S3136  1 p 2 31 ]
+[v vfpfcnvrt@fp fp `*.39S3135  1 p 2 31 ]
 [v vfpfcnvrt@fmt fmt `*.4*.25uc  1 p 1 33 ]
 [v vfpfcnvrt@ap ap `*.4*.4v  1 p 1 34 ]
 "1814
@@ -1119,9 +1119,9 @@ CF_DONE 8
 [v utoa@w w `i  1 a 2 23 ]
 "1007
 [v utoa@p p `a  1 a 1 22 ]
-[s S3136 _IO_FILE 0 ]
+[s S3135 _IO_FILE 0 ]
 "1001
-[v utoa@fp fp `*.39S3136  1 p 2 18 ]
+[v utoa@fp fp `*.39S3135  1 p 2 18 ]
 [v utoa@d d `ui  1 p 2 20 ]
 "1047
 } 0
@@ -1179,9 +1179,9 @@ CF_DONE 8
 [v dtoa@s s `uc  1 a 1 28 ]
 "520
 [v dtoa@p p `a  1 a 1 25 ]
-[s S3136 _IO_FILE 0 ]
+[s S3135 _IO_FILE 0 ]
 "513
-[v dtoa@fp fp `*.39S3136  1 p 2 18 ]
+[v dtoa@fp fp `*.39S3135  1 p 2 18 ]
 [v dtoa@d d `i  1 p 2 20 ]
 "583
 } 0
@@ -1190,9 +1190,9 @@ CF_DONE 8
 {
 "195
 [v pad@i i `i  1 a 2 16 ]
-[s S3136 _IO_FILE 0 ]
+[s S3135 _IO_FILE 0 ]
 "193
-[v pad@fp fp `*.39S3136  1 p 2 11 ]
+[v pad@fp fp `*.39S3135  1 p 2 11 ]
 [v pad@buf buf `*.5uc  1 p 1 13 ]
 [v pad@p p `i  1 p 2 14 ]
 "226
@@ -1206,9 +1206,9 @@ CF_DONE 8
 [v fputs@c c `uc  1 a 1 8 ]
 "8
 [v fputs@s s `*.5DCuc  1 p 1 5 ]
-[u S3101 . 2 `*.39uc 1 buffer 2 0 `*.2DCuc 1 source 2 0 ]
-[s S3104 _IO_FILE 11 `S3101 1 . 2 0 `i 1 count 2 2 `[3]uc 1 ungetbuf 3 4 `i 1 ungetcnt 2 7 `i 1 limit 2 9 ]
-[v fputs@fp fp `*.39S3104  1 p 2 6 ]
+[u S3100 . 2 `*.39uc 1 buffer 2 0 `*.2DCuc 1 source 2 0 ]
+[s S3103 _IO_FILE 11 `S3100 1 . 2 0 `i 1 count 2 2 `[3]uc 1 ungetbuf 3 4 `i 1 ungetcnt 2 7 `i 1 limit 2 9 ]
+[v fputs@fp fp `*.39S3103  1 p 2 6 ]
 "19
 } 0
 "1 /opt/microchip/xc8/v3.10/pic/sources/c99/common/abs.c
@@ -1236,9 +1236,9 @@ CF_DONE 8
 "478
 [v ctoa@w w `i  1 a 2 10 ]
 [v ctoa@l l `i  1 a 2 8 ]
-[s S3136 _IO_FILE 0 ]
+[s S3135 _IO_FILE 0 ]
 "476
-[v ctoa@fp fp `*.39S3136  1 p 2 5 ]
+[v ctoa@fp fp `*.39S3135  1 p 2 5 ]
 [v ctoa@c c `uc  1 p 1 7 ]
 "509
 } 0
@@ -1246,9 +1246,9 @@ CF_DONE 8
 [v _fputc fputc `(i  1 e 2 0 ]
 {
 [v fputc@c c `i  1 p 2 2 ]
-[u S3101 . 2 `*.39uc 1 buffer 2 0 `*.2DCuc 1 source 2 0 ]
-[s S3104 _IO_FILE 11 `S3101 1 . 2 0 `i 1 count 2 2 `[3]uc 1 ungetbuf 3 4 `i 1 ungetcnt 2 7 `i 1 limit 2 9 ]
-[v fputc@fp fp `*.39S3104  1 p 2 4 ]
+[u S3100 . 2 `*.39uc 1 buffer 2 0 `*.2DCuc 1 source 2 0 ]
+[s S3103 _IO_FILE 11 `S3100 1 . 2 0 `i 1 count 2 2 `[3]uc 1 ungetbuf 3 4 `i 1 ungetcnt 2 7 `i 1 limit 2 9 ]
+[v fputc@fp fp `*.39S3103  1 p 2 4 ]
 "24
 } 0
 "7 /opt/microchip/xc8/v3.10/pic/sources/c99/common/putch.c

@@ -21397,9 +21397,9 @@ void RenderConfig(void)
 
 
     sprintf(line1,"                ");
-    sprintf(line2,"                ");
+
     LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());
-    LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
+
 
 
     switch (field) {
@@ -21407,7 +21407,7 @@ void RenderConfig(void)
             if(alarmsEnabled==1)
             { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"%02d              L%01d ",thrTemp,thrLum);
+            sprintf(line2,"                ");
             LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
             LCDcmd(0x80); LCDpos(0,1);
         break;
@@ -21415,7 +21415,7 @@ void RenderConfig(void)
             if(alarmsEnabled==1)
             { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"%02d              L%01d ",thrTemp,thrLum);
+            sprintf(line2,"                   ");
             LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
             LCDcmd(0x80);LCDpos(0,4);
         break;
@@ -21423,15 +21423,15 @@ void RenderConfig(void)
             if(alarmsEnabled==1)
             { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"%02d              L%01d ",thrTemp,thrLum);
+            sprintf(line2,"                   ");
             LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
             LCDcmd(0x80);LCDpos(0,7);
         break;
         case CF_CTL_C:
             if(alarmsEnabled==1)
-            { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"%02d              L%01d ",thrTemp,thrLum);
+            { sprintf(line1,"%02u:%02u:%02u   CTLAR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            sprintf(line2,"                   ");
             LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
             LCDcmd(0x80);LCDpos(0,11);
         break;
@@ -21439,7 +21439,7 @@ void RenderConfig(void)
             if(alarmsEnabled==1)
             { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"%02d              L%01d ",thrTemp,thrLum);
+            sprintf(line2,"%02d                 ",thrTemp);
             LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
             LCDcmd(0x80);LCDpos(0,12);
         break;
@@ -21447,7 +21447,7 @@ void RenderConfig(void)
             if(alarmsEnabled==1)
             { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"%02d              L%01d ",thrTemp,thrLum);
+            sprintf(line2,"                L%02d ",thrLum);
             LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
             LCDcmd(0x80);LCDpos(0,13);
         break;
@@ -21455,7 +21455,7 @@ void RenderConfig(void)
             if(alarmsEnabled==1)
             { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"%02d              L%01d ",thrTemp,thrLum);
+            sprintf(line2,"                ");
             LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
             LCDcmd(0x80);LCDpos(0,14);
         break;
@@ -21463,7 +21463,7 @@ void RenderConfig(void)
             if(alarmsEnabled==1)
             { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"%02d            L%01d ",thrTemp,thrLum);
+            sprintf(line2,"                ");
             LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
             LCDcmd(0x80);LCDpos(0,15);
         break;
@@ -21505,7 +21505,7 @@ void RenderNormal(void)
         LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());
     }
 
-    sprintf(line2,"%02d C          L%c ",temp,light);
+    sprintf(line2,"%02d C         L %c ",temp,light);
 
     LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
 }
