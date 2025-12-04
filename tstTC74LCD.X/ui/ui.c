@@ -25,7 +25,11 @@ typedef enum {
     CF_CTL_L,      // lum threshold
     CF_ALARM_EN,   // A/a toggle
     CF_RESET,      // R reset max/min
-    CF_DONE
+    CF_DONE,
+    CF_CTL_C_HH,    //incrementing alarm hour
+    CF_CTL_C_MM,    //incrementing alarm minute
+    CF_CTL_C_SS     //incrementing alarm second
+
 } cfg_field_t;
 
 static ui_mode_t   mode;
@@ -82,11 +86,20 @@ void OnS1Pressed(void)
 
     if (mode == UI_CONFIG) {
         field = (cfg_field_t)(field + 1);
-        if (field >= CF_DONE) {
+        if (field == CF_DONE) {
             mode = UI_NORMAL;
             field = CF_CLK_HH;
+            return;
         }
+        if (field > CF_CTL_C_SS){
+            field = CF_CTL_T;
+        }
+        
         return;
+    }
+
+    if (mode == UI_SHOW_RECORDS){
+        mode = UI_NORMAL;
     }
     return;
 }
@@ -95,10 +108,13 @@ void OnS2Pressed(void)
 {
     if (mode == UI_CONFIG) {
         switch (field) {
-            case CF_CLK_HH: hh = (hh + 1) % 24; break;                 // :contentReference[oaicite:14]{index=14}
-            case CF_CLK_MM: mm = (mm + 1) % 60; break;
-            case CF_CLK_SS: ss = (ss + 1) % 60; break;
-            case CF_CTL_C:  /* select editing of clock-alarm threshold later */ break;
+            case CF_CLK_HH: hh = (hh + 1) % 24;  break;                 // :contentReference[oaicite:14]{index=14}
+            case CF_CLK_MM: mm = (mm + 1) % 60;  break;
+            case CF_CLK_SS: ss = (ss + 1) % 60;  break;
+            case CF_CTL_C:  field = CF_CTL_C_HH; break;
+            case CF_CTL_C_HH :thrHour   = (thrHour + 1) % 24; break;
+            case CF_CTL_C_MM :thrMinute = (thrMinute + 1) %60; break;
+            case CF_CTL_C_SS :thrSecond = (thrSecond + 1) %60; break; 
             case CF_CTL_T:  thrTemp = (thrTemp + 1) % 51; break;       // 0..50 :contentReference[oaicite:15]{index=15}
             case CF_CTL_L:  thrLum  = (thrLum  + 1) % 4;  break;       // 0..3  :contentReference[oaicite:16]{index=16}
             case CF_ALARM_EN: alarmsEnabled ^= 1; break;               // A/a :contentReference[oaicite:17]{index=17}
@@ -111,8 +127,11 @@ void OnS2Pressed(void)
     if (mode == UI_NORMAL) {
         // Later: implement ?show saved records sequence with each press of S2? :contentReference[oaicite:19]{index=19}
         // Keep as no-op until EEPROM records exist.
+        mode = UI_SHOW_RECORDS;
         return;
     }
+
+
 
     return;
 }
@@ -138,15 +157,22 @@ void UI_OnTick1s(void)
 {
 
     // Render the UI according to the mode
-    if      (mode == UI_NORMAL){ RenderNormal(); }
-    else if (mode == UI_CONFIG){ RenderConfig(); }
-    else if (mode == UI_SHOW_RECORDS){ return; }
+    if      (mode == UI_NORMAL)      { RenderNormal (); }
+    else if (mode == UI_CONFIG)      { RenderConfig (); }
+    else if (mode == UI_SHOW_RECORDS){ RenderRecords(); }
     return;
 
     // 4) LEDs for normal mode (later add other LEDs + PWM alarm)
     // D5/RA7 clock activity: toggle every 1 second :contentReference[oaicite:21]{index=21}
    //LATAbits.LATA7 ^= 1;
     //IO_RA7_Toggle();
+}
+
+void RenderRecords(void){
+    char line1[17], line2[17];
+    sprintf(line1,"   EEPROM      "); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());
+    sprintf(line2,"   Records     ");                LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
+
 }
 
 void RenderConfig(void)
@@ -167,13 +193,6 @@ void RenderConfig(void)
         LCDcmd(0xC0); LCDstr(line2); */
 
     char line1[17], line2[17];
-
-    /*clear LCD*/
-    sprintf(line1,"                ");
-    //sprintf(line2,"                ");
-    LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());
-    //LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
-
 
     switch (field) {
         case CF_CLK_HH:
@@ -208,11 +227,35 @@ void RenderConfig(void)
             LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy()); /*falta a atualização disto !!!!!!*/
             LCDcmd(0x80);LCDpos(0,11);
         break;
+        case CF_CTL_C_HH:
+            if(alarmsEnabled==1)
+            {     sprintf(line1,"%02u:%02u:%02u   CTLAR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            sprintf(line2,"                   ");
+            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy()); /*falta a atualização disto !!!!!!*/
+            LCDcmd(0x80); LCDpos(0,1);
+        break;
+        case CF_CTL_C_MM:
+            if(alarmsEnabled==1)
+            {     sprintf(line1,"%02u:%02u:%02u   CTLAR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            sprintf(line2,"                   ");
+            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy()); /*falta a atualização disto !!!!!!*/
+            LCDcmd(0x80);LCDpos(0,4);
+        break;
+        case CF_CTL_C_SS:
+            if(alarmsEnabled==1)
+            {     sprintf(line1,"%02u:%02u:%02u   CTLAR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
+            sprintf(line2,"                   ");
+            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy()); /*falta a atualização disto !!!!!!*/
+            LCDcmd(0x80);LCDpos(0,7);
+        break;
         case CF_CTL_T:
             if(alarmsEnabled==1)
             {     sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"%02d                 ",thrTemp);
+            sprintf(line2,"%02d C               ",thrTemp);
             LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
             LCDcmd(0x80);LCDpos(0,12);
         break;
@@ -220,7 +263,7 @@ void RenderConfig(void)
             if(alarmsEnabled==1)
             {     sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
             else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"                L%02d ",thrLum); /*<--- isto aqui não está a cooperar*/
+            sprintf(line2,"             L %01d ",thrLum); /*<--- isto aqui não está a cooperar*/
             LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
             LCDcmd(0x80);LCDpos(0,13);
         break;

@@ -1,6 +1,6 @@
 
 16F18875 Memory Summary:
-    Program space        used  16D5h (  5845) of  2000h words   ( 71.4%)
+    Program space        used  19F3h (  6643) of  2000h words   ( 81.1%)
     Data space           used    F9h (   249) of   400h bytes   ( 24.3%)
     EEPROM space         used     0h (     0) of   100h bytes   (  0.0%)
     Configuration bits   used     5h (     5) of     5h words   (100.0%)

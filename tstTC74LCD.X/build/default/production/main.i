@@ -21238,6 +21238,7 @@ void OnS2Pressed(void);
 
 void UI_Init(void);
 void UI_OnTick1s(void);
+void RenderRecords(void);
 void RenderConfig(void);
 void RenderNormal(void);
 

@@ -23,8 +23,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "319
 [; ;./mcc_generated_files/ext_int.h: 319: void INT_SetInterruptHandler(void (* InterruptHandler)(void));
 [v _INT_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F12655 ]
-"28 ./ui/ui.h
-[; ;./ui/ui.h: 28: void S1_Callback(void);
+"29 ./ui/ui.h
+[; ;./ui/ui.h: 29: void S1_Callback(void);
 [v _S1_Callback `(v ~T0 @X0 0 ef ]
 "158 ./mcc_generated_files/pin_manager.h
 [; ;./mcc_generated_files/pin_manager.h: 158: void PIN_MANAGER_Initialize (void);
@@ -33,23 +33,23 @@ Version 4.0 HI-TECH Software Intermediate Code
 "206
 [; ;./mcc_generated_files/pin_manager.h: 206: void IOCCF5_SetInterruptHandler(void (* InterruptHandler)(void));
 [v _IOCCF5_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F12228 ]
-"29 ./ui/ui.h
-[; ;./ui/ui.h: 29: void S2_Callback(void);
+"30 ./ui/ui.h
+[; ;./ui/ui.h: 30: void S2_Callback(void);
 [v _S2_Callback `(v ~T0 @X0 0 ef ]
-"30
-[; ;./ui/ui.h: 30: int S1_check(void);
+"31
+[; ;./ui/ui.h: 31: int S1_check(void);
 [v _S1_check `(i ~T0 @X0 0 ef ]
-"32
-[; ;./ui/ui.h: 32: void Reset_flag_S1(void);
+"33
+[; ;./ui/ui.h: 33: void Reset_flag_S1(void);
 [v _Reset_flag_S1 `(v ~T0 @X0 0 ef ]
 "12
 [; ;./ui/ui.h: 12: void OnS1Pressed(void);
 [v _OnS1Pressed `(v ~T0 @X0 0 ef ]
-"31
-[; ;./ui/ui.h: 31: int S2_check(void);
+"32
+[; ;./ui/ui.h: 32: int S2_check(void);
 [v _S2_check `(i ~T0 @X0 0 ef ]
-"33
-[; ;./ui/ui.h: 33: void Reset_flag_S2(void);
+"34
+[; ;./ui/ui.h: 34: void Reset_flag_S2(void);
 [v _Reset_flag_S2 `(v ~T0 @X0 0 ef ]
 "13
 [; ;./ui/ui.h: 13: void OnS2Pressed(void);
@@ -63,8 +63,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "82 ./Clock/clock.h
 [; ;./Clock/clock.h: 82: uint32_t AppClock_Seconds(void);
 [v _AppClock_Seconds `(ul ~T0 @X0 0 ef ]
-"24 ./ui/ui.h
-[; ;./ui/ui.h: 24: void ReadSensors(void);
+"25 ./ui/ui.h
+[; ;./ui/ui.h: 25: void ReadSensors(void);
 [v _ReadSensors `(v ~T0 @X0 0 ef ]
 "18
 [; ;./ui/ui.h: 18: void UI_OnTick1s(void);
