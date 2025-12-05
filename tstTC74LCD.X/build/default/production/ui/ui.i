@@ -140,6 +140,10 @@ unsigned char readTC74 (void);
 void ReadSensors(void);
 
 
+void CompareReading(void);
+void SaveRecord(void);
+
+
 
 void S1_Callback(void);
 void S2_Callback(void);
@@ -21268,7 +21272,7 @@ signed char putsI2C( unsigned char *wrptr );
 
 unsigned char ReadI2C( void );
 # 5 "ui/ui.c" 2
-# 16 "ui/ui.c"
+# 19 "ui/ui.c"
 typedef enum { UI_NORMAL, UI_CONFIG, UI_SHOW_RECORDS } ui_mode_t;
 
 
@@ -21288,8 +21292,15 @@ typedef enum {
 
 } cfg_field_t;
 
+typedef enum {
+    RECORD_NONE,
+    RECORD_TEMP,
+    RECORD_LUM,
+} record_type_t;
+
 static ui_mode_t mode;
 static cfg_field_t field;
+static record_type_t record_type;
 
 
 static uint8_t hh, mm, ss;
@@ -21298,15 +21309,28 @@ static unsigned char light;
 static uint8_t alarmsEnabled = 0;
 static uint8_t alarmFlagC, alarmFlagT, alarmFlagL;
 
+typedef struct {
+    uint8_t clk_hh;
+    uint8_t clk_mm;
+    uint8_t clk_ss;
+    uint8_t temp;
+    uint8_t lum;
+} record_field_t;
+
+record_field_t records[4];
+uint8_t record_index = 0;
+
 
 uint8_t thrSecond = 0;
 uint8_t thrMinute = 0;
 uint8_t thrHour = 12;
-uint8_t thrTemp = 20;
-uint8_t thrLum = 2;
+char thrTemp = 20;
+char thrLum = 2;
 
 
 static uint8_t s1_prev = 1, s2_prev = 1;
+
+uint8_t time_inactive;
 
 
 static volatile int S1_pressed ;
@@ -21334,6 +21358,8 @@ void OnS1Pressed(void)
 
     ClearAlarmFlags();
 
+    time_inactive = 0;
+
     if (mode == UI_NORMAL) {
         mode = UI_CONFIG;
         field = CF_CLK_HH;
@@ -21355,13 +21381,24 @@ void OnS1Pressed(void)
     }
 
     if (mode == UI_SHOW_RECORDS){
-        mode = UI_NORMAL;
+        if(record_type == RECORD_TEMP){
+            mode = UI_NORMAL;
+            record_type = RECORD_NONE;
+            record_index = 0;
+            return;
+        }
+        else if (record_type == RECORD_LUM){
+            record_type = (record_type_t)(record_type - 1);
+            record_index -= 2;
+            return;
+        }
     }
     return;
 }
 
 void OnS2Pressed(void)
 {
+    time_inactive = 0;
     if (mode == UI_CONFIG) {
         switch (field) {
             case CF_CLK_HH: hh = (hh + 1) % 24; break;
@@ -21384,7 +21421,24 @@ void OnS2Pressed(void)
 
 
         mode = UI_SHOW_RECORDS;
+        record_type = RECORD_TEMP;
+        record_index = 0;
         return;
+    }
+
+    if(mode == UI_SHOW_RECORDS){
+        if(record_type == RECORD_LUM){
+            mode = UI_NORMAL;
+            record_type = RECORD_NONE;
+            record_index = 0;
+            return;
+        }
+        else if (record_type == RECORD_TEMP) {
+            record_type = (record_type_t)(record_type + 1);
+            record_index += 2;
+            return;
+        }
+
     }
 
 
@@ -21397,6 +21451,7 @@ void OnS2Pressed(void)
 void UI_Init(void)
 {
 
+
     alarmsEnabled = 0;
     hh = mm = ss = 0;
     thrTemp = 20;
@@ -21404,6 +21459,7 @@ void UI_Init(void)
 
     mode = UI_NORMAL;
     field = CF_CLK_HH;
+    record_type = RECORD_NONE;
 
     LCDinit();
     RenderNormal();
@@ -21411,6 +21467,7 @@ void UI_Init(void)
 
 void UI_OnTick1s(void)
 {
+    if (time_inactive >= 10) {mode = UI_NORMAL;}
 
 
     if (mode == UI_NORMAL) { RenderNormal (); }
@@ -21426,14 +21483,15 @@ void UI_OnTick1s(void)
 
 void RenderRecords(void){
     char line1[17], line2[17];
-    sprintf(line1,"   EEPROM      "); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());
-    sprintf(line2,"   Records     "); LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
-
+    sprintf(line1,"%02u:%02u:%02u %02uC %ul", records[record_index].clk_hh, records[record_index].clk_mm, records[record_index].clk_ss, records[record_index].temp, records[record_index].lum);
+    LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());
+    sprintf(line2,"%02u:%02u:%02u %02uC %ul", records[record_index+1].clk_hh, records[record_index+1].clk_mm, records[record_index+1].clk_ss, records[record_index+1].temp, records[record_index+1].lum);
+    LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
 }
 
 void RenderConfig(void)
 {
-# 195 "ui/ui.c"
+# 252 "ui/ui.c"
     char line1[17], line2[17];
 
     switch (field) {
@@ -21600,8 +21658,41 @@ unsigned char readTC74 (void)
 
 void ReadSensors(){
     temp = readTC74();
-    light = 65;
+    light = 'H';
 }
+
+
+void CompareReading(void){
+
+
+    if (temp > records[0].temp) {
+        records[0].temp = temp;
+        records[0].clk_hh = hh;
+        records[0].clk_mm = mm;
+        records[0].clk_ss = ss;
+    }
+    if (temp < records[1].temp) {
+        records[1].temp = temp;
+        records[1].clk_hh = hh;
+        records[1].clk_mm = mm;
+        records[1].clk_ss = ss;
+    }
+    if (light > records[2].lum) {
+        records[2].lum = light;
+        records[2].clk_hh = hh;
+        records[2].clk_mm = mm;
+        records[2].clk_ss = ss;
+    }
+    if (light < records[3].lum) {
+        records[3].lum = light;
+        records[3].clk_hh = hh;
+        records[3].clk_mm = mm;
+        records[3].clk_ss = ss;
+    }
+
+}
+void SaveRecord(void);
+
 
 
 

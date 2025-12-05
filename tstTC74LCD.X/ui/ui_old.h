@@ -24,10 +24,6 @@ void RenderNormal(void);
 unsigned char readTC74 (void);
 void ReadSensors(void);
 
-/*--------------------    Records functions ------------------------*/
-void CompareReading(void);
-void SaveRecord(void);
-
 /*--------------------    Button Flags ----------------------------*/
 
 void S1_Callback(void);

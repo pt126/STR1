@@ -23,8 +23,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "319
 [; ;./mcc_generated_files/ext_int.h: 319: void INT_SetInterruptHandler(void (* InterruptHandler)(void));
 [v _INT_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F12709 ]
-"29 ./ui/ui.h
-[; ;./ui/ui.h: 29: void S1_Callback(void);
+"33 ./ui/ui.h
+[; ;./ui/ui.h: 33: void S1_Callback(void);
 [v _S1_Callback `(v ~T0 @X0 0 ef ]
 "238 ./mcc_generated_files/pin_manager.h
 [; ;./mcc_generated_files/pin_manager.h: 238: void PIN_MANAGER_Initialize (void);
@@ -33,23 +33,23 @@ Version 4.0 HI-TECH Software Intermediate Code
 "286
 [; ;./mcc_generated_files/pin_manager.h: 286: void IOCCF5_SetInterruptHandler(void (* InterruptHandler)(void));
 [v _IOCCF5_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F12228 ]
-"30 ./ui/ui.h
-[; ;./ui/ui.h: 30: void S2_Callback(void);
+"34 ./ui/ui.h
+[; ;./ui/ui.h: 34: void S2_Callback(void);
 [v _S2_Callback `(v ~T0 @X0 0 ef ]
-"31
-[; ;./ui/ui.h: 31: int S1_check(void);
+"35
+[; ;./ui/ui.h: 35: int S1_check(void);
 [v _S1_check `(i ~T0 @X0 0 ef ]
-"33
-[; ;./ui/ui.h: 33: void Reset_flag_S1(void);
+"37
+[; ;./ui/ui.h: 37: void Reset_flag_S1(void);
 [v _Reset_flag_S1 `(v ~T0 @X0 0 ef ]
 "12
 [; ;./ui/ui.h: 12: void OnS1Pressed(void);
 [v _OnS1Pressed `(v ~T0 @X0 0 ef ]
-"32
-[; ;./ui/ui.h: 32: int S2_check(void);
+"36
+[; ;./ui/ui.h: 36: int S2_check(void);
 [v _S2_check `(i ~T0 @X0 0 ef ]
-"34
-[; ;./ui/ui.h: 34: void Reset_flag_S2(void);
+"38
+[; ;./ui/ui.h: 38: void Reset_flag_S2(void);
 [v _Reset_flag_S2 `(v ~T0 @X0 0 ef ]
 "13
 [; ;./ui/ui.h: 13: void OnS2Pressed(void);
@@ -1714,125 +1714,125 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;./mcc_generated_files/i2c1_master.h: 213: void (*MSSP1_InterruptHandler)(void);
 [v _MSSP1_InterruptHandler `*F12628 ~T0 @X0 1 e ]
 [v $root$_main `(v ~T0 @X0 0 e ]
-"61 main.c
-[; ;main.c: 61: void main(void)
+"60 main.c
+[; ;main.c: 60: void main(void)
 [v _main `(v ~T0 @X0 1 ef ]
-"62
-[; ;main.c: 62: {
+"61
+[; ;main.c: 61: {
 {
 [e :U _main ]
 [f ]
-"63
-[; ;main.c: 63:     unsigned char c;
+"62
+[; ;main.c: 62:     unsigned char c;
 [v _c `uc ~T0 @X0 1 a ]
-"64
-[; ;main.c: 64:     char buf[17];
+"63
+[; ;main.c: 63:     char buf[17];
 [v _buf `uc ~T0 @X0 -> 17 `i a ]
-"65
-[; ;main.c: 65:     char buff[19];
+"64
+[; ;main.c: 64:     char buff[19];
 [v _buff `uc ~T0 @X0 -> 19 `i a ]
-"66
-[; ;main.c: 66:     uint32_t last_update = 0;
+"65
+[; ;main.c: 65:     uint32_t last_update = 0;
 [v _last_update `ul ~T0 @X0 1 a ]
 [e = _last_update -> -> -> 0 `i `l `ul ]
-"68
-[; ;main.c: 68:     SYSTEM_Initialize();
+"67
+[; ;main.c: 67:     SYSTEM_Initialize();
 [e ( _SYSTEM_Initialize ..  ]
-"70
-[; ;main.c: 70:     OpenI2C();
+"69
+[; ;main.c: 69:     OpenI2C();
 [e ( _OpenI2C ..  ]
-"71
-[; ;main.c: 71:     LCDinit();
+"70
+[; ;main.c: 70:     LCDinit();
 [e ( _LCDinit ..  ]
-"72
-[; ;main.c: 72:     AppClock_Init();
+"71
+[; ;main.c: 71:     AppClock_Init();
 [e ( _AppClock_Init ..  ]
-"73
-[; ;main.c: 73:     UI_Init();
+"72
+[; ;main.c: 72:     UI_Init();
 [e ( _UI_Init ..  ]
-"77
-[; ;main.c: 77:     EXT_INT_Initialize();
+"76
+[; ;main.c: 76:     EXT_INT_Initialize();
 [e ( _EXT_INT_Initialize ..  ]
-"78
-[; ;main.c: 78:     INT_SetInterruptHandler(S1_Callback);
+"77
+[; ;main.c: 77:     INT_SetInterruptHandler(S1_Callback);
 [e ( _INT_SetInterruptHandler (1 &U _S1_Callback ]
-"82
-[; ;main.c: 82:     PIN_MANAGER_Initialize();
+"81
+[; ;main.c: 81:     PIN_MANAGER_Initialize();
 [e ( _PIN_MANAGER_Initialize ..  ]
-"83
-[; ;main.c: 83:     IOCCF5_SetInterruptHandler(S2_Callback);
+"82
+[; ;main.c: 82:     IOCCF5_SetInterruptHandler(S2_Callback);
 [e ( _IOCCF5_SetInterruptHandler (1 &U _S2_Callback ]
-"86
-[; ;main.c: 86:     while (1)
+"85
+[; ;main.c: 85:     while (1)
 [e :U 1624 ]
-"87
-[; ;main.c: 87:     {
+"86
+[; ;main.c: 86:     {
 {
-"88
-[; ;main.c: 88:         if (S1_check() ){Reset_flag_S1(); OnS1Pressed();}
+"87
+[; ;main.c: 87:         if (S1_check() ){Reset_flag_S1(); OnS1Pressed();}
 [e $ ! != ( _S1_check ..  -> 0 `i 1626  ]
 {
 [e ( _Reset_flag_S1 ..  ]
 [e ( _OnS1Pressed ..  ]
 }
 [e :U 1626 ]
-"89
-[; ;main.c: 89:         if (S2_check() ){Reset_flag_S2(); OnS2Pressed();}
+"88
+[; ;main.c: 88:         if (S2_check() ){Reset_flag_S2(); OnS2Pressed();}
 [e $ ! != ( _S2_check ..  -> 0 `i 1627  ]
 {
 [e ( _Reset_flag_S2 ..  ]
 [e ( _OnS2Pressed ..  ]
 }
 [e :U 1627 ]
-"91
-[; ;main.c: 91:         if (AppClock_ConsumeTick1s())
+"90
+[; ;main.c: 90:         if (AppClock_ConsumeTick1s())
 [e $ ! != -> ( _AppClock_ConsumeTick1s ..  `i -> 0 `i 1628  ]
-"92
-[; ;main.c: 92:         {
+"91
+[; ;main.c: 91:         {
 {
-"93
-[; ;main.c: 93:             Clock_Tick1s();
+"92
+[; ;main.c: 92:             Clock_Tick1s();
 [e ( _Clock_Tick1s ..  ]
-"94
-[; ;main.c: 94:             uint32_t now = AppClock_Seconds();
+"93
+[; ;main.c: 93:             uint32_t now = AppClock_Seconds();
 [v _now `ul ~T0 @X0 1 a ]
 [e = _now ( _AppClock_Seconds ..  ]
-"96
-[; ;main.c: 96:             if ((now - last_update) >= 5 | last_update == 0)
+"95
+[; ;main.c: 95:             if ((now - last_update) >= 5 | last_update == 0)
 [e $ ! | >= - _now _last_update -> -> -> 5 `i `l `ul == _last_update -> -> -> 0 `i `l `ul 1629  ]
-"97
-[; ;main.c: 97:             {
+"96
+[; ;main.c: 96:             {
 {
-"98
-[; ;main.c: 98:                 last_update = now;
+"97
+[; ;main.c: 97:                 last_update = now;
 [e = _last_update _now ]
-"99
-[; ;main.c: 99:                 ReadSensors();
+"98
+[; ;main.c: 98:                 ReadSensors();
 [e ( _ReadSensors ..  ]
-"100
-[; ;main.c: 100:             }
+"99
+[; ;main.c: 99:             }
 }
 [e :U 1629 ]
-"102
-[; ;main.c: 102:         UI_OnTick1s();
+"101
+[; ;main.c: 101:         UI_OnTick1s();
 [e ( _UI_OnTick1s ..  ]
-"103
-[; ;main.c: 103:         __asm("sleep");
+"102
+[; ;main.c: 102:         __asm("sleep");
 [; <" sleep ;# ">
-"104
-[; ;main.c: 104:         __nop();
+"103
+[; ;main.c: 103:         __nop();
 [e ( ___nop ..  ]
-"105
-[; ;main.c: 105:         }
+"104
+[; ;main.c: 104:         }
 }
 [e :U 1628 ]
-"106
-[; ;main.c: 106:     }
+"105
+[; ;main.c: 105:     }
 }
 [e :U 1623 ]
 [e $U 1624  ]
 [e :U 1625 ]
-"107
-[; ;main.c: 107: }
+"106
+[; ;main.c: 106: }
 [e :UE 1622 ]
 }

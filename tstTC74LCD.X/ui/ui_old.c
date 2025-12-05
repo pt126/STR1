@@ -11,9 +11,6 @@
 #define ALAT 20  /*20ºC threshold for temperature alarm*/
 #define ALAL 2   /*threshold for luminosity level alarm */
 
-#define TINA 10  /*10 sec inactivity time*/
-
-
 /*-----------------  State Enums ---------------------------*/
 
 typedef enum { UI_NORMAL, UI_CONFIG, UI_SHOW_RECORDS } ui_mode_t;
@@ -35,40 +32,22 @@ typedef enum {
 
 } cfg_field_t;
 
-typedef enum {
-    RECORD_NONE,
-    RECORD_TEMP,
-    RECORD_LUM,
-} record_type_t;
-
 static ui_mode_t   mode;
 static cfg_field_t field;
-static record_type_t record_type;
 
 /*--------------------  Data and thresholds ---------------------------------*/
 static uint8_t hh, mm, ss;
 static unsigned char temp;
 static unsigned char light;
 static uint8_t alarmsEnabled = ALAF;       // 0/1  -> shows 'a' or 'A'
-static uint8_t alarmFlagC, alarmFlagT, alarmFlagL; // shows letters CTL until S1 clears
-
-typedef struct {
-    uint8_t clk_hh;
-    uint8_t clk_mm;
-    uint8_t clk_ss;
-    uint8_t temp;
-    uint8_t lum;
-} record_field_t;
-
-record_field_t records[4]; // [0 - max temp, 1 - min temp, 2 - max lum, 3 - min lum]
-uint8_t record_index = 0;
+static uint8_t alarmFlagC,alarmFlagT,alarmFlagL; // shows letters CTL until S1 clears
 
 // thresholds shown in config mode (spec says tt and l show threshold values there)
 uint8_t thrSecond = ALAS;
 uint8_t thrMinute = ALAM;
 uint8_t thrHour   = ALAH;
-char thrTemp   = ALAT;   // 0 -50
-char thrLum    = ALAL;    // 0 - 3
+uint8_t thrTemp   = ALAT;   // 0 -50
+uint8_t thrLum    = ALAL;    // 0 - 3
 
 // simple previous sampled state? for polling buttons once per second
 static uint8_t s1_prev = 1, s2_prev = 1;
@@ -100,7 +79,6 @@ void OnS1Pressed(void)
 {
     // S1 clears CTL *and* is used to enter config and move between fields :contentReference[oaicite:13]{index=13}
     ClearAlarmFlags();
-
     time_inactive = 0;
 
     if (mode == UI_NORMAL) {
@@ -124,17 +102,7 @@ void OnS1Pressed(void)
     }
 
     if (mode == UI_SHOW_RECORDS){
-        if(record_type == RECORD_TEMP){
-            mode = UI_NORMAL;
-            record_type = RECORD_NONE;
-            record_index = 0;
-            return;
-        }
-        else if (record_type == RECORD_LUM){
-            record_type = (record_type_t)(record_type - 1);
-            record_index -= 2;
-            return;
-        }
+        mode = UI_NORMAL;
     }
     return;
 }
@@ -164,24 +132,7 @@ void OnS2Pressed(void)
         // Later: implement ?show saved records sequence with each press of S2? :contentReference[oaicite:19]{index=19}
         // Keep as no-op until EEPROM records exist.
         mode = UI_SHOW_RECORDS;
-        record_type = RECORD_TEMP;
-        record_index = 0;
         return;
-    }
-
-    if(mode == UI_SHOW_RECORDS){
-        if(record_type == RECORD_LUM){
-            mode = UI_NORMAL;
-            record_type = RECORD_NONE;
-            record_index = 0;
-            return;
-        } 
-        else if (record_type == RECORD_TEMP)  {
-            record_type = (record_type_t)(record_type + 1);
-            record_index += 2;
-            return;
-        }
-        
     }
 
 
@@ -193,7 +144,6 @@ void OnS2Pressed(void)
 
 void UI_Init(void)
 {
-
     // initial/default values from spec (you can later load from EEPROM)
     alarmsEnabled = 0;
     hh = mm = ss = 0;
@@ -202,7 +152,6 @@ void UI_Init(void)
 
     mode = UI_NORMAL;
     field = CF_CLK_HH;
-    record_type = RECORD_NONE;
 
     LCDinit();
     RenderNormal();
@@ -226,10 +175,9 @@ void UI_OnTick1s(void)
 
 void RenderRecords(void){
     char line1[17], line2[17];
-    sprintf(line1,"%02u:%02u:%02u %02uC %ul", records[record_index].clk_hh, records[record_index].clk_mm, records[record_index].clk_ss, records[record_index].temp, records[record_index].lum);
-    LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());
-    sprintf(line2,"%02u:%02u:%02u %02uC %ul", records[record_index+1].clk_hh, records[record_index+1].clk_mm, records[record_index+1].clk_ss, records[record_index+1].temp, records[record_index+1].lum);
-    LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy()); 
+    sprintf(line1,"   EEPROM      "); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());
+    sprintf(line2,"   Records     ");                LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
+
 }
 
 void RenderConfig(void)
@@ -415,41 +363,8 @@ unsigned char readTC74 (void)
 
 void ReadSensors(){
     temp = readTC74();
-    light = 'H'; /*switch with proper ADC reading*/
+    light = 65; /*switch with proper ADC reading*/
 }
-
-/*--------------------    Records functions ------------------------*/
-void CompareReading(void){
-
-    // compare current reading with records and update if needed
-    if (temp > records[0].temp) {
-        records[0].temp = temp;
-        records[0].clk_hh = hh;
-        records[0].clk_mm = mm;
-        records[0].clk_ss = ss;
-    }
-    if (temp < records[1].temp) {
-        records[1].temp = temp;
-        records[1].clk_hh = hh;
-        records[1].clk_mm = mm;
-        records[1].clk_ss = ss;
-    }
-    if (light > records[2].lum) {
-        records[2].lum = light;
-        records[2].clk_hh = hh;
-        records[2].clk_mm = mm;
-        records[2].clk_ss = ss;
-    }
-    if (light < records[3].lum) {
-        records[3].lum = light;
-        records[3].clk_hh = hh;
-        records[3].clk_mm = mm;
-        records[3].clk_ss = ss;
-    }
-
-}
-void SaveRecord(void);
-/* Not implemented: would save records to EEPROM */
 
 /*--------------------    Button Flags ----------------------------*/
 

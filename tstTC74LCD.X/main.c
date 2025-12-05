@@ -52,7 +52,6 @@
 /*--------------------------------  MACROS(values for variable init mostly) -------------------------------------*/
 #define PMON 5   /*5 sec monitoring period*/
 #define TALA 3   /*3 seconds duration of alarm signal (PWM)*/
-#define TINA 10  /*10 sec inactivity time*/
 #define CLKH 0   /*clock hours*/
 #define CLKM 0   /*clock minutes*/
 

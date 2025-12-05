@@ -21261,6 +21261,10 @@ unsigned char readTC74 (void);
 void ReadSensors(void);
 
 
+void CompareReading(void);
+void SaveRecord(void);
+
+
 
 void S1_Callback(void);
 void S2_Callback(void);
@@ -21269,7 +21273,7 @@ int S2_check(void);
 void Reset_flag_S1(void);
 void Reset_flag_S2(void);
 # 51 "main.c" 2
-# 61 "main.c"
+# 60 "main.c"
 void main(void)
 {
     unsigned char c;
