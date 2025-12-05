@@ -56,9 +56,12 @@
 #include "i2c1_master.h"
 #include "smt1.h"
 #include "tmr1.h"
+#include "pwm6.h"
+#include "tmr2.h"
 #include "tmr0.h"
-#include "memory.h"
+#include "adcc.h"
 #include "ext_int.h"
+#include "memory.h"
 #include "clkref.h"
 
 
