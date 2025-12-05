@@ -20819,17 +20819,17 @@ extern __bank0 __bit __timeout;
 # 1 "Clock/../mcc_generated_files/device_config.h" 1
 # 51 "Clock/../mcc_generated_files/mcc.h" 2
 # 1 "Clock/../mcc_generated_files/pin_manager.h" 1
-# 158 "Clock/../mcc_generated_files/pin_manager.h"
+# 238 "Clock/../mcc_generated_files/pin_manager.h"
 void PIN_MANAGER_Initialize (void);
-# 170 "Clock/../mcc_generated_files/pin_manager.h"
+# 250 "Clock/../mcc_generated_files/pin_manager.h"
 void PIN_MANAGER_IOC(void);
-# 183 "Clock/../mcc_generated_files/pin_manager.h"
+# 263 "Clock/../mcc_generated_files/pin_manager.h"
 void IOCCF5_ISR(void);
-# 206 "Clock/../mcc_generated_files/pin_manager.h"
+# 286 "Clock/../mcc_generated_files/pin_manager.h"
 void IOCCF5_SetInterruptHandler(void (* InterruptHandler)(void));
-# 230 "Clock/../mcc_generated_files/pin_manager.h"
+# 310 "Clock/../mcc_generated_files/pin_manager.h"
 extern void (*IOCCF5_InterruptHandler)(void);
-# 254 "Clock/../mcc_generated_files/pin_manager.h"
+# 334 "Clock/../mcc_generated_files/pin_manager.h"
 void IOCCF5_DefaultInterruptHandler(void);
 # 52 "Clock/../mcc_generated_files/mcc.h" 2
 
@@ -21103,20 +21103,6 @@ uint32_t SMT1_GetCapturedPeriod(void);
 # 541 "Clock/../mcc_generated_files/smt1.h"
 uint32_t SMT1_GetTimerValue(void);
 # 58 "Clock/../mcc_generated_files/mcc.h" 2
-# 1 "Clock/../mcc_generated_files/ext_int.h" 1
-# 250 "Clock/../mcc_generated_files/ext_int.h"
-void EXT_INT_Initialize(void);
-# 272 "Clock/../mcc_generated_files/ext_int.h"
-void INT_ISR(void);
-# 296 "Clock/../mcc_generated_files/ext_int.h"
-void INT_CallBack(void);
-# 319 "Clock/../mcc_generated_files/ext_int.h"
-void INT_SetInterruptHandler(void (* InterruptHandler)(void));
-# 343 "Clock/../mcc_generated_files/ext_int.h"
-extern void (*INT_InterruptHandler)(void);
-# 367 "Clock/../mcc_generated_files/ext_int.h"
-void INT_DefaultInterruptHandler(void);
-# 59 "Clock/../mcc_generated_files/mcc.h" 2
 # 1 "Clock/../mcc_generated_files/tmr1.h" 1
 # 100 "Clock/../mcc_generated_files/tmr1.h"
 void TMR1_Initialize(void);
@@ -21146,7 +21132,7 @@ void TMR1_DefaultInterruptHandler(void);
 void TMR1_GATE_ISR(void);
 # 462 "Clock/../mcc_generated_files/tmr1.h"
 void TMR1_SetGateInterruptHandler(void (* InterruptHandler)(void));
-# 60 "Clock/../mcc_generated_files/mcc.h" 2
+# 59 "Clock/../mcc_generated_files/mcc.h" 2
 # 1 "Clock/../mcc_generated_files/tmr0.h" 1
 # 100 "Clock/../mcc_generated_files/tmr0.h"
 void TMR0_Initialize(void);
@@ -21168,16 +21154,44 @@ void TMR0_ISR(void);
 extern void (*TMR0_InterruptHandler)(void);
 # 346 "Clock/../mcc_generated_files/tmr0.h"
 void TMR0_DefaultInterruptHandler(void);
+# 60 "Clock/../mcc_generated_files/mcc.h" 2
+# 1 "Clock/../mcc_generated_files/memory.h" 1
+# 99 "Clock/../mcc_generated_files/memory.h"
+uint16_t FLASH_ReadWord(uint16_t flashAddr);
+# 128 "Clock/../mcc_generated_files/memory.h"
+void FLASH_WriteWord(uint16_t flashAddr, uint16_t *ramBuf, uint16_t word);
+# 164 "Clock/../mcc_generated_files/memory.h"
+int8_t FLASH_WriteBlock(uint16_t writeAddr, uint16_t *flashWordArray);
+# 189 "Clock/../mcc_generated_files/memory.h"
+void FLASH_EraseBlock(uint16_t startAddr);
+# 222 "Clock/../mcc_generated_files/memory.h"
+void DATAEE_WriteByte(uint16_t bAdd, uint8_t bData);
+# 248 "Clock/../mcc_generated_files/memory.h"
+uint8_t DATAEE_ReadByte(uint16_t bAdd);
 # 61 "Clock/../mcc_generated_files/mcc.h" 2
+# 1 "Clock/../mcc_generated_files/ext_int.h" 1
+# 250 "Clock/../mcc_generated_files/ext_int.h"
+void EXT_INT_Initialize(void);
+# 272 "Clock/../mcc_generated_files/ext_int.h"
+void INT_ISR(void);
+# 296 "Clock/../mcc_generated_files/ext_int.h"
+void INT_CallBack(void);
+# 319 "Clock/../mcc_generated_files/ext_int.h"
+void INT_SetInterruptHandler(void (* InterruptHandler)(void));
+# 343 "Clock/../mcc_generated_files/ext_int.h"
+extern void (*INT_InterruptHandler)(void);
+# 367 "Clock/../mcc_generated_files/ext_int.h"
+void INT_DefaultInterruptHandler(void);
+# 62 "Clock/../mcc_generated_files/mcc.h" 2
 # 1 "Clock/../mcc_generated_files/clkref.h" 1
 # 92 "Clock/../mcc_generated_files/clkref.h"
 void CLKREF_Initialize(void);
-# 62 "Clock/../mcc_generated_files/mcc.h" 2
-# 76 "Clock/../mcc_generated_files/mcc.h"
+# 63 "Clock/../mcc_generated_files/mcc.h" 2
+# 77 "Clock/../mcc_generated_files/mcc.h"
 void SYSTEM_Initialize(void);
-# 89 "Clock/../mcc_generated_files/mcc.h"
+# 90 "Clock/../mcc_generated_files/mcc.h"
 void OSCILLATOR_Initialize(void);
-# 102 "Clock/../mcc_generated_files/mcc.h"
+# 103 "Clock/../mcc_generated_files/mcc.h"
 void PMD_Initialize(void);
 # 3 "Clock/clock.c" 2
 

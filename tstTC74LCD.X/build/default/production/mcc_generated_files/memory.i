@@ -1,4 +1,4 @@
-# 1 "mcc_generated_files/pin_manager.c"
+# 1 "mcc_generated_files/memory.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 295 "<built-in>" 3
@@ -6,10 +6,8 @@
 # 1 "<built-in>" 2
 # 1 "/home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "mcc_generated_files/pin_manager.c" 2
-# 49 "mcc_generated_files/pin_manager.c"
-# 1 "mcc_generated_files/pin_manager.h" 1
-# 54 "mcc_generated_files/pin_manager.h"
+# 1 "mcc_generated_files/memory.c" 2
+# 51 "mcc_generated_files/memory.c"
 # 1 "/home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/xc.h" 1 3
 # 18 "/home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -20816,156 +20814,181 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 29 "/home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/xc.h" 2 3
-# 55 "mcc_generated_files/pin_manager.h" 2
-# 238 "mcc_generated_files/pin_manager.h"
-void PIN_MANAGER_Initialize (void);
-# 250 "mcc_generated_files/pin_manager.h"
-void PIN_MANAGER_IOC(void);
-# 263 "mcc_generated_files/pin_manager.h"
-void IOCCF5_ISR(void);
-# 286 "mcc_generated_files/pin_manager.h"
-void IOCCF5_SetInterruptHandler(void (* InterruptHandler)(void));
-# 310 "mcc_generated_files/pin_manager.h"
-extern void (*IOCCF5_InterruptHandler)(void);
-# 334 "mcc_generated_files/pin_manager.h"
-void IOCCF5_DefaultInterruptHandler(void);
-# 50 "mcc_generated_files/pin_manager.c" 2
+# 52 "mcc_generated_files/memory.c" 2
+# 1 "mcc_generated_files/memory.h" 1
+# 54 "mcc_generated_files/memory.h"
+# 1 "/opt/microchip/xc8/v3.10/pic/include/c99/stdbool.h" 1 3
+# 55 "mcc_generated_files/memory.h" 2
+# 99 "mcc_generated_files/memory.h"
+uint16_t FLASH_ReadWord(uint16_t flashAddr);
+# 128 "mcc_generated_files/memory.h"
+void FLASH_WriteWord(uint16_t flashAddr, uint16_t *ramBuf, uint16_t word);
+# 164 "mcc_generated_files/memory.h"
+int8_t FLASH_WriteBlock(uint16_t writeAddr, uint16_t *flashWordArray);
+# 189 "mcc_generated_files/memory.h"
+void FLASH_EraseBlock(uint16_t startAddr);
+# 222 "mcc_generated_files/memory.h"
+void DATAEE_WriteByte(uint16_t bAdd, uint8_t bData);
+# 248 "mcc_generated_files/memory.h"
+uint8_t DATAEE_ReadByte(uint16_t bAdd);
+# 53 "mcc_generated_files/memory.c" 2
 
 
 
 
-void (*IOCCF5_InterruptHandler)(void);
 
-
-void PIN_MANAGER_Initialize(void)
+uint16_t FLASH_ReadWord(uint16_t flashAddr)
 {
+    uint8_t GIEBitValue = INTCONbits.GIE;
 
+    INTCONbits.GIE = 0;
+    NVMADRL = (flashAddr & 0x00FF);
+    NVMADRH = ((flashAddr & 0xFF00) >> 8);
 
+    NVMCON1bits.NVMREGS = 0;
+    NVMCON1bits.RD = 1;
+    __nop();
+    __nop();
+    INTCONbits.GIE = GIEBitValue;
 
-    LATE = 0x00;
-    LATD = 0x00;
-    LATA = 0x00;
-    LATB = 0x00;
-    LATC = 0x00;
-
-
-
-
-    TRISE = 0x07;
-    TRISA = 0x0F;
-    TRISB = 0xFF;
-    TRISC = 0xFF;
-    TRISD = 0xFF;
-
-
-
-
-    ANSELD = 0xFF;
-    ANSELC = 0xC4;
-    ANSELB = 0xEF;
-    ANSELE = 0x07;
-    ANSELA = 0xFF;
-
-
-
-
-    WPUD = 0x00;
-    WPUE = 0x00;
-    WPUB = 0x00;
-    WPUA = 0x00;
-    WPUC = 0x18;
-
-
-
-
-    ODCONE = 0x00;
-    ODCONA = 0x00;
-    ODCONB = 0x00;
-    ODCONC = 0x00;
-    ODCOND = 0x00;
-
-
-
-
-    SLRCONA = 0xFF;
-    SLRCONB = 0xFF;
-    SLRCONC = 0xFF;
-    SLRCOND = 0xFF;
-    SLRCONE = 0x07;
-
-
-
-
-    INLVLA = 0xFF;
-    INLVLB = 0xFF;
-    INLVLC = 0xFF;
-    INLVLD = 0xFF;
-    INLVLE = 0x07;
-
-
-
-
-
-
-    IOCCFbits.IOCCF5 = 0;
-
-    IOCCNbits.IOCCN5 = 1;
-
-    IOCCPbits.IOCCP5 = 0;
-
-
-
-
-    IOCCF5_SetInterruptHandler(IOCCF5_DefaultInterruptHandler);
-
-
-    PIE0bits.IOCIE = 1;
-
-
-    INTPPS = 0x0C;
-    SSP1CLKPPS = 0x13;
-    RC3PPS = 0x14;
-    SMT1WINPPS = 0x10;
-    RC4PPS = 0x15;
-    SMT1SIGPPS = 0x11;
-    SSP1DATPPS = 0x14;
+    return ((uint16_t)((NVMDATH << 8) | NVMDATL));
 }
 
-void PIN_MANAGER_IOC(void)
+void FLASH_WriteWord(uint16_t flashAddr, uint16_t *ramBuf, uint16_t word)
 {
+    uint16_t blockStartAddr = (uint16_t)(flashAddr & ((0x2000 -1) ^ (32 -1)));
+    uint8_t offset = (uint8_t)(flashAddr & (32 -1));
+    uint8_t i;
 
-    if(IOCCFbits.IOCCF5 == 1)
+
+    for (i=0; i<32; i++)
     {
-        IOCCF5_ISR();
+        ramBuf[i] = FLASH_ReadWord((blockStartAddr+i));
     }
+
+
+    ramBuf[offset] = word;
+
+
+    FLASH_WriteBlock(blockStartAddr, ramBuf);
 }
 
+int8_t FLASH_WriteBlock(uint16_t writeAddr, uint16_t *flashWordArray)
+{
+    uint16_t blockStartAddr = (uint16_t )(writeAddr & ((0x2000 -1) ^ (32 -1)));
+    uint8_t GIEBitValue = INTCONbits.GIE;
+    uint8_t i;
 
 
 
-void IOCCF5_ISR(void) {
-
-
-
-
-    if(IOCCF5_InterruptHandler)
+    if( writeAddr != blockStartAddr )
     {
-        IOCCF5_InterruptHandler();
+        return -1;
     }
-    IOCCFbits.IOCCF5 = 0;
+
+    INTCONbits.GIE = 0;
+
+
+    FLASH_EraseBlock(writeAddr);
+
+
+    NVMCON1bits.NVMREGS = 0;
+    NVMCON1bits.WREN = 1;
+    NVMCON1bits.LWLO = 1;
+
+    for (i=0; i<32; i++)
+    {
+
+        NVMADRL = (writeAddr & 0xFF);
+
+        NVMADRH = ((writeAddr & 0xFF00) >> 8);
+
+
+        NVMDATL = flashWordArray[i];
+        NVMDATH = ((flashWordArray[i] & 0xFF00) >> 8);
+
+        if(i == (32 -1))
+        {
+
+            NVMCON1bits.LWLO = 0;
+        }
+
+        NVMCON2 = 0x55;
+        NVMCON2 = 0xAA;
+        NVMCON1bits.WR = 1;
+        __nop();
+        __nop();
+
+ writeAddr++;
+    }
+
+    NVMCON1bits.WREN = 0;
+    INTCONbits.GIE = GIEBitValue;
+
+    return 0;
+}
+
+void FLASH_EraseBlock(uint16_t startAddr)
+{
+    uint8_t GIEBitValue = INTCONbits.GIE;
+
+
+    INTCONbits.GIE = 0;
+
+    NVMADRL = (startAddr & 0xFF);
+
+    NVMADRH = ((startAddr & 0xFF00) >> 8);
+
+
+    NVMCON1bits.NVMREGS = 0;
+    NVMCON1bits.FREE = 1;
+    NVMCON1bits.WREN = 1;
+
+
+    NVMCON2 = 0x55;
+    NVMCON2 = 0xAA;
+    NVMCON1bits.WR = 1;
+    __nop();
+    __nop();
+
+    NVMCON1bits.WREN = 0;
+    INTCONbits.GIE = GIEBitValue;
 }
 
 
 
 
-void IOCCF5_SetInterruptHandler(void (* InterruptHandler)(void)){
-    IOCCF5_InterruptHandler = InterruptHandler;
+
+void DATAEE_WriteByte(uint16_t bAdd, uint8_t bData)
+{
+    uint8_t GIEBitValue = INTCONbits.GIE;
+
+    NVMADRH = ((bAdd >> 8) & 0xFF);
+    NVMADRL = (bAdd & 0xFF);
+    NVMDATL = bData;
+    NVMCON1bits.NVMREGS = 1;
+    NVMCON1bits.WREN = 1;
+    INTCONbits.GIE = 0;
+    NVMCON2 = 0x55;
+    NVMCON2 = 0xAA;
+    NVMCON1bits.WR = 1;
+
+    while (NVMCON1bits.WR)
+    {
+    }
+
+    NVMCON1bits.WREN = 0;
+    INTCONbits.GIE = GIEBitValue;
 }
 
+uint8_t DATAEE_ReadByte(uint16_t bAdd)
+{
+    NVMADRH = ((bAdd >> 8) & 0xFF);
+    NVMADRL = (bAdd & 0xFF);
+    NVMCON1bits.NVMREGS = 1;
+    NVMCON1bits.RD = 1;
+    __nop();
+    __nop();
 
-
-
-void IOCCF5_DefaultInterruptHandler(void){
-
-
+    return (NVMDATL);
 }

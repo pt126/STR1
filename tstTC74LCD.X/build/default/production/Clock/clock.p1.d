@@ -6,8 +6,9 @@ Clock/../mcc_generated_files/pin_manager.h  \
 Clock/../mcc_generated_files/interrupt_manager.h  \
 Clock/../mcc_generated_files/i2c1_master.h  \
 Clock/../mcc_generated_files/smt1.h  \
-Clock/../mcc_generated_files/ext_int.h  \
 Clock/../mcc_generated_files/tmr1.h  \
 Clock/../mcc_generated_files/tmr0.h  \
+Clock/../mcc_generated_files/memory.h  \
+Clock/../mcc_generated_files/ext_int.h  \
 Clock/../mcc_generated_files/clkref.h  \
 Clock/clock.h 

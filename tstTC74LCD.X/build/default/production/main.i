@@ -20820,17 +20820,17 @@ extern __bank0 __bit __timeout;
 # 1 "./mcc_generated_files/device_config.h" 1
 # 51 "./mcc_generated_files/mcc.h" 2
 # 1 "./mcc_generated_files/pin_manager.h" 1
-# 158 "./mcc_generated_files/pin_manager.h"
+# 238 "./mcc_generated_files/pin_manager.h"
 void PIN_MANAGER_Initialize (void);
-# 170 "./mcc_generated_files/pin_manager.h"
+# 250 "./mcc_generated_files/pin_manager.h"
 void PIN_MANAGER_IOC(void);
-# 183 "./mcc_generated_files/pin_manager.h"
+# 263 "./mcc_generated_files/pin_manager.h"
 void IOCCF5_ISR(void);
-# 206 "./mcc_generated_files/pin_manager.h"
+# 286 "./mcc_generated_files/pin_manager.h"
 void IOCCF5_SetInterruptHandler(void (* InterruptHandler)(void));
-# 230 "./mcc_generated_files/pin_manager.h"
+# 310 "./mcc_generated_files/pin_manager.h"
 extern void (*IOCCF5_InterruptHandler)(void);
-# 254 "./mcc_generated_files/pin_manager.h"
+# 334 "./mcc_generated_files/pin_manager.h"
 void IOCCF5_DefaultInterruptHandler(void);
 # 52 "./mcc_generated_files/mcc.h" 2
 
@@ -21104,20 +21104,6 @@ uint32_t SMT1_GetCapturedPeriod(void);
 # 541 "./mcc_generated_files/smt1.h"
 uint32_t SMT1_GetTimerValue(void);
 # 58 "./mcc_generated_files/mcc.h" 2
-# 1 "./mcc_generated_files/ext_int.h" 1
-# 250 "./mcc_generated_files/ext_int.h"
-void EXT_INT_Initialize(void);
-# 272 "./mcc_generated_files/ext_int.h"
-void INT_ISR(void);
-# 296 "./mcc_generated_files/ext_int.h"
-void INT_CallBack(void);
-# 319 "./mcc_generated_files/ext_int.h"
-void INT_SetInterruptHandler(void (* InterruptHandler)(void));
-# 343 "./mcc_generated_files/ext_int.h"
-extern void (*INT_InterruptHandler)(void);
-# 367 "./mcc_generated_files/ext_int.h"
-void INT_DefaultInterruptHandler(void);
-# 59 "./mcc_generated_files/mcc.h" 2
 # 1 "./mcc_generated_files/tmr1.h" 1
 # 100 "./mcc_generated_files/tmr1.h"
 void TMR1_Initialize(void);
@@ -21147,7 +21133,7 @@ void TMR1_DefaultInterruptHandler(void);
 void TMR1_GATE_ISR(void);
 # 462 "./mcc_generated_files/tmr1.h"
 void TMR1_SetGateInterruptHandler(void (* InterruptHandler)(void));
-# 60 "./mcc_generated_files/mcc.h" 2
+# 59 "./mcc_generated_files/mcc.h" 2
 # 1 "./mcc_generated_files/tmr0.h" 1
 # 100 "./mcc_generated_files/tmr0.h"
 void TMR0_Initialize(void);
@@ -21169,16 +21155,44 @@ void TMR0_ISR(void);
 extern void (*TMR0_InterruptHandler)(void);
 # 346 "./mcc_generated_files/tmr0.h"
 void TMR0_DefaultInterruptHandler(void);
+# 60 "./mcc_generated_files/mcc.h" 2
+# 1 "./mcc_generated_files/memory.h" 1
+# 99 "./mcc_generated_files/memory.h"
+uint16_t FLASH_ReadWord(uint16_t flashAddr);
+# 128 "./mcc_generated_files/memory.h"
+void FLASH_WriteWord(uint16_t flashAddr, uint16_t *ramBuf, uint16_t word);
+# 164 "./mcc_generated_files/memory.h"
+int8_t FLASH_WriteBlock(uint16_t writeAddr, uint16_t *flashWordArray);
+# 189 "./mcc_generated_files/memory.h"
+void FLASH_EraseBlock(uint16_t startAddr);
+# 222 "./mcc_generated_files/memory.h"
+void DATAEE_WriteByte(uint16_t bAdd, uint8_t bData);
+# 248 "./mcc_generated_files/memory.h"
+uint8_t DATAEE_ReadByte(uint16_t bAdd);
 # 61 "./mcc_generated_files/mcc.h" 2
+# 1 "./mcc_generated_files/ext_int.h" 1
+# 250 "./mcc_generated_files/ext_int.h"
+void EXT_INT_Initialize(void);
+# 272 "./mcc_generated_files/ext_int.h"
+void INT_ISR(void);
+# 296 "./mcc_generated_files/ext_int.h"
+void INT_CallBack(void);
+# 319 "./mcc_generated_files/ext_int.h"
+void INT_SetInterruptHandler(void (* InterruptHandler)(void));
+# 343 "./mcc_generated_files/ext_int.h"
+extern void (*INT_InterruptHandler)(void);
+# 367 "./mcc_generated_files/ext_int.h"
+void INT_DefaultInterruptHandler(void);
+# 62 "./mcc_generated_files/mcc.h" 2
 # 1 "./mcc_generated_files/clkref.h" 1
 # 92 "./mcc_generated_files/clkref.h"
 void CLKREF_Initialize(void);
-# 62 "./mcc_generated_files/mcc.h" 2
-# 76 "./mcc_generated_files/mcc.h"
+# 63 "./mcc_generated_files/mcc.h" 2
+# 77 "./mcc_generated_files/mcc.h"
 void SYSTEM_Initialize(void);
-# 89 "./mcc_generated_files/mcc.h"
+# 90 "./mcc_generated_files/mcc.h"
 void OSCILLATOR_Initialize(void);
-# 102 "./mcc_generated_files/mcc.h"
+# 103 "./mcc_generated_files/mcc.h"
 void PMD_Initialize(void);
 # 45 "main.c" 2
 # 1 "./I2C/i2c.h" 1

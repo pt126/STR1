@@ -1,8 +1,8 @@
 Version 4.0 HI-TECH Software Intermediate Code
 [v F12628 `(v ~T0 @X0 0 tf ]
 [p mainexit ]
-"76 ./mcc_generated_files/mcc.h
-[; ;./mcc_generated_files/mcc.h: 76: void SYSTEM_Initialize(void);
+"77 ./mcc_generated_files/mcc.h
+[; ;./mcc_generated_files/mcc.h: 77: void SYSTEM_Initialize(void);
 [v _SYSTEM_Initialize `(v ~T0 @X0 0 ef ]
 "155 ./I2C/i2c.h
 [; ;./I2C/i2c.h: 155: void OpenI2C( void );
@@ -19,19 +19,19 @@ Version 4.0 HI-TECH Software Intermediate Code
 "250 ./mcc_generated_files/ext_int.h
 [; ;./mcc_generated_files/ext_int.h: 250: void EXT_INT_Initialize(void);
 [v _EXT_INT_Initialize `(v ~T0 @X0 0 ef ]
-[v F12655 `(v ~T0 @X0 0 tf ]
+[v F12709 `(v ~T0 @X0 0 tf ]
 "319
 [; ;./mcc_generated_files/ext_int.h: 319: void INT_SetInterruptHandler(void (* InterruptHandler)(void));
-[v _INT_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F12655 ]
+[v _INT_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F12709 ]
 "29 ./ui/ui.h
 [; ;./ui/ui.h: 29: void S1_Callback(void);
 [v _S1_Callback `(v ~T0 @X0 0 ef ]
-"158 ./mcc_generated_files/pin_manager.h
-[; ;./mcc_generated_files/pin_manager.h: 158: void PIN_MANAGER_Initialize (void);
+"238 ./mcc_generated_files/pin_manager.h
+[; ;./mcc_generated_files/pin_manager.h: 238: void PIN_MANAGER_Initialize (void);
 [v _PIN_MANAGER_Initialize `(v ~T0 @X0 0 ef ]
 [v F12228 `(v ~T0 @X0 0 tf ]
-"206
-[; ;./mcc_generated_files/pin_manager.h: 206: void IOCCF5_SetInterruptHandler(void (* InterruptHandler)(void));
+"286
+[; ;./mcc_generated_files/pin_manager.h: 286: void IOCCF5_SetInterruptHandler(void (* InterruptHandler)(void));
 [v _IOCCF5_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F12228 ]
 "30 ./ui/ui.h
 [; ;./ui/ui.h: 30: void S2_Callback(void);

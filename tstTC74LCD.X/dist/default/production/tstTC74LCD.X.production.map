@@ -5,10 +5,10 @@ Linker command line:
 -W-3 --edf=/opt/microchip/xc8/v3.10/pic/dat/20250813170317_en.msgs -cn \
   -h+dist/default/production/tstTC74LCD.X.production.sym \
   --cmf=dist/default/production/tstTC74LCD.X.production.cmf -z -Q16F18875 \
-  -o/tmp/xcXgjbFGP/driver_tmp_3.o --defsym=__MPLAB_BUILD=1 \
+  -o/tmp/xcXAINDNP/driver_tmp_3.o --defsym=__MPLAB_BUILD=1 \
   --fixupoverflow=error \
   -Mdist/default/production/tstTC74LCD.X.production.map \
-  --md=/tmp/xcXgjbFGP/driver_tmp_0.dat -E1 -ver=XC8 Compiler \
+  --md=/tmp/xcXAINDNP/driver_tmp_0.dat -E1 -ver=XC8 Compiler \
   -ACODE=00h-07FFhx4 -ASTRCODE=00h-01FFFh -ASTRING=00h-0FFhx32 \
   -ACONST=00h-0FFhx32 -AENTRY=00h-0FFhx32 -ACOMMON=070h-07Fh \
   -ABANK0=020h-06Fh -ABANK1=0A0h-0EFh -ABANK2=0120h-016Fh \
@@ -32,7 +32,7 @@ Linker command line:
   -AIDLOC=08000h-08003h -DIDLOC=2 -AEEDATA=00h-0FFh/0F000h \
   -peeprom_data=EEDATA -DEEDATA=2 -DCODE=2 -DSTRCODE=2 -DSTRING=2 -DCONST=2 \
   -DENTRY=2 -preset_vec=00h,intentry=04h,sivt,init,end_init -ppowerup=CODE \
-  -pcinit=CODE -pfunctab=ENTRY -k /tmp/xcXgjbFGP/driver_tmp_20.o \
+  -pcinit=CODE -pfunctab=ENTRY -k /tmp/xcXAINDNP/driver_tmp_20.o \
   dist/default/production/tstTC74LCD.X.production.o 
 
 Object code version is 3.11
@@ -42,7 +42,7 @@ Machine type is 16F18875
 
 
                 Name                               Link     Load   Length Selector   Space Scale
-/tmp/xcXgjbFGP/driver_tmp_20.o
+/tmp/xcXAINDNP/driver_tmp_20.o
                 end_init                             4C       4C        2        8       0
                 reset_vec                             0        0        2        0       0
                 config                             8007     8007        5        0       4
@@ -708,6 +708,12 @@ _LCDsend                                      text30       001281
 _LCDsend2x4                                   text29       00174F
 _LCDstr                                       text22       001070
 _MSSP1_InterruptHandler                       bssBANK1     0000DA
+_NVMADRH                                      (abs)        00081B
+_NVMADRL                                      (abs)        00081A
+_NVMCON1bits                                  (abs)        00081E
+_NVMCON2                                      (abs)        00081F
+_NVMDATH                                      (abs)        00081D
+_NVMDATL                                      (abs)        00081C
 _ODCONA                                       (abs)        000F3A
 _ODCONB                                       (abs)        000F45
 _ODCONC                                       (abs)        000F50
@@ -1307,7 +1313,7 @@ _alarmsEnabled                                bssBANK1     0000E1
 _ctoa                                         text19       001558
 _dbuf                                         bssBANK2     00013F
 _dtoa                                         text14       000815
-_dtoa$3204                                    cstackBANK0  000037
+_dtoa$3266                                    cstackBANK0  000037
 _field                                        bssBANK1     0000E7
 _flags                                        bssBANK0     00006C
 _fputc                                        text20       0013EE

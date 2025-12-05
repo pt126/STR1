@@ -11,7 +11,7 @@
 # All addresses and the length are given in unqualified hexadecimal
 # in delta units.  Any other numeric values are decimal.
 %PSECTS
-$/tmp/xcXgjbFGP/driver_tmp_20.o
+$/tmp/xcXAINDNP/driver_tmp_20.o
 idloc IDLOC 5 8000 8000 4 2 1
 reset_vec CODE 0 0 0 2 2 1
 end_init CODE 0 4C 4C 2 2 1
@@ -214,43 +214,43 @@ STRING 1929-1F35 2
 # All other numeric values are in decimal.
 %LINETAB
 $dist/default/production/tstTC74LCD.X.production.o
-4E cinit CODE >17402:/tmp/xcXgjbFGP/driver_tmp_1.s
-4E cinit CODE >17405:/tmp/xcXgjbFGP/driver_tmp_1.s
-4E cinit CODE >17527:/tmp/xcXgjbFGP/driver_tmp_1.s
-4F cinit CODE >17528:/tmp/xcXgjbFGP/driver_tmp_1.s
-50 cinit CODE >17529:/tmp/xcXgjbFGP/driver_tmp_1.s
-51 cinit CODE >17530:/tmp/xcXgjbFGP/driver_tmp_1.s
-52 cinit CODE >17531:/tmp/xcXgjbFGP/driver_tmp_1.s
-53 cinit CODE >17532:/tmp/xcXgjbFGP/driver_tmp_1.s
-54 cinit CODE >17533:/tmp/xcXgjbFGP/driver_tmp_1.s
-55 cinit CODE >17534:/tmp/xcXgjbFGP/driver_tmp_1.s
-56 cinit CODE >17535:/tmp/xcXgjbFGP/driver_tmp_1.s
-57 cinit CODE >17536:/tmp/xcXgjbFGP/driver_tmp_1.s
-58 cinit CODE >17537:/tmp/xcXgjbFGP/driver_tmp_1.s
-59 cinit CODE >17538:/tmp/xcXgjbFGP/driver_tmp_1.s
-5A cinit CODE >17539:/tmp/xcXgjbFGP/driver_tmp_1.s
-5B cinit CODE >17540:/tmp/xcXgjbFGP/driver_tmp_1.s
-5C cinit CODE >17541:/tmp/xcXgjbFGP/driver_tmp_1.s
-5D cinit CODE >17558:/tmp/xcXgjbFGP/driver_tmp_1.s
-5E cinit CODE >17559:/tmp/xcXgjbFGP/driver_tmp_1.s
-5F cinit CODE >17563:/tmp/xcXgjbFGP/driver_tmp_1.s
-60 cinit CODE >17564:/tmp/xcXgjbFGP/driver_tmp_1.s
-61 cinit CODE >17568:/tmp/xcXgjbFGP/driver_tmp_1.s
-62 cinit CODE >17569:/tmp/xcXgjbFGP/driver_tmp_1.s
-63 cinit CODE >17570:/tmp/xcXgjbFGP/driver_tmp_1.s
-64 cinit CODE >17571:/tmp/xcXgjbFGP/driver_tmp_1.s
-65 cinit CODE >17572:/tmp/xcXgjbFGP/driver_tmp_1.s
-66 cinit CODE >17573:/tmp/xcXgjbFGP/driver_tmp_1.s
-69 cinit CODE >17577:/tmp/xcXgjbFGP/driver_tmp_1.s
-6A cinit CODE >17578:/tmp/xcXgjbFGP/driver_tmp_1.s
-6B cinit CODE >17579:/tmp/xcXgjbFGP/driver_tmp_1.s
-6C cinit CODE >17580:/tmp/xcXgjbFGP/driver_tmp_1.s
-6D cinit CODE >17581:/tmp/xcXgjbFGP/driver_tmp_1.s
-6E cinit CODE >17582:/tmp/xcXgjbFGP/driver_tmp_1.s
-71 cinit CODE >17588:/tmp/xcXgjbFGP/driver_tmp_1.s
-71 cinit CODE >17590:/tmp/xcXgjbFGP/driver_tmp_1.s
-72 cinit CODE >17591:/tmp/xcXgjbFGP/driver_tmp_1.s
-73 cinit CODE >17592:/tmp/xcXgjbFGP/driver_tmp_1.s
+4E cinit CODE >18506:/tmp/xcXAINDNP/driver_tmp_1.s
+4E cinit CODE >18509:/tmp/xcXAINDNP/driver_tmp_1.s
+4E cinit CODE >18631:/tmp/xcXAINDNP/driver_tmp_1.s
+4F cinit CODE >18632:/tmp/xcXAINDNP/driver_tmp_1.s
+50 cinit CODE >18633:/tmp/xcXAINDNP/driver_tmp_1.s
+51 cinit CODE >18634:/tmp/xcXAINDNP/driver_tmp_1.s
+52 cinit CODE >18635:/tmp/xcXAINDNP/driver_tmp_1.s
+53 cinit CODE >18636:/tmp/xcXAINDNP/driver_tmp_1.s
+54 cinit CODE >18637:/tmp/xcXAINDNP/driver_tmp_1.s
+55 cinit CODE >18638:/tmp/xcXAINDNP/driver_tmp_1.s
+56 cinit CODE >18639:/tmp/xcXAINDNP/driver_tmp_1.s
+57 cinit CODE >18640:/tmp/xcXAINDNP/driver_tmp_1.s
+58 cinit CODE >18641:/tmp/xcXAINDNP/driver_tmp_1.s
+59 cinit CODE >18642:/tmp/xcXAINDNP/driver_tmp_1.s
+5A cinit CODE >18643:/tmp/xcXAINDNP/driver_tmp_1.s
+5B cinit CODE >18644:/tmp/xcXAINDNP/driver_tmp_1.s
+5C cinit CODE >18645:/tmp/xcXAINDNP/driver_tmp_1.s
+5D cinit CODE >18662:/tmp/xcXAINDNP/driver_tmp_1.s
+5E cinit CODE >18663:/tmp/xcXAINDNP/driver_tmp_1.s
+5F cinit CODE >18667:/tmp/xcXAINDNP/driver_tmp_1.s
+60 cinit CODE >18668:/tmp/xcXAINDNP/driver_tmp_1.s
+61 cinit CODE >18672:/tmp/xcXAINDNP/driver_tmp_1.s
+62 cinit CODE >18673:/tmp/xcXAINDNP/driver_tmp_1.s
+63 cinit CODE >18674:/tmp/xcXAINDNP/driver_tmp_1.s
+64 cinit CODE >18675:/tmp/xcXAINDNP/driver_tmp_1.s
+65 cinit CODE >18676:/tmp/xcXAINDNP/driver_tmp_1.s
+66 cinit CODE >18677:/tmp/xcXAINDNP/driver_tmp_1.s
+69 cinit CODE >18681:/tmp/xcXAINDNP/driver_tmp_1.s
+6A cinit CODE >18682:/tmp/xcXAINDNP/driver_tmp_1.s
+6B cinit CODE >18683:/tmp/xcXAINDNP/driver_tmp_1.s
+6C cinit CODE >18684:/tmp/xcXAINDNP/driver_tmp_1.s
+6D cinit CODE >18685:/tmp/xcXAINDNP/driver_tmp_1.s
+6E cinit CODE >18686:/tmp/xcXAINDNP/driver_tmp_1.s
+71 cinit CODE >18692:/tmp/xcXAINDNP/driver_tmp_1.s
+71 cinit CODE >18694:/tmp/xcXAINDNP/driver_tmp_1.s
+72 cinit CODE >18695:/tmp/xcXAINDNP/driver_tmp_1.s
+73 cinit CODE >18696:/tmp/xcXAINDNP/driver_tmp_1.s
 4 intentry CODE >52:/home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/mcc_generated_files/interrupt_manager.c
 A intentry CODE >55:/home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/mcc_generated_files/interrupt_manager.c
 13 intentry CODE >57:/home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/mcc_generated_files/interrupt_manager.c
@@ -1122,14 +1122,14 @@ B5B text3 CODE >208:/home/barbichas/projetos/Microchip/Project1_STR_agora_sim/ST
 1747 maintext CODE >102:/home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/main.c
 174A maintext CODE >103:/home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/main.c
 174B maintext CODE >104:/home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/main.c
-1000 clrtext CODE >17547:/tmp/xcXgjbFGP/driver_tmp_1.s
-1000 clrtext CODE >17548:/tmp/xcXgjbFGP/driver_tmp_1.s
-1001 clrtext CODE >17549:/tmp/xcXgjbFGP/driver_tmp_1.s
-1001 clrtext CODE >17550:/tmp/xcXgjbFGP/driver_tmp_1.s
-1002 clrtext CODE >17551:/tmp/xcXgjbFGP/driver_tmp_1.s
-1003 clrtext CODE >17552:/tmp/xcXgjbFGP/driver_tmp_1.s
-1004 clrtext CODE >17553:/tmp/xcXgjbFGP/driver_tmp_1.s
-1005 clrtext CODE >17554:/tmp/xcXgjbFGP/driver_tmp_1.s
+1000 clrtext CODE >18651:/tmp/xcXAINDNP/driver_tmp_1.s
+1000 clrtext CODE >18652:/tmp/xcXAINDNP/driver_tmp_1.s
+1001 clrtext CODE >18653:/tmp/xcXAINDNP/driver_tmp_1.s
+1001 clrtext CODE >18654:/tmp/xcXAINDNP/driver_tmp_1.s
+1002 clrtext CODE >18655:/tmp/xcXAINDNP/driver_tmp_1.s
+1003 clrtext CODE >18656:/tmp/xcXAINDNP/driver_tmp_1.s
+1004 clrtext CODE >18657:/tmp/xcXAINDNP/driver_tmp_1.s
+1005 clrtext CODE >18658:/tmp/xcXAINDNP/driver_tmp_1.s
 # %SYMTAB Section
 # An enumeration of all symbols in the program.
 # The beginning of the section is indicated by %SYMTAB.
@@ -1191,7 +1191,7 @@ _WPUB F44 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
 _WPUC F4F 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
 _WPUD F5A 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
 _WPUE F65 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
-___sp 0 0 STACK 2 stack /tmp/xcXgjbFGP/driver_tmp_20.o
+___sp 0 0 STACK 2 stack /tmp/xcXAINDNP/driver_tmp_20.o
 _ctoa 2AB0 0 CODE 0 text19 dist/default/production/tstTC74LCD.X.production.o
 _dbuf 13F 0 BANK2 1 bssBANK2 dist/default/production/tstTC74LCD.X.production.o
 _dtoa 102A 0 CODE 0 text14 dist/default/production/tstTC74LCD.X.production.o
@@ -1202,15 +1202,15 @@ _temp E3 0 BANK1 1 bssBANK1 dist/default/production/tstTC74LCD.X.production.o
 _utoa 2B80 0 CODE 0 text9 dist/default/production/tstTC74LCD.X.production.o
 abs@a 78 0 COMMON 1 cstackCOMMON dist/default/production/tstTC74LCD.X.production.o
 btemp 7E 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
-___stack_hi 0 0 STACK 2 stack /tmp/xcXgjbFGP/driver_tmp_20.o
-___stack_lo 0 0 STACK 2 stack /tmp/xcXgjbFGP/driver_tmp_20.o
+___stack_hi 0 0 STACK 2 stack /tmp/xcXAINDNP/driver_tmp_20.o
+___stack_lo 0 0 STACK 2 stack /tmp/xcXAINDNP/driver_tmp_20.o
 read_prec_or_width@c 23 0 BANK0 1 cstackBANK0 dist/default/production/tstTC74LCD.X.production.o
 read_prec_or_width@n 24 0 BANK0 1 cstackBANK0 dist/default/production/tstTC74LCD.X.production.o
 RenderNormal@line1 B7 0 BANK1 1 cstackBANK1 dist/default/production/tstTC74LCD.X.production.o
 RenderNormal@line2 A6 0 BANK1 1 cstackBANK1 dist/default/production/tstTC74LCD.X.production.o
 pad@i 30 0 BANK0 1 cstackBANK0 dist/default/production/tstTC74LCD.X.production.o
 pad@p 2E 0 BANK0 1 cstackBANK0 dist/default/production/tstTC74LCD.X.production.o
-start 98 0 CODE 0 init /tmp/xcXgjbFGP/driver_tmp_20.o
+start 98 0 CODE 0 init /tmp/xcXAINDNP/driver_tmp_20.o
 _TMR0_InterruptHandler 161 0 BANK2 1 nvBANK2 dist/default/production/tstTC74LCD.X.production.o
 _TMR1_1sCallback 3F7E 0 CODE 0 text67 dist/default/production/tstTC74LCD.X.production.o
 __Hstringtext10 0 0 ABS 0 stringtext10 -
@@ -1238,12 +1238,12 @@ utoa@d 34 0 BANK0 1 cstackBANK0 dist/default/production/tstTC74LCD.X.production.
 utoa@i 39 0 BANK0 1 cstackBANK0 dist/default/production/tstTC74LCD.X.production.o
 utoa@p 36 0 BANK0 1 cstackBANK0 dist/default/production/tstTC74LCD.X.production.o
 utoa@w 37 0 BANK0 1 cstackBANK0 dist/default/production/tstTC74LCD.X.production.o
-intlevel0 0 0 ENTRY 0 functab /tmp/xcXgjbFGP/driver_tmp_20.o
-intlevel1 0 0 ENTRY 0 functab /tmp/xcXgjbFGP/driver_tmp_20.o
-intlevel2 0 0 ENTRY 0 functab /tmp/xcXgjbFGP/driver_tmp_20.o
-intlevel3 0 0 ENTRY 0 functab /tmp/xcXgjbFGP/driver_tmp_20.o
-intlevel4 0 0 ENTRY 0 functab /tmp/xcXgjbFGP/driver_tmp_20.o
-intlevel5 0 0 ENTRY 0 functab /tmp/xcXgjbFGP/driver_tmp_20.o
+intlevel0 0 0 ENTRY 0 functab /tmp/xcXAINDNP/driver_tmp_20.o
+intlevel1 0 0 ENTRY 0 functab /tmp/xcXAINDNP/driver_tmp_20.o
+intlevel2 0 0 ENTRY 0 functab /tmp/xcXAINDNP/driver_tmp_20.o
+intlevel3 0 0 ENTRY 0 functab /tmp/xcXAINDNP/driver_tmp_20.o
+intlevel4 0 0 ENTRY 0 functab /tmp/xcXAINDNP/driver_tmp_20.o
+intlevel5 0 0 ENTRY 0 functab /tmp/xcXAINDNP/driver_tmp_20.o
 __LbssCOMMON 0 0 ABS 0 bssCOMMON -
 _IOCCF5_ISR 2040 0 CODE 0 text74 dist/default/production/tstTC74LCD.X.production.o
 pnum$text3 21 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
@@ -1298,8 +1298,8 @@ _INLVLD F5D 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
 _INLVLE F68 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
 _INTPPS E90 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
 __end_of_IOCCF5_DefaultInterruptHandler 3E70 0 CODE 0 text75 dist/default/production/tstTC74LCD.X.production.o
-___stackhi 0 0 ABS 0 - /tmp/xcXgjbFGP/driver_tmp_20.o
-___stacklo 0 0 ABS 0 - /tmp/xcXgjbFGP/driver_tmp_20.o
+___stackhi 0 0 ABS 0 - /tmp/xcXAINDNP/driver_tmp_20.o
+___stacklo 0 0 ABS 0 - /tmp/xcXAINDNP/driver_tmp_20.o
 __end_of_IOCCF5_ISR 205E 0 CODE 0 text74 dist/default/production/tstTC74LCD.X.production.o
 __end_of_LCDbusy 2172 0 CODE 0 text26 dist/default/production/tstTC74LCD.X.production.o
 __end_of_LCDchar 3F5A 0 CODE 0 text23 dist/default/production/tstTC74LCD.X.production.o
@@ -1355,7 +1355,7 @@ fputs@fp 26 0 BANK0 1 cstackBANK0 dist/default/production/tstTC74LCD.X.productio
 LCDsend2x4@c 76 0 COMMON 1 cstackCOMMON dist/default/production/tstTC74LCD.X.production.o
 __end_of_ReadI2C 21CE 0 CODE 0 text52 dist/default/production/tstTC74LCD.X.production.o
 _S1_check 3ED4 0 CODE 0 text46 dist/default/production/tstTC74LCD.X.production.o
-___int_sp 0 0 STACK 2 stack /tmp/xcXgjbFGP/driver_tmp_20.o
+___int_sp 0 0 STACK 2 stack /tmp/xcXAINDNP/driver_tmp_20.o
 _rd2RegCompleteHandler 0 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
 vfpfcnvrt@done 48 0 BANK0 1 cstackBANK0 dist/default/production/tstTC74LCD.X.production.o
 __Hbank0 0 0 ABS 0 bank0 -
@@ -1398,6 +1398,11 @@ __Hstack 0 0 STACK 2 stack -
 ___lwdiv@counter 76 0 COMMON 1 cstackCOMMON dist/default/production/tstTC74LCD.X.production.o
 _Reset_flag_S1 3E76 0 CODE 0 text48 dist/default/production/tstTC74LCD.X.production.o
 _Reset_flag_S2 3E7E 0 CODE 0 text47 dist/default/production/tstTC74LCD.X.production.o
+_NVMADRH 81B 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
+_NVMADRL 81A 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
+_NVMCON2 81F 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
+_NVMDATH 81D 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
+_NVMDATL 81C 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
 LCDcmd@c 79 0 COMMON 1 cstackCOMMON dist/default/production/tstTC74LCD.X.production.o
 __Hbank10 0 0 ABS 0 bank10 -
 __Hbank11 0 0 ABS 0 bank11 -
@@ -1552,14 +1557,14 @@ _I2C1_DO_RESET 0 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
 _TMR1_GateInterruptHandler 163 0 BANK2 1 nvBANK2 dist/default/production/tstTC74LCD.X.production.o
 _thrSecond DD 0 BANK1 1 bssBANK1 dist/default/production/tstTC74LCD.X.production.o
 _SYSTEM_Initialize 21CE 0 CODE 0 text31 dist/default/production/tstTC74LCD.X.production.o
-_dtoa$3204 37 0 BANK0 1 cstackBANK0 dist/default/production/tstTC74LCD.X.production.o
+_dtoa$3266 37 0 BANK0 1 cstackBANK0 dist/default/production/tstTC74LCD.X.production.o
 __end_of_abs 2128 0 CODE 0 text17 dist/default/production/tstTC74LCD.X.production.o
 __end_of_pad 2614 0 CODE 0 text15 dist/default/production/tstTC74LCD.X.production.o
 _RenderConfig 1526 0 CODE 0 text3 dist/default/production/tstTC74LCD.X.production.o
 __HnvBANK2 0 0 ABS 0 nvBANK2 -
 __Lintentry 8 0 CODE 0 intentry -
 __end_of_ReadSensors 3F3A 0 CODE 0 text49 dist/default/production/tstTC74LCD.X.production.o
-reset_vec 0 0 CODE 0 reset_vec /tmp/xcXgjbFGP/driver_tmp_20.o
+reset_vec 0 0 CODE 0 reset_vec /tmp/xcXAINDNP/driver_tmp_20.o
 __pdataBANK1 E8 0 BANK1 1 dataBANK1 dist/default/production/tstTC74LCD.X.production.o
 ltemp0a 80 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
 __LbssBANK0 0 0 ABS 0 bssBANK0 -
@@ -1841,8 +1846,8 @@ _SLRCONB F46 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
 _SLRCONC F51 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
 _SLRCOND F5C 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
 _SLRCONE F67 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
-___heap_hi 0 0 ABS 0 - /tmp/xcXgjbFGP/driver_tmp_20.o
-___heap_lo 0 0 ABS 0 - /tmp/xcXgjbFGP/driver_tmp_20.o
+___heap_hi 0 0 ABS 0 - /tmp/xcXAINDNP/driver_tmp_20.o
+___heap_lo 0 0 ABS 0 - /tmp/xcXAINDNP/driver_tmp_20.o
 _CLKREF_Initialize 3E90 0 CODE 0 text44 dist/default/production/tstTC74LCD.X.production.o
 __end_of_OnS2Pressed 1314 0 CODE 0 text54 dist/default/production/tstTC74LCD.X.production.o
 _SMT1CLK 49B 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
@@ -1859,6 +1864,7 @@ ___awmod@divisor 72 0 COMMON 1 cstackCOMMON dist/default/production/tstTC74LCD.X
 _INT_ISR 3EB0 0 CODE 0 text77 dist/default/production/tstTC74LCD.X.production.o
 __Lfunctab 0 0 ENTRY 0 functab -
 _AppClock_ConsumeTick1s 3F92 0 CODE 0 text63 dist/default/production/tstTC74LCD.X.production.o
+_NVMCON1bits 81E 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
 __pidataBANK1 3E9A 0 CODE 0 idataBANK1 dist/default/production/tstTC74LCD.X.production.o
 __Lclrtext 0 0 ABS 0 clrtext -
 _SSP1CON1bits 190 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
@@ -1956,8 +1962,8 @@ _TMR1_SetInterruptHandler 3EC8 0 CODE 0 text62 dist/default/production/tstTC74LC
 ttemp0a 7F 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
 _ANSELAbits F38 0 ABS 0 - dist/default/production/tstTC74LCD.X.production.o
 ?_AppClock_Seconds 72 0 COMMON 1 cstackCOMMON dist/default/production/tstTC74LCD.X.production.o
-___int_stack_hi 0 0 STACK 2 stack /tmp/xcXgjbFGP/driver_tmp_20.o
-___int_stack_lo 0 0 STACK 2 stack /tmp/xcXgjbFGP/driver_tmp_20.o
+___int_stack_hi 0 0 STACK 2 stack /tmp/xcXAINDNP/driver_tmp_20.o
+___int_stack_lo 0 0 STACK 2 stack /tmp/xcXAINDNP/driver_tmp_20.o
 _TMR1_InterruptHandler 165 0 BANK2 1 nvBANK2 dist/default/production/tstTC74LCD.X.production.o
 _OSCILLATOR_Initialize 3F6C 0 CODE 0 text40 dist/default/production/tstTC74LCD.X.production.o
 read_prec_or_width@ap 79 0 COMMON 1 cstackCOMMON dist/default/production/tstTC74LCD.X.production.o

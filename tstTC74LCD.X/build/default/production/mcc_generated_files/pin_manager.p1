@@ -139,11 +139,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;/home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/proc/pic16f18875.h: 35261: extern volatile IOCCPbits_t IOCCPbits __attribute__((address(0xF53)));
 [v _IOCCPbits `VS1554 ~T0 @X0 0 e@3923 ]
 [v F12228 `(v ~T0 @X0 0 tf ]
-"206 mcc_generated_files/pin_manager.h
-[; ;mcc_generated_files/pin_manager.h: 206: void IOCCF5_SetInterruptHandler(void (* InterruptHandler)(void));
+"286 mcc_generated_files/pin_manager.h
+[; ;mcc_generated_files/pin_manager.h: 286: void IOCCF5_SetInterruptHandler(void (* InterruptHandler)(void));
 [v _IOCCF5_SetInterruptHandler `(v ~T0 @X0 0 ef1`*F12228 ]
-"254
-[; ;mcc_generated_files/pin_manager.h: 254: void IOCCF5_DefaultInterruptHandler(void);
+"334
+[; ;mcc_generated_files/pin_manager.h: 334: void IOCCF5_DefaultInterruptHandler(void);
 [v _IOCCF5_DefaultInterruptHandler `(v ~T0 @X0 0 ef ]
 "21696 /home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/proc/pic16f18875.h
 [; ;/home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/proc/pic16f18875.h: 21696:     struct {
@@ -177,8 +177,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "31580
 [; ;/home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/proc/pic16f18875.h: 31580: extern volatile unsigned char SSP1DATPPS __attribute__((address(0xEC6)));
 [v _SSP1DATPPS `Vuc ~T0 @X0 0 e@3782 ]
-"183 mcc_generated_files/pin_manager.h
-[; ;mcc_generated_files/pin_manager.h: 183: void IOCCF5_ISR(void);
+"263 mcc_generated_files/pin_manager.h
+[; ;mcc_generated_files/pin_manager.h: 263: void IOCCF5_ISR(void);
 [v _IOCCF5_ISR `(v ~T0 @X0 0 ef ]
 [v F12240 `(v ~T0 @X0 0 tf ]
 [v F12242 `(v ~T0 @X0 0 tf ]
@@ -1851,8 +1851,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;mcc_generated_files/pin_manager.c: 71:     TRISE = 0x07;
 [e = _TRISE -> -> 7 `i `uc ]
 "72
-[; ;mcc_generated_files/pin_manager.c: 72:     TRISA = 0xFF;
-[e = _TRISA -> -> 255 `i `uc ]
+[; ;mcc_generated_files/pin_manager.c: 72:     TRISA = 0x0F;
+[e = _TRISA -> -> 15 `i `uc ]
 "73
 [; ;mcc_generated_files/pin_manager.c: 73:     TRISB = 0xFF;
 [e = _TRISB -> -> 255 `i `uc ]
