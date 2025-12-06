@@ -60,8 +60,8 @@
 #include "tmr2.h"
 #include "tmr0.h"
 #include "adcc.h"
-#include "ext_int.h"
 #include "memory.h"
+#include "ext_int.h"
 #include "clkref.h"
 
 
