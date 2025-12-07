@@ -8,17 +8,16 @@
 
 typedef enum { UI_NORMAL, UI_CONFIG, UI_SHOW_RECORDS } ui_mode_t;
 
-/* This are the possible selected fields for config, S1 cycles through until normal*/
 typedef enum {
-    CF_CLK_HH,
-    CF_CLK_MM,
-    CF_CLK_SS,
+    CF_CLK_HH,     // clock hour editing
+    CF_CLK_MM,     // clock minute editing
+    CF_CLK_SS,     // clock time editing
     CF_CTL_C,      // select which alarm threshold to edit (clock)
     CF_CTL_T,      // temp threshold
     CF_CTL_L,      // lum threshold
     CF_ALARM_EN,   // A/a toggle
     CF_RESET,      // R reset max/min
-    CF_DONE,
+    CF_DONE,      // exit config mode
     CF_CTL_C_HH,    //incrementing alarm hour
     CF_CTL_C_MM,    //incrementing alarm minute
     CF_CTL_C_SS     //incrementing alarm second
@@ -56,9 +55,9 @@ uint8_t record_index = 0;
 // thresholds shown in config mode
 uint8_t tala = TALA;  // alarm signal duration
 uint8_t tina = TINA;  // inactivity time
-uint8_t thrSecond = ALAS;
-uint8_t thrMinute = ALAM;
-uint8_t thrHour   = ALAH;
+uint8_t thrSecond = ALAS; // alarm second
+uint8_t thrMinute = ALAM; // alarm minute
+uint8_t thrHour   = ALAH; // alarm hour
 char    thrTemp   = ALAT;   // 0 -50
 char    thrLum    = ALAL;   // 0 - 3
 
@@ -74,44 +73,37 @@ static uint8_t prevTempCond, prevLumCond, prevClockCond;
 /* PWM countdown */
 static volatile uint8_t pwm_seconds_left;
 
-/* ---- NEW: 1-second mute window after S1 ---- */
+// 1-second alarm suppress flag
 static volatile uint8_t alarm_suppress_1s;
 
-/* -------------------- PWM helpers -------------------- */
+// PWM control functions
 static inline void PWM6_Start(void)
 {
     PWM6CONbits.PWM6EN = 1;
 }
-
 static inline void PWM6_Stop(void)
 {
     PWM6_LoadDutyValue(0);
     PWM6CONbits.PWM6EN = 0;
 }
-
+/* Start beeping for tala seconds */
 static inline void Alarm_BeepStart(void)
 {
     // only start if not already beeping
     if (pwm_seconds_left != 0) return;
 
-    pwm_seconds_left = tala;          // use runtime tala (EEPROM-configurable)
+    pwm_seconds_left = tala;          // use runtime tala
     PWM6_LoadDutyValue(512);          // 50% duty
     PWM6_Start();
 }
-
+/* Call every second to decrement beep time */
 static inline void Alarm_BeepTick1s(void)
 {
     if (pwm_seconds_left == 0) return;
     if (--pwm_seconds_left == 0) PWM6_Stop();
 }
 
-/*-----------------------     Utils functions...    ---------------------*/
-
-/* ---- NEW: begin 1-second alarm shutdown ----
-   Requirements:
-   - pressing S1 must immediately turn OFF: PWM + alarm LEDs + LCD letters (C/T/L)
-   - and keep them OFF for at least 1 second.
-*/
+// Start 1 second alarm suppress called when S1 pressed
 static inline void Alarm_SuppressBegin_1s(void)
 {
     alarm_suppress_1s = 1;
@@ -119,7 +111,7 @@ static inline void Alarm_SuppressBegin_1s(void)
     // clear LCD alarm letters / latched flags
     alarmFlagC = alarmFlagT = alarmFlagL = 0;
 
-    // stop buzzer immediately
+    // stop light pwm immediately
     pwm_seconds_left = 0;
     PWM6_Stop();
 
@@ -133,14 +125,15 @@ static inline void Alarm_SuppressBegin_1s(void)
     prevClockCond = 0;
 }
 
-/* -------------------- Utility: build fixed 16-char lines -------------------- */
+//reduce memory
+
 static void fill16(char s[17])
 {
     for (uint8_t i = 0; i < 16; i++) s[i] = ' ';
     s[16] = '\0';
 }
 
-/* put two digits in a string -> for printing values */
+/* put two digits in a string for printing values */
 static void put2(char *p, uint8_t v)
 {
     uint8_t rightdigit = v % 10;
@@ -149,7 +142,7 @@ static void put2(char *p, uint8_t v)
     p[1] = (char)('0' + rightdigit);
 }
 
-/* Clock Tick -> public! */
+// Clock Tick
 void Clock_Tick1s(void)
 {
     if (++ss >= 60) {
@@ -169,9 +162,10 @@ void Clock_Tick1s(void)
     }
 }
 
+// Clear alarm flags C/T/L
 void ClearAlarmFlags(void) { alarmFlagC = alarmFlagT = alarmFlagL = 0; }
 
-/*------- Config stepping ----------*/
+// Get next config field
 static cfg_field_t cfg_next(cfg_field_t f)
 {
     switch (f) {
@@ -183,23 +177,20 @@ static cfg_field_t cfg_next(cfg_field_t f)
         case CF_CTL_T:      return CF_CTL_L;
         case CF_CTL_L:      return CF_ALARM_EN;
         case CF_ALARM_EN:   return CF_RESET;
-        case CF_RESET:      return CF_CLK_HH;   // wrap, then exit handled by UI logic
+        case CF_RESET:      return CF_CLK_HH;   
 
         case CF_CTL_C_HH:   return CF_CTL_C_MM;
         case CF_CTL_C_MM:   return CF_CTL_C_SS;
-        case CF_CTL_C_SS:   return CF_CTL_T;    // after editing alarm time -> continue
+        case CF_CTL_C_SS:   return CF_CTL_T;    
         default:            return CF_CLK_HH;
     }
 }
 
-/*-------------------- Button resolving functions ----------------------*/
-
+// Button Handlers
 void OnS1Pressed(void)
 {
-    // REQUIRED: shut down alarms (letters + LEDs + PWM) at least for 1 second
     Alarm_SuppressBegin_1s();
 
-    // still clears flags + resets inactivity like before
     time_inactive = 0;
 
     if (mode == UI_NORMAL) {
@@ -289,7 +280,6 @@ void OnS2Pressed(void)
                 alarmsEnabled ^= 1;
                 EEPROM_WriteConfig(EEPROM_CONFIG_ALAF, alarmsEnabled);
 
-                // If disabling alarms, immediately turn off alarm LEDs + buzzer
                 if (!alarmsEnabled) {
                     IO_RA5_SetLow();
                     IO_RA4_SetLow();
@@ -331,7 +321,7 @@ void OnS2Pressed(void)
     return;
 }
 
-/*-------------------    UI functions ----------------------------*/
+// Validate loaded config values
 static uint8_t ConfigLooksSane(void)
 {
     if (pmon == 0 || pmon > 60) return 0;
@@ -352,7 +342,7 @@ static uint8_t ConfigLooksSane(void)
 
     return 1;
 }
-
+// Set all config values to defaults
 void set_defaults(void){
     pmon = (uint8_t) PMON;
     tala = (uint8_t) TALA;
@@ -388,7 +378,7 @@ void set_defaults(void){
     records[2].temp = (uint8_t)0;   records[2].lum = (uint8_t)0;
     records[3].temp = (uint8_t)255; records[3].lum = (uint8_t)3;
 }
-
+// Initialize UI system
 void UI_Init(void)
 {
     uint16_t magic;
@@ -423,7 +413,6 @@ void UI_Init(void)
         if (stored_checksum != calc_checksum) {
             set_defaults();
             UpdateEEPROMChecksum();
-            // continue loading defaults below
         }
 
         pmon = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_PMON);
@@ -456,7 +445,6 @@ void UI_Init(void)
 
     alarm_suppress_1s = 0;
 
-    // IMPORTANT FIX: if alarms disabled, LEDs must be OFF
     if (!alarmsEnabled) {
         IO_RA5_SetLow();
         IO_RA4_SetLow();
@@ -472,12 +460,11 @@ void UI_Init(void)
     LCDinit();
     RenderNormal();
 }
-
+// UI 1 second Tick
 void UI_OnTick1s(void)
 {
     if (time_inactive > tina) { time_inactive = 0; mode = UI_NORMAL; }
 
-    /* ---- NEW: enforce 1-second shutdown window after S1 ---- */
     if (alarm_suppress_1s) {
         // keep everything OFF for this full second
         IO_RA5_SetLow();
@@ -599,9 +586,7 @@ void RenderNormal(void)
     put2(&line1[3], mm); line1[5] = ':';
     put2(&line1[6], ss); line1[8] = ' ';
 
-    /* FIX: show "CTL" when alarms are enabled; blank when disabled.
-       Also: when S1 just pressed, must blank for that 1s (alarm_suppress_1s).
-    */
+    
     if (alarm_suppress_1s) {
         line1[9]  = ' ';
         line1[10] = ' ';
@@ -660,7 +645,8 @@ unsigned char readTC74 (void)
 
 static uint8_t readLuminosityLevel(void)
 {
-    adc_result_t raw = ADCC_GetSingleConversion((adcc_channel_t)0x00); // ANA0 (RA0)
+    adc_result_t raw = ADCC_GetSingleConversion((adcc_channel_t)0x00)
+    //adc_result_t raw = ADCC_GetSingleConversion(channel_ANA0);
 
     uint8_t level = (uint8_t)(raw >> 8); // 0..3
     if (level > 3u) level = 3u;
@@ -676,7 +662,6 @@ void ReadSensors(){
 /* Call after ReadSensors() each PMON cycle */
 void EvaluateTempLumAlarms(void)
 {
-    /* If S1 mute is active, force LEDs OFF and do nothing */
     if (alarm_suppress_1s) {
         IO_RA5_SetLow();
         IO_RA4_SetLow();
@@ -685,7 +670,6 @@ void EvaluateTempLumAlarms(void)
         return;
     }
 
-    /* FIX: when alarms are OFF (small 'a'), LEDs must be OFF */
     if (!alarmsEnabled) {
         IO_RA5_SetLow();
         IO_RA4_SetLow();
@@ -697,11 +681,9 @@ void EvaluateTempLumAlarms(void)
     uint8_t tempCond = (temp > (uint8_t)thrTemp);
     uint8_t lumCond  = (light < (uint8_t)thrLum);
 
-    // indicator LEDs ONLY when alarms are enabled
     if (tempCond) IO_RA5_SetHigh(); else IO_RA5_SetLow();
     if (lumCond)  IO_RA4_SetHigh(); else IO_RA4_SetLow();
 
-    // rising edge triggers
     if (tempCond && !prevTempCond) { alarmFlagT = 1; Alarm_BeepStart(); }
     if (lumCond  && !prevLumCond)  { alarmFlagL = 1; Alarm_BeepStart(); }
 
@@ -777,7 +759,6 @@ void ClearRecords(void)
         records[i].clk_ss = 0;
     }
 
-    // Set "extreme" initial values so min/max comparisons work:
     records[0].temp = 0;    records[0].lum = 0;   // Tmax
     records[1].temp = 255;  records[1].lum = 0;   // Tmin
     records[2].temp = 0;    records[2].lum = 0;   // Lmax
