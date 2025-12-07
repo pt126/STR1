@@ -21574,9 +21574,6 @@ unsigned char ReadI2C( void );
 
 
 
-
-
-
 typedef enum { UI_NORMAL, UI_CONFIG, UI_SHOW_RECORDS } ui_mode_t;
 
 
@@ -21593,7 +21590,6 @@ typedef enum {
     CF_CTL_C_HH,
     CF_CTL_C_MM,
     CF_CTL_C_SS
-
 } cfg_field_t;
 
 typedef enum {
@@ -21610,6 +21606,7 @@ static record_type_t record_type;
 static uint8_t hh, mm, ss;
 static unsigned char temp;
 static unsigned char light;
+
 static uint8_t alarmsEnabled = 0;
 static uint8_t alarmFlagC, alarmFlagT, alarmFlagL;
 
@@ -21633,18 +21630,20 @@ uint8_t thrHour = 12;
 char thrTemp = 20;
 char thrLum = 2;
 
-
 uint8_t time_inactive;
 
 
-static volatile int S1_pressed ;
-static volatile int S2_pressed ;
+static volatile int S1_pressed;
+static volatile int S2_pressed;
 
 
 static uint8_t prevTempCond, prevLumCond, prevClockCond;
 
 
 static volatile uint8_t pwm_seconds_left;
+
+
+static volatile uint8_t alarm_suppress_1s;
 
 
 static __attribute__((inline)) void PWM6_Start(void)
@@ -21663,7 +21662,7 @@ static __attribute__((inline)) void Alarm_BeepStart(void)
 
     if (pwm_seconds_left != 0) return;
 
-    pwm_seconds_left = 3;
+    pwm_seconds_left = tala;
     PWM6_LoadDutyValue(512);
     PWM6_Start();
 }
@@ -21673,8 +21672,27 @@ static __attribute__((inline)) void Alarm_BeepTick1s(void)
     if (pwm_seconds_left == 0) return;
     if (--pwm_seconds_left == 0) PWM6_Stop();
 }
+# 115 "ui/ui.c"
+static __attribute__((inline)) void Alarm_SuppressBegin_1s(void)
+{
+    alarm_suppress_1s = 1;
 
 
+    alarmFlagC = alarmFlagT = alarmFlagL = 0;
+
+
+    pwm_seconds_left = 0;
+    PWM6_Stop();
+
+
+    do { LATAbits.LATA5 = 0; } while(0);
+    do { LATAbits.LATA4 = 0; } while(0);
+
+
+    prevTempCond = 0;
+    prevLumCond = 0;
+    prevClockCond = 0;
+}
 
 
 static void fill16(char s[17])
@@ -21686,9 +21704,8 @@ static void fill16(char s[17])
 
 static void put2(char *p, uint8_t v)
 {
-
-    uint8_t rightdigit = v%10;
-    uint8_t leftdigit = (v%100 - rightdigit)/10;
+    uint8_t rightdigit = v % 10;
+    uint8_t leftdigit = (v % 100 - rightdigit) / 10;
     p[0] = (char)('0' + leftdigit);
     p[1] = (char)('0' + rightdigit);
 }
@@ -21696,7 +21713,6 @@ static void put2(char *p, uint8_t v)
 
 void Clock_Tick1s(void)
 {
-
     if (++ss >= 60) {
         ss = 0;
         if (++mm >= 60) {
@@ -21742,7 +21758,9 @@ static cfg_field_t cfg_next(cfg_field_t f)
 void OnS1Pressed(void)
 {
 
-    ClearAlarmFlags();
+    Alarm_SuppressBegin_1s();
+
+
     time_inactive = 0;
 
     if (mode == UI_NORMAL) {
@@ -21764,7 +21782,7 @@ void OnS1Pressed(void)
     }
 
     if (mode == UI_SHOW_RECORDS){
-        if(record_type == RECORD_TEMP){
+        if (record_type == RECORD_TEMP){
             mode = UI_NORMAL;
             record_type = RECORD_NONE;
             record_index = 0;
@@ -21782,52 +21800,70 @@ void OnS1Pressed(void)
 void OnS2Pressed(void)
 {
     time_inactive = 0;
+
     if (mode == UI_CONFIG) {
         switch (field) {
             case CF_CLK_HH:
                 hh = (hh + 1) % 24;
-
-
-
                 EEPROM_WriteConfig(0x09, hh);
                 break;
+
             case CF_CLK_MM:
                 mm = (mm + 1) % 60;
                 EEPROM_WriteConfig(0x0A, mm);
                 break;
+
             case CF_CLK_SS:
                 ss = (ss + 1) % 60;
                 break;
-            case CF_CTL_C: field = CF_CTL_C_HH; break;
-            case CF_CTL_C_HH :
-                thrHour = (thrHour + 1) %24;
 
+            case CF_CTL_C:
+                field = CF_CTL_C_HH;
+                break;
 
+            case CF_CTL_C_HH:
+                thrHour = (thrHour + 1) % 24;
                 EEPROM_WriteConfig(0x04, thrHour);
                 break;
-            case CF_CTL_C_MM :
-                thrMinute = (thrMinute + 1) %60;
+
+            case CF_CTL_C_MM:
+                thrMinute = (thrMinute + 1) % 60;
                 EEPROM_WriteConfig(0x05, thrMinute);
                 break;
-            case CF_CTL_C_SS :
-                thrSecond = (thrSecond + 1) %60;
+
+            case CF_CTL_C_SS:
+                thrSecond = (thrSecond + 1) % 60;
                 EEPROM_WriteConfig(0x06, thrSecond);
                 break;
+
             case CF_CTL_T:
                 thrTemp = (thrTemp + 1) % 51;
                 EEPROM_WriteConfig(0x07, thrTemp);
                 break;
+
             case CF_CTL_L:
                 thrLum = (thrLum + 1) % 4;
                 EEPROM_WriteConfig(0x08, (uint8_t)thrLum);
                 break;
+
             case CF_ALARM_EN:
                 alarmsEnabled ^= 1;
                 EEPROM_WriteConfig(0x03, alarmsEnabled);
+
+
+                if (!alarmsEnabled) {
+                    do { LATAbits.LATA5 = 0; } while(0);
+                    do { LATAbits.LATA4 = 0; } while(0);
+                    pwm_seconds_left = 0;
+                    PWM6_Stop();
+                    ClearAlarmFlags();
+                }
                 break;
+
             case CF_RESET:
                 ClearRecords();
                 break;
+
             default: break;
         }
         return;
@@ -21840,24 +21876,43 @@ void OnS2Pressed(void)
         return;
     }
 
-    if(mode == UI_SHOW_RECORDS){
-        if(record_type == RECORD_LUM){
+    if (mode == UI_SHOW_RECORDS) {
+        if (record_type == RECORD_LUM) {
             mode = UI_NORMAL;
             record_type = RECORD_NONE;
             record_index = 0;
             return;
-        }
-        else if (record_type == RECORD_TEMP) {
+        } else if (record_type == RECORD_TEMP) {
             record_type = RECORD_LUM;
             record_index += 2;
             return;
         }
-
     }
 
     return;
 }
 
+
+static uint8_t ConfigLooksSane(void)
+{
+    if (pmon == 0 || pmon > 60) return 0;
+    if (tala == 0 || tala > 20) return 0;
+    if (tina == 0 || tina > 60) return 0;
+
+    if (alarmsEnabled > 1) return 0;
+
+    if (thrHour > 23) return 0;
+    if (thrMinute > 59) return 0;
+    if (thrSecond > 59) return 0;
+
+    if ((uint8_t)thrTemp > 50) return 0;
+    if ((uint8_t)thrLum > 3) return 0;
+
+    if (hh > 23) return 0;
+    if (mm > 59) return 0;
+
+    return 1;
+}
 
 void set_defaults(void){
     pmon = (uint8_t) 5;
@@ -21873,7 +21928,6 @@ void set_defaults(void){
     mm = (uint8_t) 0;
     ss = (uint8_t) 0;
 
-
     EEPROM_WriteConfig(0x00, pmon);
     EEPROM_WriteConfig(0x01, tala);
     EEPROM_WriteConfig(0x02, tina);
@@ -21883,8 +21937,12 @@ void set_defaults(void){
     EEPROM_WriteConfig(0x06, thrSecond);
     EEPROM_WriteConfig(0x07, thrTemp);
     EEPROM_WriteConfig(0x08, thrLum);
-    ClearRecords();
 
+    EEPROM_WriteConfig(0x09, hh);
+    EEPROM_WriteConfig(0x0A, mm);
+
+
+    ClearRecords();
 
     records[0].temp = (uint8_t)0; records[0].lum = (uint8_t)0;
     records[1].temp = (uint8_t)255; records[1].lum = (uint8_t)3;
@@ -21894,18 +21952,13 @@ void set_defaults(void){
 
 void UI_Init(void)
 {
-
     uint16_t magic;
     uint8_t stored_checksum, calc_checksum = 0;
 
-
-
     EEPROM_ReadHeader(&magic, &stored_checksum);
 
-    if (magic != 0xF1A5) {
-
+    if (magic != 0xF1A6) {
         set_defaults();
-
 
         calc_checksum = 0;
         for (uint8_t i = 0; i <= 0x0A; i++) {
@@ -21916,10 +21969,9 @@ void UI_Init(void)
             calc_checksum += DATAEE_ReadByte(addr);
         }
 
-        EEPROM_WriteHeader(0xF1A5, calc_checksum);
+        EEPROM_WriteHeader(0xF1A6, calc_checksum);
 
     } else {
-
         calc_checksum = 0;
         for (uint8_t i = 0; i <= 0x0A; i++) {
             calc_checksum += EEPROM_ReadConfig(i);
@@ -21930,7 +21982,6 @@ void UI_Init(void)
         }
 
         if (stored_checksum != calc_checksum) {
-
             set_defaults();
             UpdateEEPROMChecksum();
 
@@ -21949,7 +22000,6 @@ void UI_Init(void)
         mm = (uint8_t) EEPROM_ReadConfig(0x0A);
         ss = (uint8_t) 0;
 
-
         EEPROM_ReadRecord((0x0E), &records[0].clk_hh, &records[0].clk_mm, &records[0].clk_ss, &records[0].temp, &records[0].lum);
         EEPROM_ReadRecord((0x0E + 0x05), &records[1].clk_hh, &records[1].clk_mm, &records[1].clk_ss, &records[1].temp, &records[1].lum);
         EEPROM_ReadRecord((0x0E + 2 * 0x05), &records[2].clk_hh, &records[2].clk_mm, &records[2].clk_ss, &records[2].temp, &records[2].lum);
@@ -21965,45 +22015,64 @@ void UI_Init(void)
     pwm_seconds_left = 0;
     PWM6_Stop();
 
+    alarm_suppress_1s = 0;
+
+
+    if (!alarmsEnabled) {
+        do { LATAbits.LATA5 = 0; } while(0);
+        do { LATAbits.LATA4 = 0; } while(0);
+    }
+
     time_inactive = 0;
     mode = UI_NORMAL;
     field = CF_CLK_HH;
     record_type = RECORD_NONE;
 
+    if(!ConfigLooksSane()){set_defaults();UpdateEEPROMChecksum();}
+
     LCDinit();
     RenderNormal();
 }
 
-
 void UI_OnTick1s(void)
 {
+    if (time_inactive > tina) { time_inactive = 0; mode = UI_NORMAL; }
 
 
-    if (time_inactive > tina) {time_inactive = 0;mode = UI_NORMAL;}
+    if (alarm_suppress_1s) {
 
-    Alarm_BeepTick1s();
-    uint8_t clockCond = (hh == thrHour) && (mm == thrMinute) && (ss == thrSecond);
+        do { LATAbits.LATA5 = 0; } while(0);
+        do { LATAbits.LATA4 = 0; } while(0);
+        pwm_seconds_left = 0;
+        PWM6_Stop();
+        ClearAlarmFlags();
 
-    if (!alarmsEnabled) {
-        prevClockCond = clockCond;
+
+        prevTempCond = 0;
+        prevLumCond = 0;
+        prevClockCond = 0;
+
+        alarm_suppress_1s = 0;
     } else {
-        if (clockCond && !prevClockCond) {
-            alarmFlagC = 1;
-            Alarm_BeepStart();
+        Alarm_BeepTick1s();
+
+        uint8_t clockCond = (hh == thrHour) && (mm == thrMinute) && (ss == thrSecond);
+
+        if (!alarmsEnabled) {
+            prevClockCond = clockCond;
+        } else {
+            if (clockCond && !prevClockCond) {
+                alarmFlagC = 1;
+                Alarm_BeepStart();
+            }
+            prevClockCond = clockCond;
         }
-        prevClockCond = clockCond;
     }
 
 
     if (mode == UI_NORMAL) { RenderNormal (); }
-    else if (mode == UI_CONFIG) { time_inactive ++; RenderConfig (); }
-    else if (mode == UI_SHOW_RECORDS){ time_inactive ++; RenderRecords(); }
-    return;
-
-
-
-
-
+    else if (mode == UI_CONFIG) { time_inactive++; RenderConfig (); }
+    else if (mode == UI_SHOW_RECORDS){ time_inactive++; RenderRecords(); }
 }
 
 
@@ -22025,11 +22094,8 @@ void RenderRecords(void){
     put2(&line2[9], records[record_index+1].temp); line2[11]= 'C';
     line2[15] = (char)('0' + records[record_index+1].lum); line2[14]= 'L';
 
-
-
-
-    LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());
-    LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
+    LCDcmd(0x80); LCDpos(0,0); LCDstr(line1); while (LCDbusy());
+    LCDcmd(0xC0); LCDpos(8,0); LCDstr(line2); while (LCDbusy());
 }
 
 void RenderConfig(void)
@@ -22037,7 +22103,6 @@ void RenderConfig(void)
     char line1[17], line2[17];
     fill16(line1);
     fill16(line2);
-
 
     uint8_t show_hh = hh, show_mm = mm, show_ss = ss;
 
@@ -22051,24 +22116,20 @@ void RenderConfig(void)
     put2(&line1[3], show_mm); line1[5] = ':';
     put2(&line1[6], show_ss);
 
-
     line1[11] = 'C';
     line1[12] = 'T';
     line1[13] = 'L';
     line1[14] = alarmsEnabled ? 'A' : 'a';
     line1[15] = 'R';
 
-
-    put2(&line2[0], thrTemp);
+    put2(&line2[0], (uint8_t)thrTemp);
     line2[2] = ' ';
     line2[3] = 'C';
     line2[13] = 'L';
-
-    line2[15] = (char)('0' + thrLum );
+    line2[15] = (char)('0' + (uint8_t)thrLum);
 
     LCDcmd(0x80); LCDpos(0,0); LCDstr(line1); while (LCDbusy());
     LCDcmd(0xC0); LCDpos(8,0); LCDstr(line2); while (LCDbusy());
-
 
     LCDcmd(0x80);
     switch (field) {
@@ -22095,20 +22156,30 @@ void RenderNormal(void)
     fill16(line1);
     fill16(line2);
 
-
     put2(&line1[0], hh); line1[2] = ':';
     put2(&line1[3], mm); line1[5] = ':';
     put2(&line1[6], ss); line1[8] = ' ';
 
 
-    line1[9] = alarmFlagC ? 'C' : ' ';
-    line1[10] = alarmFlagT ? 'T' : ' ';
-    line1[11] = alarmFlagL ? 'L' : ' ';
+
+
+    if (alarm_suppress_1s) {
+        line1[9] = ' ';
+        line1[10] = ' ';
+        line1[11] = ' ';
+    } else if (alarmsEnabled) {
+        line1[9] = 'C';
+        line1[10] = 'T';
+        line1[11] = 'L';
+    } else {
+        line1[9] = ' ';
+        line1[10] = ' ';
+        line1[11] = ' ';
+    }
 
     line1[14] = alarmsEnabled ? 'A' : 'a';
 
-
-    put2(&line2[0], temp);
+    put2(&line2[0], (uint8_t)temp);
     line2[2] = ' ';
     line2[3] = 'C';
     line2[13] = 'L';
@@ -22121,38 +22192,36 @@ void RenderNormal(void)
 
 unsigned char readTC74 (void)
 {
- unsigned char value;
-    do{
- while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- do { SSP1CON2bits.SEN=1;while(SSP1CON2bits.SEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+    unsigned char value;
+    do {
+        while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+        do { SSP1CON2bits.SEN=1;while(SSP1CON2bits.SEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
 
- WriteI2C(0x9a | 0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- WriteI2C(0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- do { SSP1CON2bits.RSEN=1;while(SSP1CON2bits.RSEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- WriteI2C(0x9a | 0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- value = ReadI2C(); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- do { SSP1CON2bits.ACKDT=1;SSP1CON2bits.ACKEN=1;while(SSP1CON2bits.ACKEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- do { SSP1CON2bits.PEN = 1;while(SSP1CON2bits.PEN); } while (0);
+        WriteI2C(0x9a | 0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+        WriteI2C(0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+        do { SSP1CON2bits.RSEN=1;while(SSP1CON2bits.RSEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+        WriteI2C(0x9a | 0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+        value = ReadI2C(); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+        do { SSP1CON2bits.ACKDT=1;SSP1CON2bits.ACKEN=1;while(SSP1CON2bits.ACKEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+        do { SSP1CON2bits.PEN = 1;while(SSP1CON2bits.PEN); } while (0);
     } while (!(value & 0x40));
 
- while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- do { SSP1CON2bits.SEN=1;while(SSP1CON2bits.SEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- WriteI2C(0x9a | 0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- WriteI2C(0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- do { SSP1CON2bits.RSEN=1;while(SSP1CON2bits.RSEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- WriteI2C(0x9a | 0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- value = ReadI2C(); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- do { SSP1CON2bits.ACKDT=1;SSP1CON2bits.ACKEN=1;while(SSP1CON2bits.ACKEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
- do { SSP1CON2bits.PEN = 1;while(SSP1CON2bits.PEN); } while (0);
+    while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+    do { SSP1CON2bits.SEN=1;while(SSP1CON2bits.SEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+    WriteI2C(0x9a | 0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+    WriteI2C(0x00); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+    do { SSP1CON2bits.RSEN=1;while(SSP1CON2bits.RSEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+    WriteI2C(0x9a | 0x01); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+    value = ReadI2C(); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+    do { SSP1CON2bits.ACKDT=1;SSP1CON2bits.ACKEN=1;while(SSP1CON2bits.ACKEN); } while (0); while ((SSP1CON2 & 0x1F) | (SSP1STATbits.R_W));
+    do { SSP1CON2bits.PEN = 1;while(SSP1CON2bits.PEN); } while (0);
 
- return value;
+    return value;
 }
 
 static uint8_t readLuminosityLevel(void)
 {
     adc_result_t raw = ADCC_GetSingleConversion((adcc_channel_t)0x00);
-
-
 
     uint8_t level = (uint8_t)(raw >> 8);
     if (level > 3u) level = 3u;
@@ -22168,18 +22237,30 @@ void ReadSensors(){
 
 void EvaluateTempLumAlarms(void)
 {
-    uint8_t tempCond = (temp > thrTemp);
-    uint8_t lumCond = (light < thrLum);
+
+    if (alarm_suppress_1s) {
+        do { LATAbits.LATA5 = 0; } while(0);
+        do { LATAbits.LATA4 = 0; } while(0);
+        prevTempCond = 0;
+        prevLumCond = 0;
+        return;
+    }
+
+
+    if (!alarmsEnabled) {
+        do { LATAbits.LATA5 = 0; } while(0);
+        do { LATAbits.LATA4 = 0; } while(0);
+        prevTempCond = 0;
+        prevLumCond = 0;
+        return;
+    }
+
+    uint8_t tempCond = (temp > (uint8_t)thrTemp);
+    uint8_t lumCond = (light < (uint8_t)thrLum);
 
 
     if (tempCond) do { LATAbits.LATA5 = 1; } while(0); else do { LATAbits.LATA5 = 0; } while(0);
     if (lumCond) do { LATAbits.LATA4 = 1; } while(0); else do { LATAbits.LATA4 = 0; } while(0);
-
-    if (!alarmsEnabled) {
-        prevTempCond = tempCond;
-        prevLumCond = lumCond;
-        return;
-    }
 
 
     if (tempCond && !prevTempCond) { alarmFlagT = 1; Alarm_BeepStart(); }
@@ -22190,8 +22271,8 @@ void EvaluateTempLumAlarms(void)
 }
 
 
-void CompareReading(void){
-
+void CompareReading(void)
+{
     int record_to_save = 0;
 
     if (temp > records[0].temp) {
@@ -22226,12 +22307,10 @@ void CompareReading(void){
         record_to_save = 4;
         SaveRecord_EEPROM(record_to_save);
     }
-
 }
 
 void SaveRecord_EEPROM(int record_to_save)
 {
-
     switch(record_to_save){
         case 1:
             EEPROM_WriteRecord((0x0E), records[0].clk_hh, records[0].clk_mm, records[0].clk_ss, records[0].temp, records[0].lum);
@@ -22252,25 +22331,43 @@ void SaveRecord_EEPROM(int record_to_save)
 
 void ClearRecords(void)
 {
+
     for (uint8_t i = 0; i < 4; i++) {
         records[i].clk_hh = 0;
         records[i].clk_mm = 0;
         records[i].clk_ss = 0;
-        records[i].temp = 0;
-        records[i].lum = 0;
     }
-    EEPROM_WriteRecord((0x0E), records[0].clk_hh, records[0].clk_mm, records[0].clk_ss, records[0].temp, records[0].lum);
-    EEPROM_WriteRecord((0x0E + 0x05), records[1].clk_hh, records[1].clk_mm, records[1].clk_ss, records[1].temp, records[1].lum);
-    EEPROM_WriteRecord((0x0E + 2 * 0x05), records[2].clk_hh, records[2].clk_mm, records[2].clk_ss, records[2].temp, records[2].lum);
-    EEPROM_WriteRecord((0x0E + 3 * 0x05), records[3].clk_hh, records[3].clk_mm, records[3].clk_ss, records[3].temp, records[3].lum);
-}
 
+
+    records[0].temp = 0; records[0].lum = 0;
+    records[1].temp = 255; records[1].lum = 0;
+    records[2].temp = 0; records[2].lum = 0;
+    records[3].temp = 0; records[3].lum = 3;
+
+    EEPROM_WriteRecord((0x0E),
+                       records[0].clk_hh, records[0].clk_mm, records[0].clk_ss,
+                       records[0].temp, records[0].lum);
+
+    EEPROM_WriteRecord((0x0E + 0x05),
+                       records[1].clk_hh, records[1].clk_mm, records[1].clk_ss,
+                       records[1].temp, records[1].lum);
+
+    EEPROM_WriteRecord((0x0E + 2 * 0x05),
+                       records[2].clk_hh, records[2].clk_mm, records[2].clk_ss,
+                       records[2].temp, records[2].lum);
+
+    EEPROM_WriteRecord((0x0E + 3 * 0x05),
+                       records[3].clk_hh, records[3].clk_mm, records[3].clk_ss,
+                       records[3].temp, records[3].lum);
+
+    UpdateEEPROMChecksum();
+}
 
 
 
 void S1_Callback(void){ S1_pressed = 1; }
 void S2_Callback(void){ S2_pressed = 1; }
-int S1_check(void){return S1_pressed;}
-int S2_check(void){return S2_pressed;}
-void Reset_flag_S1(void){S1_pressed = 0;}
-void Reset_flag_S2(void){S2_pressed = 0;}
+int S1_check(void){ return S1_pressed; }
+int S2_check(void){ return S2_pressed; }
+void Reset_flag_S1(void){ S1_pressed = 0; }
+void Reset_flag_S2(void){ S2_pressed = 0; }

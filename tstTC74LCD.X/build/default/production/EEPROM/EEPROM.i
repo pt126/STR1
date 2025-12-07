@@ -147,27 +147,27 @@ void DATAEE_WriteByte(uint16_t bAdd, uint8_t bData);
 uint8_t DATAEE_ReadByte(uint16_t bAdd);
 # 3 "EEPROM/EEPROM.c" 2
 
-
-void EEPROM_WriteConfig(uint8_t config_id, uint8_t value) {
-    DATAEE_WriteByte(0x03 + config_id, value);
-    UpdateEEPROMChecksum();
+void EEPROM_WriteConfig(uint8_t config_id, uint8_t value)
+{
+    DATAEE_WriteByte((uint16_t)(0x03 + config_id), value);
 }
 
-uint8_t EEPROM_ReadConfig(uint8_t config_id) {
-
-    return DATAEE_ReadByte(0x03 + config_id);
+uint8_t EEPROM_ReadConfig(uint8_t config_id)
+{
+    return DATAEE_ReadByte((uint16_t)(0x03 + config_id));
 }
 
-void EEPROM_WriteRecord(uint16_t base_addr, uint8_t h, uint8_t m, uint8_t s, uint8_t T, uint8_t L) {
+void EEPROM_WriteRecord(uint16_t base_addr, uint8_t h, uint8_t m, uint8_t s, uint8_t T, uint8_t L)
+{
     DATAEE_WriteByte(base_addr, h);
     DATAEE_WriteByte(base_addr + 1, m);
     DATAEE_WriteByte(base_addr + 2, s);
     DATAEE_WriteByte(base_addr + 3, T);
     DATAEE_WriteByte(base_addr + 4, L);
-    UpdateEEPROMChecksum();
 }
 
-void EEPROM_ReadRecord(uint16_t base_addr, uint8_t *h, uint8_t *m, uint8_t *s, uint8_t *T, uint8_t *L) {
+void EEPROM_ReadRecord(uint16_t base_addr, uint8_t *h, uint8_t *m, uint8_t *s, uint8_t *T, uint8_t *L)
+{
     *h = DATAEE_ReadByte(base_addr);
     *m = DATAEE_ReadByte(base_addr + 1);
     *s = DATAEE_ReadByte(base_addr + 2);
@@ -175,31 +175,37 @@ void EEPROM_ReadRecord(uint16_t base_addr, uint8_t *h, uint8_t *m, uint8_t *s, u
     *L = DATAEE_ReadByte(base_addr + 4);
 }
 
-
-void EEPROM_WriteHeader(uint16_t magic, uint8_t checksum) {
-    DATAEE_WriteByte((0x00), (magic & 0xFF));
-    DATAEE_WriteByte((0x00) + 1, (magic >> 8) & 0xFF);
+void EEPROM_WriteHeader(uint16_t magic, uint8_t checksum)
+{
+    DATAEE_WriteByte((0x00), (uint8_t)(magic & 0xFFu));
+    DATAEE_WriteByte((0x00) + 1, (uint8_t)((magic >> 8) & 0xFFu));
     DATAEE_WriteByte((0x00 + 2), checksum);
 }
 
-void EEPROM_ReadHeader(uint16_t *magic, uint8_t *checksum) {
+void EEPROM_ReadHeader(uint16_t *magic, uint8_t *checksum)
+{
     uint8_t low = DATAEE_ReadByte((0x00));
     uint8_t high = DATAEE_ReadByte((0x00) + 1);
-    *magic = (uint16_t)( (high << 8) | low) ;
+    *magic = (uint16_t)(((uint16_t)high << 8) | low);
     *checksum = DATAEE_ReadByte((0x00 + 2));
+}
+
+uint8_t EEPROM_CalcChecksum(void)
+{
+    uint8_t sum = 0;
+
+    for (uint8_t i = 0; i <= 0x0A; i++) {
+        sum += EEPROM_ReadConfig(i);
+    }
+
+    for (uint16_t addr = (0x0E); addr <= (uint16_t)((0x0E + 3 * 0x05) + 4u); addr++) {
+        sum += DATAEE_ReadByte(addr);
+    }
+
+    return sum;
 }
 
 void UpdateEEPROMChecksum(void)
 {
-    uint8_t calc_checksum = 0;
-
-    for (uint8_t i = 0; i <= 0x0A; i++) {
-        calc_checksum += EEPROM_ReadConfig(i);
-    }
-
-    for (uint16_t addr = (0x0E); addr <= (0x0E + 3 * 0x05) + 4; addr++) {
-        calc_checksum += DATAEE_ReadByte(addr);
-    }
-
-    EEPROM_WriteHeader(0xF1A5, calc_checksum);
+    EEPROM_WriteHeader(0xF1A6, EEPROM_CalcChecksum());
 }

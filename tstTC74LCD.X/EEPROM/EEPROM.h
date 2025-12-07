@@ -18,7 +18,7 @@
 
 // EEPROM Address Map
 #define EEPROM_ADDR_HEADER      0x00
-#define MAGIC_WORD              0xF1A5
+#define MAGIC_WORD              0xF1A6
 #define EEPROM_ADDR_MAGIC       (EEPROM_ADDR_HEADER)
 #define EEPROM_ADDR_CHECKSUM    (EEPROM_ADDR_HEADER + 2)
 

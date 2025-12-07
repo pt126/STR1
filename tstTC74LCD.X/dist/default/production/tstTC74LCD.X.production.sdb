@@ -111,13 +111,13 @@ channel_Temp 61
 channel_DAC1 62
 channel_FVR_buf1 63
 ]
-"37 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
+"33 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
 [e E12894 . `uc
 UI_NORMAL 0
 UI_CONFIG 1
 UI_SHOW_RECORDS 2
 ]
-"38
+"34
 [e E12899 . `uc
 CF_CLK_HH 0
 CF_CLK_MM 1
@@ -132,13 +132,13 @@ CF_CTL_C_HH 9
 CF_CTL_C_MM 10
 CF_CTL_C_SS 11
 ]
-"39
+"35
 [e E12913 . `uc
 RECORD_NONE 0
 RECORD_TEMP 1
 RECORD_LUM 2
 ]
-"585
+"663
 [e E12798 . `uc
 channel_ANA0 0
 channel_VSS 60
@@ -168,19 +168,21 @@ channel_FVR_buf1 63
 [v _AppClock_Seconds AppClock_Seconds `(ul  1 e 4 0 ]
 "32
 [v _AppClock_ConsumeTick1s AppClock_ConsumeTick1s `(uc  1 e 1 0 ]
-"5 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/EEPROM/EEPROM.c
+"4 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/EEPROM/EEPROM.c
 [v _EEPROM_WriteConfig EEPROM_WriteConfig `(v  1 e 1 0 ]
-"10
+"9
 [v _EEPROM_ReadConfig EEPROM_ReadConfig `(uc  1 e 1 0 ]
-"15
+"14
 [v _EEPROM_WriteRecord EEPROM_WriteRecord `(v  1 e 1 0 ]
-"24
+"23
 [v _EEPROM_ReadRecord EEPROM_ReadRecord `(v  1 e 1 0 ]
-"33
+"32
 [v _EEPROM_WriteHeader EEPROM_WriteHeader `(v  1 e 1 0 ]
 "39
 [v _EEPROM_ReadHeader EEPROM_ReadHeader `(v  1 e 1 0 ]
-"46
+"47
+[v _EEPROM_CalcChecksum EEPROM_CalcChecksum `(uc  1 e 1 0 ]
+"62
 [v _UpdateEEPROMChecksum UpdateEEPROMChecksum `(v  1 e 1 0 ]
 "26 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/I2C/i2c.c
 [v _OpenI2C OpenI2C `(v  1 e 1 0 ]
@@ -396,65 +398,69 @@ channel_FVR_buf1 63
 [v _TMR2_Counter8BitSet TMR2_Counter8BitSet `(v  1 e 1 0 ]
 "147
 [v _TMR2_Period8BitSet TMR2_Period8BitSet `(v  1 e 1 0 ]
-"82 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
+"81 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
 [v _PWM6_Start PWM6_Start `T(v  1 s 1 PWM6_Start ]
-"87
+"86
 [v _PWM6_Stop PWM6_Stop `T(v  1 s 1 PWM6_Stop ]
-"93
+"92
 [v _Alarm_BeepStart Alarm_BeepStart `T(v  1 s 1 Alarm_BeepStart ]
-"103
+"102
 [v _Alarm_BeepTick1s Alarm_BeepTick1s `T(v  1 s 1 Alarm_BeepTick1s ]
-"112
+"115
+[v _Alarm_SuppressBegin_1s Alarm_SuppressBegin_1s `T(v  1 s 1 Alarm_SuppressBegin_1s ]
+"137
 [v _fill16 fill16 `(v  1 s 1 fill16 ]
-"119
+"144
 [v _put2 put2 `(v  1 s 1 put2 ]
-"129
+"153
 [v _Clock_Tick1s Clock_Tick1s `(v  1 e 1 0 ]
-"149
+"172
 [v _ClearAlarmFlags ClearAlarmFlags `(v  1 e 1 0 ]
-"152
+"175
 [v _cfg_next cfg_next `(E12899  1 s 1 cfg_next ]
-"174
+"197
 [v _OnS1Pressed OnS1Pressed `(v  1 e 1 0 ]
-"214
+"239
 [v _OnS2Pressed OnS2Pressed `(v  1 e 1 0 ]
-"294
+"335
+[v _ConfigLooksSane ConfigLooksSane `(uc  1 s 1 ConfigLooksSane ]
+"356
 [v _set_defaults set_defaults `(v  1 e 1 0 ]
-"327
+"392
 [v _UI_Init UI_Init `(v  1 e 1 0 ]
-"410
+"476
 [v _UI_OnTick1s UI_OnTick1s `(v  1 e 1 0 ]
-"443
+"519
 [v _RenderRecords RenderRecords `(v  1 e 1 0 ]
-"467
+"540
 [v _RenderConfig RenderConfig `(v  1 e 1 0 ]
-"524
+"592
 [v _RenderNormal RenderNormal `(v  1 e 1 0 ]
-"554
+"632
 [v _readTC74 readTC74 `(uc  1 e 1 0 ]
-"583
+"661
 [v _readLuminosityLevel readLuminosityLevel `(uc  1 s 1 readLuminosityLevel ]
-"594
+"670
 [v _ReadSensors ReadSensors `(v  1 e 1 0 ]
-"601
+"677
 [v _EvaluateTempLumAlarms EvaluateTempLumAlarms `(v  1 e 1 0 ]
-"625
+"713
 [v _CompareReading CompareReading `(v  1 e 1 0 ]
-"664
+"751
 [v _SaveRecord_EEPROM SaveRecord_EEPROM `(v  1 e 1 0 ]
-"685
+"771
 [v _ClearRecords ClearRecords `(v  1 e 1 0 ]
-"703
+"807
 [v _S1_Callback S1_Callback `(v  1 e 1 0 ]
-"704
+"808
 [v _S2_Callback S2_Callback `(v  1 e 1 0 ]
-"705
+"809
 [v _S1_check S1_check `(i  1 e 2 0 ]
-"706
+"810
 [v _S2_check S2_check `(i  1 e 2 0 ]
-"707
+"811
 [v _Reset_flag_S1 Reset_flag_S1 `(v  1 e 1 0 ]
-"708
+"812
 [v _Reset_flag_S2 Reset_flag_S2 `(v  1 e 1 0 ]
 "213 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/mcc_generated_files/i2c1_master.h
 [v _MSSP1_InterruptHandler MSSP1_InterruptHandler `*.37(v  1 e 2 0 ]
@@ -486,7 +492,7 @@ channel_FVR_buf1 63
 [v _TRISB TRISB `VEuc  1 e 1 @18 ]
 "795
 [v _TRISC TRISC `VEuc  1 e 1 @19 ]
-[s S241 . 1 `uc 1 TRISC0 1 0 :1:0 
+[s S239 . 1 `uc 1 TRISC0 1 0 :1:0 
 `uc 1 TRISC1 1 0 :1:1 
 `uc 1 TRISC2 1 0 :1:2 
 `uc 1 TRISC3 1 0 :1:3 
@@ -496,8 +502,8 @@ channel_FVR_buf1 63
 `uc 1 TRISC7 1 0 :1:7 
 ]
 "812
-[u S250 . 1 `S241 1 . 1 0 ]
-[v _TRISCbits TRISCbits `VES250  1 e 1 @19 ]
+[u S248 . 1 `S239 1 . 1 0 ]
+[v _TRISCbits TRISCbits `VES248  1 e 1 @19 ]
 "857
 [v _TRISD TRISD `VEuc  1 e 1 @20 ]
 "919
@@ -530,20 +536,20 @@ channel_FVR_buf1 63
 [v _TMR0H TMR0H `VEuc  1 e 1 @29 ]
 "1623
 [v _T0CON0 T0CON0 `VEuc  1 e 1 @30 ]
-[s S2972 . 1 `uc 1 T0OUTPS 1 0 :4:0 
+[s S2970 . 1 `uc 1 T0OUTPS 1 0 :4:0 
 `uc 1 T016BIT 1 0 :1:4 
 `uc 1 T0OUT 1 0 :1:5 
 `uc 1 . 1 0 :1:6 
 `uc 1 T0EN 1 0 :1:7 
 ]
 "1643
-[s S2978 . 1 `uc 1 T0OUTPS0 1 0 :1:0 
+[s S2976 . 1 `uc 1 T0OUTPS0 1 0 :1:0 
 `uc 1 T0OUTPS1 1 0 :1:1 
 `uc 1 T0OUTPS2 1 0 :1:2 
 `uc 1 T0OUTPS3 1 0 :1:3 
 ]
-[u S2983 . 1 `S2972 1 . 1 0 `S2978 1 . 1 0 ]
-[v _T0CON0bits T0CON0bits `VES2983  1 e 1 @30 ]
+[u S2981 . 1 `S2970 1 . 1 0 `S2976 1 . 1 0 ]
+[v _T0CON0bits T0CON0bits `VES2981  1 e 1 @30 ]
 "1688
 [v _T0CON1 T0CON1 `VEuc  1 e 1 @31 ]
 "1806
@@ -560,7 +566,7 @@ channel_FVR_buf1 63
 [v _ADACCH ADACCH `VEuc  1 e 1 @145 ]
 "2127
 [v _ADCON0 ADCON0 `VEuc  1 e 1 @147 ]
-[s S2733 . 1 `uc 1 ADGO 1 0 :1:0 
+[s S2731 . 1 `uc 1 ADGO 1 0 :1:0 
 `uc 1 . 1 0 :1:1 
 `uc 1 ADFM 1 0 :2:2 
 `uc 1 ADCS 1 0 :1:4 
@@ -569,44 +575,44 @@ channel_FVR_buf1 63
 `uc 1 ADON 1 0 :1:7 
 ]
 "2163
-[s S2741 . 1 `uc 1 DONE 1 0 :1:0 
+[s S2739 . 1 `uc 1 DONE 1 0 :1:0 
 `uc 1 . 1 0 :1:1 
 `uc 1 ADFRM 1 0 :2:2 
 ]
-[s S2745 . 1 `uc 1 nDONE 1 0 :1:0 
+[s S2743 . 1 `uc 1 nDONE 1 0 :1:0 
 ]
-[s S2747 . 1 `uc 1 GO 1 0 :1:0 
+[s S2745 . 1 `uc 1 GO 1 0 :1:0 
 `uc 1 . 1 0 :1:1 
 `uc 1 ADFM0 1 0 :1:2 
 `uc 1 ADFM1 1 0 :1:3 
 ]
-[s S2752 . 1 `uc 1 GO_nDONE 1 0 :1:0 
+[s S2750 . 1 `uc 1 GO_nDONE 1 0 :1:0 
 `uc 1 . 1 0 :1:1 
 `uc 1 ADFRM0 1 0 :1:2 
 `uc 1 ADFRM1 1 0 :1:3 
 ]
-[u S2757 . 1 `S2733 1 . 1 0 `S2741 1 . 1 0 `S2745 1 . 1 0 `S2747 1 . 1 0 `S2752 1 . 1 0 ]
-[v _ADCON0bits ADCON0bits `VES2757  1 e 1 @147 ]
+[u S2755 . 1 `S2731 1 . 1 0 `S2739 1 . 1 0 `S2743 1 . 1 0 `S2745 1 . 1 0 `S2750 1 . 1 0 ]
+[v _ADCON0bits ADCON0bits `VES2755  1 e 1 @147 ]
 "2238
 [v _ADCON1 ADCON1 `VEuc  1 e 1 @148 ]
-[s S2884 . 1 `uc 1 ADDSEN 1 0 :1:0 
+[s S2882 . 1 `uc 1 ADDSEN 1 0 :1:0 
 `uc 1 . 1 0 :4:1 
 `uc 1 ADGPOL 1 0 :1:5 
 `uc 1 ADIPEN 1 0 :1:6 
 `uc 1 ADPPOL 1 0 :1:7 
 ]
 "2252
-[u S2890 . 1 `S2884 1 . 1 0 ]
-[v _ADCON1bits ADCON1bits `VES2890  1 e 1 @148 ]
+[u S2888 . 1 `S2882 1 . 1 0 ]
+[v _ADCON1bits ADCON1bits `VES2888  1 e 1 @148 ]
 "2277
 [v _ADCON2 ADCON2 `VEuc  1 e 1 @149 ]
-[s S2820 . 1 `uc 1 ADMD 1 0 :3:0 
+[s S2818 . 1 `uc 1 ADMD 1 0 :3:0 
 `uc 1 ADACLR 1 0 :1:3 
 `uc 1 ADCRS 1 0 :3:4 
 `uc 1 ADPSIS 1 0 :1:7 
 ]
 "2299
-[s S2825 . 1 `uc 1 ADMD0 1 0 :1:0 
+[s S2823 . 1 `uc 1 ADMD0 1 0 :1:0 
 `uc 1 ADMD1 1 0 :1:1 
 `uc 1 ADMD2 1 0 :1:2 
 `uc 1 . 1 0 :1:3 
@@ -614,11 +620,11 @@ channel_FVR_buf1 63
 `uc 1 ADCRS1 1 0 :1:5 
 `uc 1 ADCRS2 1 0 :1:6 
 ]
-[u S2833 . 1 `S2820 1 . 1 0 `S2825 1 . 1 0 ]
-[v _ADCON2bits ADCON2bits `VES2833  1 e 1 @149 ]
+[u S2831 . 1 `S2818 1 . 1 0 `S2823 1 . 1 0 ]
+[v _ADCON2bits ADCON2bits `VES2831  1 e 1 @149 ]
 "2354
 [v _ADCON3 ADCON3 `VEuc  1 e 1 @150 ]
-[s S2791 . 1 `uc 1 ADTMD0 1 0 :1:0 
+[s S2789 . 1 `uc 1 ADTMD0 1 0 :1:0 
 `uc 1 ADTMD1 1 0 :1:1 
 `uc 1 ADTMD2 1 0 :1:2 
 `uc 1 . 1 0 :1:3 
@@ -627,15 +633,15 @@ channel_FVR_buf1 63
 `uc 1 ADCALC2 1 0 :1:6 
 ]
 "2375
-[s S2799 . 1 `uc 1 ADTMD 1 0 :3:0 
+[s S2797 . 1 `uc 1 ADTMD 1 0 :3:0 
 `uc 1 ADSOI 1 0 :1:3 
 `uc 1 ADCALC 1 0 :3:4 
 ]
-[u S2803 . 1 `S2791 1 . 1 0 `S2799 1 . 1 0 ]
-[v _ADCON3bits ADCON3bits `VES2803  1 e 1 @150 ]
+[u S2801 . 1 `S2789 1 . 1 0 `S2797 1 . 1 0 ]
+[v _ADCON3bits ADCON3bits `VES2801  1 e 1 @150 ]
 "2425
 [v _ADSTAT ADSTAT `VEuc  1 e 1 @151 ]
-[s S2852 . 1 `uc 1 ADSTAT 1 0 :3:0 
+[s S2850 . 1 `uc 1 ADSTAT 1 0 :3:0 
 `uc 1 ADMACT 1 0 :1:3 
 `uc 1 ADMATH 1 0 :1:4 
 `uc 1 ADLTHR 1 0 :1:5 
@@ -643,12 +649,12 @@ channel_FVR_buf1 63
 `uc 1 ADAOV 1 0 :1:7 
 ]
 "2445
-[s S2859 . 1 `uc 1 ADSTAT0 1 0 :1:0 
+[s S2857 . 1 `uc 1 ADSTAT0 1 0 :1:0 
 `uc 1 ADSTAT1 1 0 :1:1 
 `uc 1 ADSTAT2 1 0 :1:2 
 ]
-[u S2863 . 1 `S2852 1 . 1 0 `S2859 1 . 1 0 ]
-[v _ADSTATbits ADSTATbits `VES2863  1 e 1 @151 ]
+[u S2861 . 1 `S2850 1 . 1 0 `S2857 1 . 1 0 ]
+[v _ADSTATbits ADSTATbits `VES2861  1 e 1 @151 ]
 "2495
 [v _ADCLK ADCLK `VEuc  1 e 1 @152 ]
 "2553
@@ -693,7 +699,7 @@ channel_FVR_buf1 63
 [v _SSP1ADD SSP1ADD `VEuc  1 e 1 @397 ]
 "4826
 [v _SSP1STAT SSP1STAT `VEuc  1 e 1 @399 ]
-[s S339 . 1 `uc 1 BF 1 0 :1:0 
+[s S337 . 1 `uc 1 BF 1 0 :1:0 
 `uc 1 UA 1 0 :1:1 
 `uc 1 R_nW 1 0 :1:2 
 `uc 1 S 1 0 :1:3 
@@ -703,33 +709,33 @@ channel_FVR_buf1 63
 `uc 1 SMP 1 0 :1:7 
 ]
 "4935
-[s S348 . 1 `uc 1 . 1 0 :2:0 
+[s S346 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 R_W 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 D_A 1 0 :1:5 
 ]
-[s S353 . 1 `uc 1 . 1 0 :2:0 
+[s S351 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 nW 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 nA 1 0 :1:5 
 ]
-[s S358 . 1 `uc 1 . 1 0 :2:0 
+[s S356 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 nWRITE 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 nADDRESS 1 0 :1:5 
 ]
-[s S363 . 1 `uc 1 . 1 0 :2:0 
+[s S361 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 READ_WRITE 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 DATA_ADDRESS 1 0 :1:5 
 ]
-[s S368 . 1 `uc 1 . 1 0 :2:0 
+[s S366 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 I2C_READ 1 0 :1:2 
 `uc 1 I2C_START 1 0 :1:3 
 `uc 1 I2C_STOP 1 0 :1:4 
 `uc 1 I2C_DAT 1 0 :1:5 
 ]
-[s S374 . 1 `uc 1 BF1 1 0 :1:0 
+[s S372 . 1 `uc 1 BF1 1 0 :1:0 
 `uc 1 UA1 1 0 :1:1 
 `uc 1 R 1 0 :1:2 
 `uc 1 START 1 0 :1:3 
@@ -738,66 +744,66 @@ channel_FVR_buf1 63
 `uc 1 CKE1 1 0 :1:6 
 `uc 1 SMP1 1 0 :1:7 
 ]
-[s S383 . 1 `uc 1 . 1 0 :2:0 
+[s S381 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 RW 1 0 :1:2 
 `uc 1 START1 1 0 :1:3 
 `uc 1 STOP1 1 0 :1:4 
 `uc 1 DA 1 0 :1:5 
 ]
-[s S389 . 1 `uc 1 . 1 0 :2:0 
+[s S387 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 RW1 1 0 :1:2 
 `uc 1 I2C_START1 1 0 :1:3 
 `uc 1 I2C_STOP2 1 0 :1:4 
 `uc 1 DA1 1 0 :1:5 
 ]
-[s S395 . 1 `uc 1 . 1 0 :2:0 
+[s S393 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 I2C_READ1 1 0 :1:2 
 `uc 1 S2 1 0 :1:3 
 `uc 1 P2 1 0 :1:4 
 `uc 1 DATA_ADDRESS1 1 0 :1:5 
 ]
-[s S401 . 1 `uc 1 . 1 0 :2:0 
+[s S399 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 READ_WRITE1 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 D_A1 1 0 :1:5 
 ]
-[s S406 . 1 `uc 1 . 1 0 :2:0 
+[s S404 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 R_W1 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 D_nA1 1 0 :1:5 
 ]
-[s S411 . 1 `uc 1 . 1 0 :2:0 
+[s S409 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 R_nW1 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 I2C_DAT1 1 0 :1:5 
 ]
-[s S416 . 1 `uc 1 . 1 0 :2:0 
+[s S414 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 nW2 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 nA2 1 0 :1:5 
 ]
-[s S421 . 1 `uc 1 . 1 0 :2:0 
+[s S419 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 nWRITE1 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 nADDRESS1 1 0 :1:5 
 ]
-[u S426 . 1 `S339 1 . 1 0 `S348 1 . 1 0 `S353 1 . 1 0 `S358 1 . 1 0 `S363 1 . 1 0 `S368 1 . 1 0 `S374 1 . 1 0 `S383 1 . 1 0 `S389 1 . 1 0 `S395 1 . 1 0 `S401 1 . 1 0 `S406 1 . 1 0 `S411 1 . 1 0 `S416 1 . 1 0 `S421 1 . 1 0 ]
-[v _SSP1STATbits SSP1STATbits `VES426  1 e 1 @399 ]
+[u S424 . 1 `S337 1 . 1 0 `S346 1 . 1 0 `S351 1 . 1 0 `S356 1 . 1 0 `S361 1 . 1 0 `S366 1 . 1 0 `S372 1 . 1 0 `S381 1 . 1 0 `S387 1 . 1 0 `S393 1 . 1 0 `S399 1 . 1 0 `S404 1 . 1 0 `S409 1 . 1 0 `S414 1 . 1 0 `S419 1 . 1 0 ]
+[v _SSP1STATbits SSP1STATbits `VES424  1 e 1 @399 ]
 "5190
 [v _SSP1CON1 SSP1CON1 `VEuc  1 e 1 @400 ]
-[s S196 . 1 `uc 1 SSPM 1 0 :4:0 
+[s S194 . 1 `uc 1 SSPM 1 0 :4:0 
 `uc 1 CKP 1 0 :1:4 
 `uc 1 SSPEN 1 0 :1:5 
 `uc 1 SSPOV 1 0 :1:6 
 `uc 1 WCOL 1 0 :1:7 
 ]
 "5220
-[s S202 . 1 `uc 1 SSPM0 1 0 :1:0 
+[s S200 . 1 `uc 1 SSPM0 1 0 :1:0 
 `uc 1 SSPM1 1 0 :1:1 
 `uc 1 SSPM2 1 0 :1:2 
 `uc 1 SSPM3 1 0 :1:3 
 ]
-[s S207 . 1 `uc 1 SSPM01 1 0 :1:0 
+[s S205 . 1 `uc 1 SSPM01 1 0 :1:0 
 `uc 1 SSPM11 1 0 :1:1 
 `uc 1 SSPM21 1 0 :1:2 
 `uc 1 SSPM31 1 0 :1:3 
@@ -806,11 +812,11 @@ channel_FVR_buf1 63
 `uc 1 SSPOV1 1 0 :1:6 
 `uc 1 WCOL1 1 0 :1:7 
 ]
-[u S216 . 1 `S196 1 . 1 0 `S202 1 . 1 0 `S207 1 . 1 0 ]
-[v _SSP1CON1bits SSP1CON1bits `VES216  1 e 1 @400 ]
+[u S214 . 1 `S194 1 . 1 0 `S200 1 . 1 0 `S205 1 . 1 0 ]
+[v _SSP1CON1bits SSP1CON1bits `VES214  1 e 1 @400 ]
 "5310
 [v _SSP1CON2 SSP1CON2 `VEuc  1 e 1 @401 ]
-[s S262 . 1 `uc 1 SEN 1 0 :1:0 
+[s S260 . 1 `uc 1 SEN 1 0 :1:0 
 `uc 1 RSEN 1 0 :1:1 
 `uc 1 PEN 1 0 :1:2 
 `uc 1 RCEN 1 0 :1:3 
@@ -820,17 +826,17 @@ channel_FVR_buf1 63
 `uc 1 GCEN 1 0 :1:7 
 ]
 "5357
-[s S271 . 1 `uc 1 . 1 0 :1:0 
+[s S269 . 1 `uc 1 . 1 0 :1:0 
 `uc 1 ADMSK 1 0 :5:1 
 ]
-[s S274 . 1 `uc 1 . 1 0 :1:0 
+[s S272 . 1 `uc 1 . 1 0 :1:0 
 `uc 1 ADMSK1 1 0 :1:1 
 `uc 1 ADMSK2 1 0 :1:2 
 `uc 1 ADMSK3 1 0 :1:3 
 `uc 1 ADMSK4 1 0 :1:4 
 `uc 1 ADMSK5 1 0 :1:5 
 ]
-[s S281 . 1 `uc 1 SEN1 1 0 :1:0 
+[s S279 . 1 `uc 1 SEN1 1 0 :1:0 
 `uc 1 ADMSK11 1 0 :1:1 
 `uc 1 ADMSK21 1 0 :1:2 
 `uc 1 ADMSK31 1 0 :1:3 
@@ -839,47 +845,47 @@ channel_FVR_buf1 63
 `uc 1 ACKSTAT1 1 0 :1:6 
 `uc 1 GCEN1 1 0 :1:7 
 ]
-[s S290 . 1 `uc 1 . 1 0 :1:0 
+[s S288 . 1 `uc 1 . 1 0 :1:0 
 `uc 1 RSEN1 1 0 :1:1 
 `uc 1 PEN1 1 0 :1:2 
 `uc 1 RCEN1 1 0 :1:3 
 `uc 1 ADMSK41 1 0 :1:4 
 `uc 1 ADMSK51 1 0 :1:5 
 ]
-[u S297 . 1 `S262 1 . 1 0 `S271 1 . 1 0 `S274 1 . 1 0 `S281 1 . 1 0 `S290 1 . 1 0 ]
-[v _SSP1CON2bits SSP1CON2bits `VES297  1 e 1 @401 ]
+[u S295 . 1 `S260 1 . 1 0 `S269 1 . 1 0 `S272 1 . 1 0 `S279 1 . 1 0 `S288 1 . 1 0 ]
+[v _SSP1CON2bits SSP1CON2bits `VES295  1 e 1 @401 ]
 "6509
 [v _TMR1L TMR1L `VEuc  1 e 1 @524 ]
 "6679
 [v _TMR1H TMR1H `VEuc  1 e 1 @525 ]
 "6799
 [v _T1CON T1CON `VEuc  1 e 1 @526 ]
-[s S1868 . 1 `uc 1 ON 1 0 :1:0 
+[s S1866 . 1 `uc 1 ON 1 0 :1:0 
 `uc 1 RD16 1 0 :1:1 
 `uc 1 nSYNC 1 0 :1:2 
 `uc 1 . 1 0 :1:3 
 `uc 1 CKPS 1 0 :2:4 
 ]
 "6830
-[s S1874 . 1 `uc 1 TMR1ON 1 0 :1:0 
+[s S1872 . 1 `uc 1 TMR1ON 1 0 :1:0 
 `uc 1 T1RD16 1 0 :1:1 
 `uc 1 nT1SYNC 1 0 :1:2 
 `uc 1 . 1 0 :1:3 
 `uc 1 T1CKPS0 1 0 :1:4 
 `uc 1 T1CKPS1 1 0 :1:5 
 ]
-[s S1881 . 1 `uc 1 . 1 0 :4:0 
+[s S1879 . 1 `uc 1 . 1 0 :4:0 
 `uc 1 CKPS0 1 0 :1:4 
 `uc 1 CKPS1 1 0 :1:5 
 ]
-[s S1885 . 1 `uc 1 . 1 0 :1:0 
+[s S1883 . 1 `uc 1 . 1 0 :1:0 
 `uc 1 RD161 1 0 :1:1 
 ]
-[u S1888 . 1 `S1868 1 . 1 0 `S1874 1 . 1 0 `S1881 1 . 1 0 `S1885 1 . 1 0 ]
-[v _T1CONbits T1CONbits `VES1888  1 e 1 @526 ]
+[u S1886 . 1 `S1866 1 . 1 0 `S1872 1 . 1 0 `S1879 1 . 1 0 `S1883 1 . 1 0 ]
+[v _T1CONbits T1CONbits `VES1886  1 e 1 @526 ]
 "6895
 [v _T1GCON T1GCON `VEuc  1 e 1 @527 ]
-[s S1914 . 1 `uc 1 . 1 0 :2:0 
+[s S1912 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 GVAL 1 0 :1:2 
 `uc 1 GGO_nDONE 1 0 :1:3 
 `uc 1 GSPM 1 0 :1:4 
@@ -888,7 +894,7 @@ channel_FVR_buf1 63
 `uc 1 GE 1 0 :1:7 
 ]
 "6929
-[s S1922 . 1 `uc 1 . 1 0 :2:0 
+[s S1920 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 T1GVAL 1 0 :1:2 
 `uc 1 T1GGO_nDONE 1 0 :1:3 
 `uc 1 T1GSPM 1 0 :1:4 
@@ -896,29 +902,29 @@ channel_FVR_buf1 63
 `uc 1 T1GPOL 1 0 :1:6 
 `uc 1 T1GE 1 0 :1:7 
 ]
-[s S1930 . 1 `uc 1 . 1 0 :3:0 
+[s S1928 . 1 `uc 1 . 1 0 :3:0 
 `uc 1 T1GGO 1 0 :1:3 
 ]
-[u S1933 . 1 `S1914 1 . 1 0 `S1922 1 . 1 0 `S1930 1 . 1 0 ]
-[v _T1GCONbits T1GCONbits `VES1933  1 e 1 @527 ]
+[u S1931 . 1 `S1912 1 . 1 0 `S1920 1 . 1 0 `S1928 1 . 1 0 ]
+[v _T1GCONbits T1GCONbits `VES1931  1 e 1 @527 ]
 "7091
 [v _T1GATE T1GATE `VEuc  1 e 1 @528 ]
 "7257
 [v _T1CLK T1CLK `VEuc  1 e 1 @529 ]
-[s S2675 . 1 `uc 1 C5TSEL 1 0 :2:0 
+[s S2673 . 1 `uc 1 C5TSEL 1 0 :2:0 
 `uc 1 P6TSEL 1 0 :2:2 
 `uc 1 P7TSEL 1 0 :2:4 
 ]
 "9301
-[s S2679 . 1 `uc 1 C5TSEL0 1 0 :1:0 
+[s S2677 . 1 `uc 1 C5TSEL0 1 0 :1:0 
 `uc 1 C5TSEL1 1 0 :1:1 
 `uc 1 P6TSEL0 1 0 :1:2 
 `uc 1 P6TSEL1 1 0 :1:3 
 `uc 1 P7TSEL0 1 0 :1:4 
 `uc 1 P7TSEL1 1 0 :1:5 
 ]
-[u S2686 . 1 `S2675 1 . 1 0 `S2679 1 . 1 0 ]
-[v _CCPTMRS1bits CCPTMRS1bits `VES2686  1 e 1 @543 ]
+[u S2684 . 1 `S2673 1 . 1 0 `S2677 1 . 1 0 ]
+[v _CCPTMRS1bits CCPTMRS1bits `VES2684  1 e 1 @543 ]
 "9351
 [v _T2TMR T2TMR `VEuc  1 e 1 @652 ]
 "9356
@@ -929,16 +935,16 @@ channel_FVR_buf1 63
 [v _PR2 PR2 `VEuc  1 e 1 @653 ]
 "9427
 [v _T2CON T2CON `VEuc  1 e 1 @654 ]
-[s S2574 . 1 `uc 1 OUTPS 1 0 :4:0 
+[s S2572 . 1 `uc 1 OUTPS 1 0 :4:0 
 `uc 1 CKPS 1 0 :3:4 
 `uc 1 ON 1 0 :1:7 
 ]
 "9463
-[s S2578 . 1 `uc 1 T2OUTPS 1 0 :4:0 
+[s S2576 . 1 `uc 1 T2OUTPS 1 0 :4:0 
 `uc 1 T2CKPS 1 0 :3:4 
 `uc 1 T2ON 1 0 :1:7 
 ]
-[s S2582 . 1 `uc 1 T2OUTPS0 1 0 :1:0 
+[s S2580 . 1 `uc 1 T2OUTPS0 1 0 :1:0 
 `uc 1 T2OUTPS1 1 0 :1:1 
 `uc 1 T2OUTPS2 1 0 :1:2 
 `uc 1 T2OUTPS3 1 0 :1:3 
@@ -946,7 +952,7 @@ channel_FVR_buf1 63
 `uc 1 T2CKPS1 1 0 :1:5 
 `uc 1 T2CKPS2 1 0 :1:6 
 ]
-[s S2590 . 1 `uc 1 OUTPS0 1 0 :1:0 
+[s S2588 . 1 `uc 1 OUTPS0 1 0 :1:0 
 `uc 1 OUTPS1 1 0 :1:1 
 `uc 1 OUTPS2 1 0 :1:2 
 `uc 1 OUTPS3 1 0 :1:3 
@@ -955,79 +961,79 @@ channel_FVR_buf1 63
 `uc 1 CKPS2 1 0 :1:6 
 `uc 1 TMR2ON 1 0 :1:7 
 ]
-[u S2599 . 1 `S2574 1 . 1 0 `S2578 1 . 1 0 `S2582 1 . 1 0 `S2590 1 . 1 0 ]
-[v _T2CONbits T2CONbits `VES2599  1 e 1 @654 ]
+[u S2597 . 1 `S2572 1 . 1 0 `S2576 1 . 1 0 `S2580 1 . 1 0 `S2588 1 . 1 0 ]
+[v _T2CONbits T2CONbits `VES2597  1 e 1 @654 ]
 "9573
 [v _T2HLT T2HLT `VEuc  1 e 1 @655 ]
-[s S2467 . 1 `uc 1 MODE 1 0 :5:0 
+[s S2465 . 1 `uc 1 MODE 1 0 :5:0 
 `uc 1 CKSYNC 1 0 :1:5 
 `uc 1 CKPOL 1 0 :1:6 
 `uc 1 PSYNC 1 0 :1:7 
 ]
 "9606
-[s S2472 . 1 `uc 1 MODE0 1 0 :1:0 
+[s S2470 . 1 `uc 1 MODE0 1 0 :1:0 
 `uc 1 MODE1 1 0 :1:1 
 `uc 1 MODE2 1 0 :1:2 
 `uc 1 MODE3 1 0 :1:3 
 `uc 1 MODE4 1 0 :1:4 
 ]
-[s S2478 . 1 `uc 1 T2MODE 1 0 :5:0 
+[s S2476 . 1 `uc 1 T2MODE 1 0 :5:0 
 `uc 1 T2CKSYNC 1 0 :1:5 
 `uc 1 T2CKPOL 1 0 :1:6 
 `uc 1 T2PSYNC 1 0 :1:7 
 ]
-[s S2483 . 1 `uc 1 T2MODE0 1 0 :1:0 
+[s S2481 . 1 `uc 1 T2MODE0 1 0 :1:0 
 `uc 1 T2MODE1 1 0 :1:1 
 `uc 1 T2MODE2 1 0 :1:2 
 `uc 1 T2MODE3 1 0 :1:3 
 `uc 1 T2MODE4 1 0 :1:4 
 ]
-[u S2489 . 1 `S2467 1 . 1 0 `S2472 1 . 1 0 `S2478 1 . 1 0 `S2483 1 . 1 0 ]
-[v _T2HLTbits T2HLTbits `VES2489  1 e 1 @655 ]
+[u S2487 . 1 `S2465 1 . 1 0 `S2470 1 . 1 0 `S2476 1 . 1 0 `S2481 1 . 1 0 ]
+[v _T2HLTbits T2HLTbits `VES2487  1 e 1 @655 ]
 "9701
 [v _T2CLKCON T2CLKCON `VEuc  1 e 1 @656 ]
 "9859
 [v _T2RST T2RST `VEuc  1 e 1 @657 ]
-[s S2536 . 1 `uc 1 RSEL 1 0 :5:0 
+[s S2534 . 1 `uc 1 RSEL 1 0 :5:0 
 ]
 "9886
-[s S2538 . 1 `uc 1 RSEL0 1 0 :1:0 
+[s S2536 . 1 `uc 1 RSEL0 1 0 :1:0 
 `uc 1 RSEL1 1 0 :1:1 
 `uc 1 RSEL2 1 0 :1:2 
 `uc 1 RSEL3 1 0 :1:3 
 `uc 1 RSEL4 1 0 :1:4 
 ]
-[s S2544 . 1 `uc 1 T2RSEL 1 0 :5:0 
+[s S2542 . 1 `uc 1 T2RSEL 1 0 :5:0 
 ]
-[s S2546 . 1 `uc 1 T2RSEL0 1 0 :1:0 
+[s S2544 . 1 `uc 1 T2RSEL0 1 0 :1:0 
 `uc 1 T2RSEL1 1 0 :1:1 
 `uc 1 T2RSEL2 1 0 :1:2 
 `uc 1 T2RSEL3 1 0 :1:3 
 `uc 1 T2RSEL4 1 0 :1:4 
 ]
-[u S2552 . 1 `S2536 1 . 1 0 `S2538 1 . 1 0 `S2544 1 . 1 0 `S2546 1 . 1 0 ]
-[v _T2RSTbits T2RSTbits `VES2552  1 e 1 @657 ]
+[u S2550 . 1 `S2534 1 . 1 0 `S2536 1 . 1 0 `S2542 1 . 1 0 `S2544 1 . 1 0 ]
+[v _T2RSTbits T2RSTbits `VES2550  1 e 1 @657 ]
 "12323
 [v _PWM6DCL PWM6DCL `VEuc  1 e 1 @908 ]
 "12389
 [v _PWM6DCH PWM6DCH `VEuc  1 e 1 @909 ]
 "12559
 [v _PWM6CON PWM6CON `VEuc  1 e 1 @910 ]
-[s S3044 . 1 `uc 1 . 1 0 :4:0 
+[s S3042 . 1 `uc 1 . 1 0 :4:0 
 `uc 1 POL 1 0 :1:4 
 `uc 1 OUT 1 0 :1:5 
 `uc 1 . 1 0 :1:6 
 `uc 1 EN 1 0 :1:7 
 ]
 "12580
-[s S3050 . 1 `uc 1 . 1 0 :4:0 
+[s S3048 . 1 `uc 1 . 1 0 :4:0 
 `uc 1 PWM6POL 1 0 :1:4 
 `uc 1 PWM6OUT 1 0 :1:5 
 `uc 1 . 1 0 :1:6 
 `uc 1 PWM6EN 1 0 :1:7 
 ]
-[u S3056 . 1 `S3044 1 . 1 0 `S3050 1 . 1 0 ]
-[v _PWM6CONbits PWM6CONbits `VES3056  1 e 1 @910 ]
+[u S3054 . 1 `S3042 1 . 1 0 `S3048 1 . 1 0 ]
+[v _PWM6CONbits PWM6CONbits `VES3054  1 e 1 @910 ]
 "14284
 [v _SMT1TMR SMT1TMR `VEum  1 e 3 @1164 ]
 "14677
@@ -1044,7 +1050,7 @@ channel_FVR_buf1 63
 [v _SMT1PRU SMT1PRU `VEuc  1 e 1 @1175 ]
 "15855
 [v _SMT1CON0 SMT1CON0 `VEuc  1 e 1 @1176 ]
-[s S2170 . 1 `uc 1 PS 1 0 :2:0 
+[s S2168 . 1 `uc 1 PS 1 0 :2:0 
 `uc 1 CPOL 1 0 :1:2 
 `uc 1 SPOL 1 0 :1:3 
 `uc 1 WPOL 1 0 :1:4 
@@ -1053,7 +1059,7 @@ channel_FVR_buf1 63
 `uc 1 EN 1 0 :1:7 
 ]
 "15888
-[s S2178 . 1 `uc 1 SMT1PS 1 0 :2:0 
+[s S2176 . 1 `uc 1 SMT1PS 1 0 :2:0 
 `uc 1 SMT1CPOL 1 0 :1:2 
 `uc 1 SMT1SPOL 1 0 :1:3 
 `uc 1 SMT1WOL 1 0 :1:4 
@@ -1061,23 +1067,23 @@ channel_FVR_buf1 63
 `uc 1 . 1 0 :1:6 
 `uc 1 SMT1EN 1 0 :1:7 
 ]
-[s S2186 . 1 `uc 1 PS0 1 0 :1:0 
+[s S2184 . 1 `uc 1 PS0 1 0 :1:0 
 `uc 1 PS1 1 0 :1:1 
 ]
-[s S2189 . 1 `uc 1 SMT1PS0 1 0 :1:0 
+[s S2187 . 1 `uc 1 SMT1PS0 1 0 :1:0 
 `uc 1 SMT1PS1 1 0 :1:1 
 ]
-[u S2192 . 1 `S2170 1 . 1 0 `S2178 1 . 1 0 `S2186 1 . 1 0 `S2189 1 . 1 0 ]
-[v _SMT1CON0bits SMT1CON0bits `VES2192  1 e 1 @1176 ]
+[u S2190 . 1 `S2168 1 . 1 0 `S2176 1 . 1 0 `S2184 1 . 1 0 `S2187 1 . 1 0 ]
+[v _SMT1CON0bits SMT1CON0bits `VES2190  1 e 1 @1176 ]
 "15973
 [v _SMT1CON1 SMT1CON1 `VEuc  1 e 1 @1177 ]
-[s S2135 . 1 `uc 1 MODE 1 0 :4:0 
+[s S2133 . 1 `uc 1 MODE 1 0 :4:0 
 `uc 1 . 1 0 :2:4 
 `uc 1 REPEAT 1 0 :1:6 
 `uc 1 GO 1 0 :1:7 
 ]
 "15998
-[s S2140 . 1 `uc 1 MODE0 1 0 :1:0 
+[s S2138 . 1 `uc 1 MODE0 1 0 :1:0 
 `uc 1 MODE1 1 0 :1:1 
 `uc 1 MODE2 1 0 :1:2 
 `uc 1 MODE3 1 0 :1:3 
@@ -1085,13 +1091,13 @@ channel_FVR_buf1 63
 `uc 1 SMT1REPEAT 1 0 :1:6 
 `uc 1 SMT1GO 1 0 :1:7 
 ]
-[s S2148 . 1 `uc 1 SMT1MODE 1 0 :4:0 
+[s S2146 . 1 `uc 1 SMT1MODE 1 0 :4:0 
 ]
-[u S2150 . 1 `S2135 1 . 1 0 `S2140 1 . 1 0 `S2148 1 . 1 0 ]
-[v _SMT1CON1bits SMT1CON1bits `VES2150  1 e 1 @1177 ]
+[u S2148 . 1 `S2133 1 . 1 0 `S2138 1 . 1 0 `S2146 1 . 1 0 ]
+[v _SMT1CON1bits SMT1CON1bits `VES2148  1 e 1 @1177 ]
 "16053
 [v _SMT1STAT SMT1STAT `VEuc  1 e 1 @1178 ]
-[s S2221 . 1 `uc 1 AS 1 0 :1:0 
+[s S2219 . 1 `uc 1 AS 1 0 :1:0 
 `uc 1 WS 1 0 :1:1 
 `uc 1 TS 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
@@ -1100,7 +1106,7 @@ channel_FVR_buf1 63
 `uc 1 CPRUP 1 0 :1:7 
 ]
 "16082
-[s S2229 . 1 `uc 1 SMT1AS 1 0 :1:0 
+[s S2227 . 1 `uc 1 SMT1AS 1 0 :1:0 
 `uc 1 SMT1WS 1 0 :1:1 
 `uc 1 SMT1TS 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
@@ -1108,26 +1114,26 @@ channel_FVR_buf1 63
 `uc 1 SMT1CPWUP 1 0 :1:6 
 `uc 1 SMT1CPRUP 1 0 :1:7 
 ]
-[s S2237 . 1 `uc 1 . 1 0 :5:0 
+[s S2235 . 1 `uc 1 . 1 0 :5:0 
 `uc 1 SMT1RST 1 0 :1:5 
 ]
-[u S2240 . 1 `S2221 1 . 1 0 `S2229 1 . 1 0 `S2237 1 . 1 0 ]
-[v _SMT1STATbits SMT1STATbits `VES2240  1 e 1 @1178 ]
+[u S2238 . 1 `S2219 1 . 1 0 `S2227 1 . 1 0 `S2235 1 . 1 0 ]
+[v _SMT1STATbits SMT1STATbits `VES2238  1 e 1 @1178 ]
 "16152
 [v _SMT1CLK SMT1CLK `VEuc  1 e 1 @1179 ]
 "16220
 [v _SMT1SIG SMT1SIG `VEuc  1 e 1 @1180 ]
 "16312
 [v _SMT1WIN SMT1WIN `VEuc  1 e 1 @1181 ]
-[s S2041 . 1 `uc 1 INTF 1 0 :1:0 
+[s S2039 . 1 `uc 1 INTF 1 0 :1:0 
 `uc 1 . 1 0 :3:1 
 `uc 1 IOCIF 1 0 :1:4 
 `uc 1 TMR0IF 1 0 :1:5 
 ]
 "21281
-[u S2046 . 1 `S2041 1 . 1 0 ]
-[v _PIR0bits PIR0bits `VES2046  1 e 1 @1804 ]
-[s S531 . 1 `uc 1 SSP1IF 1 0 :1:0 
+[u S2044 . 1 `S2039 1 . 1 0 ]
+[v _PIR0bits PIR0bits `VES2044  1 e 1 @1804 ]
+[s S529 . 1 `uc 1 SSP1IF 1 0 :1:0 
 `uc 1 BCL1IF 1 0 :1:1 
 `uc 1 SSP2IF 1 0 :1:2 
 `uc 1 BCL2IF 1 0 :1:3 
@@ -1135,9 +1141,9 @@ channel_FVR_buf1 63
 `uc 1 RCIF 1 0 :1:5 
 ]
 "21388
-[u S538 . 1 `S531 1 . 1 0 ]
-[v _PIR3bits PIR3bits `VES538  1 e 1 @1807 ]
-[s S1775 . 1 `uc 1 TMR1IF 1 0 :1:0 
+[u S536 . 1 `S529 1 . 1 0 ]
+[v _PIR3bits PIR3bits `VES536  1 e 1 @1807 ]
+[s S1773 . 1 `uc 1 TMR1IF 1 0 :1:0 
 `uc 1 TMR2IF 1 0 :1:1 
 `uc 1 TMR3IF 1 0 :1:2 
 `uc 1 TMR4IF 1 0 :1:3 
@@ -1145,9 +1151,9 @@ channel_FVR_buf1 63
 `uc 1 TMR6IF 1 0 :1:5 
 ]
 "21438
-[u S1782 . 1 `S1775 1 . 1 0 ]
-[v _PIR4bits PIR4bits `VES1782  1 e 1 @1808 ]
-[s S1815 . 1 `uc 1 TMR1GIF 1 0 :1:0 
+[u S1780 . 1 `S1773 1 . 1 0 ]
+[v _PIR4bits PIR4bits `VES1780  1 e 1 @1808 ]
+[s S1813 . 1 `uc 1 TMR1GIF 1 0 :1:0 
 `uc 1 TMR3GIF 1 0 :1:1 
 `uc 1 TMR5GIF 1 0 :1:2 
 `uc 1 . 1 0 :1:3 
@@ -1157,17 +1163,17 @@ channel_FVR_buf1 63
 `uc 1 CLC4IF 1 0 :1:7 
 ]
 "21490
-[u S1824 . 1 `S1815 1 . 1 0 ]
-[v _PIR5bits PIR5bits `VES1824  1 e 1 @1809 ]
-[s S1083 . 1 `uc 1 INTE 1 0 :1:0 
+[u S1822 . 1 `S1813 1 . 1 0 ]
+[v _PIR5bits PIR5bits `VES1822  1 e 1 @1809 ]
+[s S1081 . 1 `uc 1 INTE 1 0 :1:0 
 `uc 1 . 1 0 :3:1 
 `uc 1 IOCIE 1 0 :1:4 
 `uc 1 TMR0IE 1 0 :1:5 
 ]
 "21703
-[u S1088 . 1 `S1083 1 . 1 0 ]
-[v _PIE0bits PIE0bits `VES1088  1 e 1 @1814 ]
-[s S1595 . 1 `uc 1 SSP1IE 1 0 :1:0 
+[u S1086 . 1 `S1081 1 . 1 0 ]
+[v _PIE0bits PIE0bits `VES1086  1 e 1 @1814 ]
+[s S1593 . 1 `uc 1 SSP1IE 1 0 :1:0 
 `uc 1 BCL1IE 1 0 :1:1 
 `uc 1 SSP2IE 1 0 :1:2 
 `uc 1 BCL2IE 1 0 :1:3 
@@ -1175,9 +1181,9 @@ channel_FVR_buf1 63
 `uc 1 RCIE 1 0 :1:5 
 ]
 "21810
-[u S1602 . 1 `S1595 1 . 1 0 ]
-[v _PIE3bits PIE3bits `VES1602  1 e 1 @1817 ]
-[s S1792 . 1 `uc 1 TMR1IE 1 0 :1:0 
+[u S1600 . 1 `S1593 1 . 1 0 ]
+[v _PIE3bits PIE3bits `VES1600  1 e 1 @1817 ]
+[s S1790 . 1 `uc 1 TMR1IE 1 0 :1:0 
 `uc 1 TMR2IE 1 0 :1:1 
 `uc 1 TMR3IE 1 0 :1:2 
 `uc 1 TMR4IE 1 0 :1:3 
@@ -1185,9 +1191,9 @@ channel_FVR_buf1 63
 `uc 1 TMR6IE 1 0 :1:5 
 ]
 "21860
-[u S1799 . 1 `S1792 1 . 1 0 ]
-[v _PIE4bits PIE4bits `VES1799  1 e 1 @1818 ]
-[s S1836 . 1 `uc 1 TMR1GIE 1 0 :1:0 
+[u S1797 . 1 `S1790 1 . 1 0 ]
+[v _PIE4bits PIE4bits `VES1797  1 e 1 @1818 ]
+[s S1834 . 1 `uc 1 TMR1GIE 1 0 :1:0 
 `uc 1 TMR3GIE 1 0 :1:1 
 `uc 1 TMR5GIE 1 0 :1:2 
 `uc 1 . 1 0 :1:3 
@@ -1197,8 +1203,8 @@ channel_FVR_buf1 63
 `uc 1 CLC4IE 1 0 :1:7 
 ]
 "21912
-[u S1845 . 1 `S1836 1 . 1 0 ]
-[v _PIE5bits PIE5bits `VES1845  1 e 1 @1819 ]
+[u S1843 . 1 `S1834 1 . 1 0 ]
+[v _PIE5bits PIE5bits `VES1843  1 e 1 @1819 ]
 "22112
 [v _PMD0 PMD0 `VEuc  1 e 1 @1942 ]
 "22169
@@ -1219,7 +1225,7 @@ channel_FVR_buf1 63
 [v _NVMDATL NVMDATL `VEuc  1 e 1 @2076 ]
 "23293
 [v _NVMDATH NVMDATH `VEuc  1 e 1 @2077 ]
-[s S2359 . 1 `uc 1 RD 1 0 :1:0 
+[s S2357 . 1 `uc 1 RD 1 0 :1:0 
 `uc 1 WR 1 0 :1:1 
 `uc 1 WREN 1 0 :1:2 
 `uc 1 WRERR 1 0 :1:3 
@@ -1228,8 +1234,8 @@ channel_FVR_buf1 63
 `uc 1 NVMREGS 1 0 :1:6 
 ]
 "23359
-[u S2367 . 1 `S2359 1 . 1 0 ]
-[v _NVMCON1bits NVMCON1bits `VES2367  1 e 1 @2078 ]
+[u S2365 . 1 `S2357 1 . 1 0 ]
+[v _NVMCON1bits NVMCON1bits `VES2365  1 e 1 @2078 ]
 "23399
 [v _NVMCON2 NVMCON2 `VEuc  1 e 1 @2079 ]
 "23463
@@ -1308,7 +1314,7 @@ channel_FVR_buf1 63
 [v _SLRCONC SLRCONC `VEuc  1 e 1 @3921 ]
 "35182
 [v _INLVLC INLVLC `VEuc  1 e 1 @3922 ]
-[s S1052 . 1 `uc 1 IOCCP0 1 0 :1:0 
+[s S1050 . 1 `uc 1 IOCCP0 1 0 :1:0 
 `uc 1 IOCCP1 1 0 :1:1 
 `uc 1 IOCCP2 1 0 :1:2 
 `uc 1 IOCCP3 1 0 :1:3 
@@ -1318,11 +1324,11 @@ channel_FVR_buf1 63
 `uc 1 IOCCP7 1 0 :1:7 
 ]
 "35261
-[u S1061 . 1 `S1052 1 . 1 0 ]
+[u S1059 . 1 `S1050 1 . 1 0 ]
 "35261
 "35261
-[v _IOCCPbits IOCCPbits `VES1061  1 e 1 @3923 ]
-[s S1031 . 1 `uc 1 IOCCN0 1 0 :1:0 
+[v _IOCCPbits IOCCPbits `VES1059  1 e 1 @3923 ]
+[s S1029 . 1 `uc 1 IOCCN0 1 0 :1:0 
 `uc 1 IOCCN1 1 0 :1:1 
 `uc 1 IOCCN2 1 0 :1:2 
 `uc 1 IOCCN3 1 0 :1:3 
@@ -1332,11 +1338,11 @@ channel_FVR_buf1 63
 `uc 1 IOCCN7 1 0 :1:7 
 ]
 "35323
-[u S1040 . 1 `S1031 1 . 1 0 ]
+[u S1038 . 1 `S1029 1 . 1 0 ]
 "35323
 "35323
-[v _IOCCNbits IOCCNbits `VES1040  1 e 1 @3924 ]
-[s S1010 . 1 `uc 1 IOCCF0 1 0 :1:0 
+[v _IOCCNbits IOCCNbits `VES1038  1 e 1 @3924 ]
+[s S1008 . 1 `uc 1 IOCCF0 1 0 :1:0 
 `uc 1 IOCCF1 1 0 :1:1 
 `uc 1 IOCCF2 1 0 :1:2 
 `uc 1 IOCCF3 1 0 :1:3 
@@ -1346,10 +1352,10 @@ channel_FVR_buf1 63
 `uc 1 IOCCF7 1 0 :1:7 
 ]
 "35385
-[u S1019 . 1 `S1010 1 . 1 0 ]
+[u S1017 . 1 `S1008 1 . 1 0 ]
 "35385
 "35385
-[v _IOCCFbits IOCCFbits `VES1019  1 e 1 @3925 ]
+[v _IOCCFbits IOCCFbits `VES1017  1 e 1 @3925 ]
 "35554
 [v _ANSELD ANSELD `VEuc  1 e 1 @3929 ]
 "35616
@@ -1378,13 +1384,13 @@ channel_FVR_buf1 63
 [v _INT_InterruptHandler INT_InterruptHandler `*.37(v  1 e 2 0 ]
 "146 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/mcc_generated_files/i2c1_master.c
 [v _i2c1_fsmStateTable i2c1_fsmStateTable `DC[16]*.37(E12623  1 e 32 0 ]
-[s S1246 . 29 `[6]*.37(E363 1 callbackTable 12 0 `[6]*.30v 1 callbackPayload 6 12 `us 1 time_out 2 18 `us 1 time_out_value 2 20 `uc 1 address 1 22 `*.30uc 1 data_ptr 1 23 `ui 1 data_length 2 24 `E12623 1 state 1 26 `E358 1 error 1 27 `uc 1 addressNackCheck 1 28 :1:0 
+[s S1244 . 29 `[6]*.37(E363 1 callbackTable 12 0 `[6]*.30v 1 callbackPayload 6 12 `us 1 time_out 2 18 `us 1 time_out_value 2 20 `uc 1 address 1 22 `*.30uc 1 data_ptr 1 23 `ui 1 data_length 2 24 `E12623 1 state 1 26 `E358 1 error 1 27 `uc 1 addressNackCheck 1 28 :1:0 
 `uc 1 busy 1 28 :1:1 
 `uc 1 inUse 1 28 :1:2 
 `uc 1 bufferFree 1 28 :1:3 
 ]
 "165
-[v _I2C1_Status I2C1_Status `S1246  1 e 29 0 ]
+[v _I2C1_Status I2C1_Status `S1244  1 e 29 0 ]
 "54 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/mcc_generated_files/pin_manager.c
 [v _IOCCF5_InterruptHandler IOCCF5_InterruptHandler `*.37(v  1 e 2 0 ]
 "57 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/mcc_generated_files/tmr1.c
@@ -1393,57 +1399,59 @@ channel_FVR_buf1 63
 [v _TMR1_InterruptHandler TMR1_InterruptHandler `*.37(v  1 e 2 0 ]
 "59
 [v _TMR1_GateInterruptHandler TMR1_GateInterruptHandler `*.37(v  1 e 2 0 ]
-"37 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
+"33 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
 [v _mode mode `E12894  1 s 1 mode ]
-"38
+"34
 [v _field field `E12899  1 s 1 field ]
-"39
+"35
 [v _record_type record_type `E12913  1 s 1 record_type ]
-"42
+"38
 [v _hh hh `uc  1 s 1 hh ]
 [v _mm mm `uc  1 s 1 mm ]
 [v _ss ss `uc  1 s 1 ss ]
-"43
+"39
 [v _temp temp `uc  1 s 1 temp ]
-"44
+"40
 [v _light light `uc  1 s 1 light ]
-"45
+"42
 [v _alarmsEnabled alarmsEnabled `uc  1 s 1 alarmsEnabled ]
-"46
+"43
 [v _alarmFlagC alarmFlagC `uc  1 s 1 alarmFlagC ]
 [v _alarmFlagT alarmFlagT `uc  1 s 1 alarmFlagT ]
 [v _alarmFlagL alarmFlagL `uc  1 s 1 alarmFlagL ]
-[s S3038 . 5 `uc 1 clk_hh 1 0 `uc 1 clk_mm 1 1 `uc 1 clk_ss 1 2 `uc 1 temp 1 3 `uc 1 lum 1 4 ]
-"56
-[v _records records `[4]S3038  1 e 20 0 ]
-"57
+[s S3036 . 5 `uc 1 clk_hh 1 0 `uc 1 clk_mm 1 1 `uc 1 clk_ss 1 2 `uc 1 temp 1 3 `uc 1 lum 1 4 ]
+"53
+[v _records records `[4]S3036  1 e 20 0 ]
+"54
 [v _record_index record_index `uc  1 e 1 0 ]
-"60
+"57
 [v _tala tala `uc  1 e 1 0 ]
-"61
+"58
 [v _tina tina `uc  1 e 1 0 ]
-"62
+"59
 [v _thrSecond thrSecond `uc  1 e 1 0 ]
-"63
+"60
 [v _thrMinute thrMinute `uc  1 e 1 0 ]
-"64
+"61
 [v _thrHour thrHour `uc  1 e 1 0 ]
-"65
+"62
 [v _thrTemp thrTemp `uc  1 e 1 0 ]
-"66
+"63
 [v _thrLum thrLum `uc  1 e 1 0 ]
-"69
+"65
 [v _time_inactive time_inactive `uc  1 e 1 0 ]
-"72
+"68
 [v _S1_pressed S1_pressed `VEi  1 s 2 S1_pressed ]
-"73
+"69
 [v _S2_pressed S2_pressed `VEi  1 s 2 S2_pressed ]
-"76
+"72
 [v _prevTempCond prevTempCond `uc  1 s 1 prevTempCond ]
 [v _prevLumCond prevLumCond `uc  1 s 1 prevLumCond ]
 [v _prevClockCond prevClockCond `uc  1 s 1 prevClockCond ]
-"79
+"75
 [v _pwm_seconds_left pwm_seconds_left `VEuc  1 s 1 pwm_seconds_left ]
+"78
+[v _alarm_suppress_1s alarm_suppress_1s `VEuc  1 s 1 alarm_suppress_1s ]
 "54 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/main.c
 [v _main main `(v  1 e 1 0 ]
 {
@@ -1453,80 +1461,80 @@ channel_FVR_buf1 63
 [v main@last_update last_update `ul  1 a 4 4 ]
 "103
 } 0
-"410 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
+"476 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
 [v _UI_OnTick1s UI_OnTick1s `(v  1 e 1 0 ]
 {
-"417
-[v UI_OnTick1s@clockCond clockCond `uc  1 a 1 57 ]
-"439
+"498
+[v UI_OnTick1s@clockCond clockCond `uc  1 a 1 54 ]
+"515
 } 0
-"443
+"519
 [v _RenderRecords RenderRecords `(v  1 e 1 0 ]
 {
-"444
+"520
 [v RenderRecords@line2 line2 `[17]uc  1 a 17 29 ]
 [v RenderRecords@line1 line1 `[17]uc  1 a 17 12 ]
-"465
+"538
 } 0
-"467
+"540
 [v _RenderConfig RenderConfig `(v  1 e 1 0 ]
 {
-"469
+"542
 [v RenderConfig@line1 line1 `[17]uc  1 a 17 31 ]
 [v RenderConfig@line2 line2 `[17]uc  1 a 17 14 ]
-"474
+"546
 [v RenderConfig@show_ss show_ss `uc  1 a 1 52 ]
 [v RenderConfig@show_mm show_mm `uc  1 a 1 51 ]
 [v RenderConfig@show_hh show_hh `uc  1 a 1 50 ]
-"522
+"590
 } 0
-"103
+"102
 [v _Alarm_BeepTick1s Alarm_BeepTick1s `T(v  1 s 1 Alarm_BeepTick1s ]
 {
-"107
+"106
 } 0
-"327
+"392
 [v _UI_Init UI_Init `(v  1 e 1 0 ]
 {
-"360
-[v UI_Init@addr_3358 addr `us  1 a 2 61 ]
-"356
-[v UI_Init@i_3357 i `uc  1 a 1 64 ]
-"347
-[v UI_Init@addr addr `us  1 a 2 59 ]
-"343
-[v UI_Init@i i `uc  1 a 1 63 ]
-"330
-[v UI_Init@magic magic `us  1 a 2 56 ]
-"331
-[v UI_Init@calc_checksum calc_checksum `uc  1 a 1 65 ]
-[v UI_Init@stored_checksum stored_checksum `uc  1 a 1 58 ]
+"419
+[v UI_Init@addr_3361 addr `us  1 a 2 55 ]
+"415
+[v UI_Init@i_3360 i `uc  1 a 1 58 ]
 "407
+[v UI_Init@addr addr `us  1 a 2 53 ]
+"403
+[v UI_Init@i i `uc  1 a 1 57 ]
+"394
+[v UI_Init@magic magic `us  1 a 2 50 ]
+"395
+[v UI_Init@calc_checksum calc_checksum `uc  1 a 1 59 ]
+[v UI_Init@stored_checksum stored_checksum `uc  1 a 1 52 ]
+"474
 } 0
-"294
+"356
 [v _set_defaults set_defaults `(v  1 e 1 0 ]
 {
-"325
+"390
 } 0
-"524
+"592
 [v _RenderNormal RenderNormal `(v  1 e 1 0 ]
 {
-"526
+"594
 [v RenderNormal@line1 line1 `[17]uc  1 a 17 31 ]
 [v RenderNormal@line2 line2 `[17]uc  1 a 17 14 ]
-"551
+"629
 } 0
-"119
+"144
 [v _put2 put2 `(v  1 s 1 put2 ]
 {
-"122
+"146
 [v put2@rightdigit rightdigit `uc  1 a 1 11 ]
-"123
+"147
 [v put2@leftdigit leftdigit `uc  1 a 1 10 ]
-"119
+"144
 [v put2@p p `*.4uc  1 p 1 8 ]
 [v put2@v v `uc  1 p 1 9 ]
-"126
+"150
 } 0
 "5 /opt/microchip/xc8/v3.10/pic/sources/c99/common/awdiv.c
 [v ___awdiv __awdiv `(i  1 e 2 0 ]
@@ -1541,14 +1549,14 @@ channel_FVR_buf1 63
 [v ___awdiv@dividend dividend `i  1 p 2 2 ]
 "41
 } 0
-"112 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
+"137 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
 [v _fill16 fill16 `(v  1 s 1 fill16 ]
 {
-"114
+"139
 [v fill16@i i `uc  1 a 1 3 ]
-"112
+"137
 [v fill16@s s `*.4uc  1 p 1 2 ]
-"116
+"141
 } 0
 "112 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/LCD/lcd.c
 [v _LCDstr LCDstr `(v  1 e 1 0 ]
@@ -1608,12 +1616,7 @@ channel_FVR_buf1 63
 [v LCDrecv@mode mode `uc  1 p 1 8 ]
 "54
 } 1
-"87 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
-[v _PWM6_Stop PWM6_Stop `T(v  1 s 1 PWM6_Stop ]
-{
-"91
-} 0
-"79 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/LCD/lcd.c
+"79
 [v _LCDinit LCDinit `(v  1 e 1 0 ]
 {
 "100
@@ -1641,7 +1644,7 @@ channel_FVR_buf1 63
 [v LCDsend@c c `uc  1 p 1 5 ]
 "24
 } 1
-"24 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/EEPROM/EEPROM.c
+"23 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/EEPROM/EEPROM.c
 [v _EEPROM_ReadRecord EEPROM_ReadRecord `(v  1 e 1 0 ]
 {
 [v EEPROM_ReadRecord@base_addr base_addr `us  1 p 2 0 ]
@@ -1655,14 +1658,19 @@ channel_FVR_buf1 63
 "39
 [v _EEPROM_ReadHeader EEPROM_ReadHeader `(v  1 e 1 0 ]
 {
-"41
+"42
 [v EEPROM_ReadHeader@high high `uc  1 a 1 7 ]
-"40
+"41
 [v EEPROM_ReadHeader@low low `uc  1 a 1 6 ]
 "39
 [v EEPROM_ReadHeader@magic magic `*.4us  1 p 1 4 ]
 [v EEPROM_ReadHeader@checksum checksum `*.4uc  1 p 1 5 ]
-"44
+"45
+} 0
+"335 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
+[v _ConfigLooksSane ConfigLooksSane `(uc  1 s 1 ConfigLooksSane ]
+{
+"354
 } 0
 "50 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/mcc_generated_files/mcc.c
 [v _SYSTEM_Initialize SYSTEM_Initialize `(v  1 e 1 0 ]
@@ -1747,33 +1755,33 @@ channel_FVR_buf1 63
 {
 "106
 } 0
-"706 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
+"810 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
 [v _S2_check S2_check `(i  1 e 2 0 ]
 {
 } 0
-"705
+"809
 [v _S1_check S1_check `(i  1 e 2 0 ]
 {
 } 0
-"708
+"812
 [v _Reset_flag_S2 Reset_flag_S2 `(v  1 e 1 0 ]
 {
 } 0
-"707
+"811
 [v _Reset_flag_S1 Reset_flag_S1 `(v  1 e 1 0 ]
 {
 } 0
-"594
+"670
 [v _ReadSensors ReadSensors `(v  1 e 1 0 ]
 {
-"598
+"674
 } 0
-"554
+"632
 [v _readTC74 readTC74 `(uc  1 e 1 0 ]
 {
-"556
+"634
 [v readTC74@value value `uc  1 a 1 5 ]
-"581
+"659
 } 0
 "59 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/I2C/i2c.c
 [v _WriteI2C WriteI2C `(c  1 e 1 0 ]
@@ -1789,14 +1797,14 @@ channel_FVR_buf1 63
 {
 "50
 } 0
-"583 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
+"661 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
 [v _readLuminosityLevel readLuminosityLevel `(uc  1 s 1 readLuminosityLevel ]
 {
-"585
+"663
 [v readLuminosityLevel@raw raw `us  1 a 2 5 ]
-"589
+"665
 [v readLuminosityLevel@level level `uc  1 a 1 7 ]
-"592
+"668
 } 0
 "132 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/mcc_generated_files/adcc.c
 [v _ADCC_GetSingleConversion ADCC_GetSingleConversion `(us  1 e 2 0 ]
@@ -1807,26 +1815,26 @@ channel_FVR_buf1 63
 [v ADCC_GetSingleConversion@channel channel `E12225  1 p 1 4 ]
 "157
 } 1
-"625 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
+"713 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
 [v _CompareReading CompareReading `(v  1 e 1 0 ]
 {
-"662
+"749
 } 0
-"664
+"751
 [v _SaveRecord_EEPROM SaveRecord_EEPROM `(v  1 e 1 0 ]
 {
-[v SaveRecord_EEPROM@record_to_save record_to_save `i  1 p 2 11 ]
-"683
+[v SaveRecord_EEPROM@record_to_save record_to_save `i  1 p 2 6 ]
+"769
 } 0
 "26 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/I2C/i2c.c
 [v _OpenI2C OpenI2C `(v  1 e 1 0 ]
 {
 "36
 } 0
-"214 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
+"239 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
 [v _OnS2Pressed OnS2Pressed `(v  1 e 1 0 ]
 {
-"291
+"332
 } 0
 "5 /opt/microchip/xc8/v3.10/pic/sources/c99/common/awmod.c
 [v ___awmod __awmod `(i  1 e 2 0 ]
@@ -1839,12 +1847,12 @@ channel_FVR_buf1 63
 [v ___awmod@dividend dividend `i  1 p 2 4 ]
 "34
 } 0
-"685 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
+"771 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
 [v _ClearRecords ClearRecords `(v  1 e 1 0 ]
 {
-"687
+"774
 [v ClearRecords@i i `uc  1 a 1 9 ]
-"698
+"803
 } 0
 "4 /opt/microchip/xc8/v3.10/pic/sources/c99/common/Umul8.c
 [v ___bmul __bmul `(uc  1 e 1 0 ]
@@ -1859,54 +1867,102 @@ channel_FVR_buf1 63
 [v ___bmul@multiplier multiplier `uc  1 p 1 4 ]
 "51
 } 1
-"15 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/EEPROM/EEPROM.c
-[v _EEPROM_WriteRecord EEPROM_WriteRecord `(v  1 e 1 0 ]
+"62 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/EEPROM/EEPROM.c
+[v _UpdateEEPROMChecksum UpdateEEPROMChecksum `(v  1 e 1 0 ]
 {
-[v EEPROM_WriteRecord@base_addr base_addr `us  1 p 2 4 ]
-[v EEPROM_WriteRecord@h h `uc  1 p 1 6 ]
-[v EEPROM_WriteRecord@m m `uc  1 p 1 7 ]
-[v EEPROM_WriteRecord@s s `uc  1 p 1 8 ]
-[v EEPROM_WriteRecord@T T `uc  1 p 1 9 ]
-[v EEPROM_WriteRecord@L L `uc  1 p 1 10 ]
-"22
+"65
 } 0
-"174 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
-[v _OnS1Pressed OnS1Pressed `(v  1 e 1 0 ]
+"32
+[v _EEPROM_WriteHeader EEPROM_WriteHeader `(v  1 e 1 0 ]
 {
-"187
-[v OnS1Pressed@next next `E12899  1 a 1 5 ]
+[v EEPROM_WriteHeader@magic magic `us  1 p 2 0 ]
+[v EEPROM_WriteHeader@checksum checksum `uc  1 p 1 2 ]
+"37
+} 0
+"47
+[v _EEPROM_CalcChecksum EEPROM_CalcChecksum `(uc  1 e 1 0 ]
+{
+"55
+[v EEPROM_CalcChecksum@addr addr `us  1 a 2 6 ]
+"51
+[v EEPROM_CalcChecksum@i i `uc  1 a 1 8 ]
+"49
+[v EEPROM_CalcChecksum@sum sum `uc  1 a 1 5 ]
+"60
+} 0
+"9
+[v _EEPROM_ReadConfig EEPROM_ReadConfig `(uc  1 e 1 0 ]
+{
+[v EEPROM_ReadConfig@config_id config_id `uc  1 p 1 wreg ]
+[v EEPROM_ReadConfig@config_id config_id `uc  1 p 1 wreg ]
+"11
+[v EEPROM_ReadConfig@config_id config_id `uc  1 p 1 4 ]
+"12
+} 1
+"202 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/mcc_generated_files/memory.c
+[v _DATAEE_ReadByte DATAEE_ReadByte `(uc  1 e 1 0 ]
+{
+[v DATAEE_ReadByte@bAdd bAdd `us  1 p 2 2 ]
 "212
 } 0
-"152
+"14 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/EEPROM/EEPROM.c
+[v _EEPROM_WriteRecord EEPROM_WriteRecord `(v  1 e 1 0 ]
+{
+[v EEPROM_WriteRecord@base_addr base_addr `us  1 p 2 0 ]
+[v EEPROM_WriteRecord@h h `uc  1 p 1 2 ]
+[v EEPROM_WriteRecord@m m `uc  1 p 1 3 ]
+[v EEPROM_WriteRecord@s s `uc  1 p 1 4 ]
+[v EEPROM_WriteRecord@T T `uc  1 p 1 5 ]
+[v EEPROM_WriteRecord@L L `uc  1 p 1 6 ]
+"21
+} 0
+"172 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
+[v _ClearAlarmFlags ClearAlarmFlags `(v  1 e 1 0 ]
+{
+} 0
+"197
+[v _OnS1Pressed OnS1Pressed `(v  1 e 1 0 ]
+{
+"212
+[v OnS1Pressed@next next `E12899  1 a 1 6 ]
+"237
+} 0
+"175
 [v _cfg_next cfg_next `(E12899  1 s 1 cfg_next ]
 {
 [v cfg_next@f f `E12899  1 p 1 wreg ]
 [v cfg_next@f f `E12899  1 p 1 wreg ]
 [v cfg_next@f f `E12899  1 p 1 4 ]
-"170
+"193
 } 1
-"149
-[v _ClearAlarmFlags ClearAlarmFlags `(v  1 e 1 0 ]
+"115
+[v _Alarm_SuppressBegin_1s Alarm_SuppressBegin_1s `T(v  1 s 1 Alarm_SuppressBegin_1s ]
 {
+"134
 } 0
-"601
+"86
+[v _PWM6_Stop PWM6_Stop `T(v  1 s 1 PWM6_Stop ]
+{
+"90
+} 0
+"677
 [v _EvaluateTempLumAlarms EvaluateTempLumAlarms `(v  1 e 1 0 ]
 {
-"604
+"698
 [v EvaluateTempLumAlarms@lumCond lumCond `uc  1 a 1 7 ]
-"603
+"697
 [v EvaluateTempLumAlarms@tempCond tempCond `uc  1 a 1 6 ]
-"622
+"710
 } 0
-"93
+"92
 [v _Alarm_BeepStart Alarm_BeepStart `T(v  1 s 1 Alarm_BeepStart ]
 {
-"101
+"100
 } 0
-"82
+"81
 [v _PWM6_Start PWM6_Start `T(v  1 s 1 PWM6_Start ]
 {
-"85
+"84
 } 0
 "74 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/mcc_generated_files/pwm6.c
 [v _PWM6_LoadDutyValue PWM6_LoadDutyValue `(v  1 e 1 0 ]
@@ -1914,38 +1970,21 @@ channel_FVR_buf1 63
 [v PWM6_LoadDutyValue@dutyValue dutyValue `us  1 p 2 2 ]
 "81
 } 0
-"129 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
+"153 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
 [v _Clock_Tick1s Clock_Tick1s `(v  1 e 1 0 ]
 {
-"147
+"170
 } 0
-"5 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/EEPROM/EEPROM.c
+"4 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/EEPROM/EEPROM.c
 [v _EEPROM_WriteConfig EEPROM_WriteConfig `(v  1 e 1 0 ]
 {
 [v EEPROM_WriteConfig@config_id config_id `uc  1 p 1 wreg ]
 [v EEPROM_WriteConfig@config_id config_id `uc  1 p 1 wreg ]
-[v EEPROM_WriteConfig@value value `uc  1 p 1 9 ]
-[v EEPROM_WriteConfig@config_id config_id `uc  1 p 1 4 ]
-"8
+[v EEPROM_WriteConfig@value value `uc  1 p 1 6 ]
+"6
+[v EEPROM_WriteConfig@config_id config_id `uc  1 p 1 7 ]
+"7
 } 1
-"46
-[v _UpdateEEPROMChecksum UpdateEEPROMChecksum `(v  1 e 1 0 ]
-{
-"54
-[v UpdateEEPROMChecksum@addr addr `us  1 a 2 1 ]
-"50
-[v UpdateEEPROMChecksum@i i `uc  1 a 1 3 ]
-"48
-[v UpdateEEPROMChecksum@calc_checksum calc_checksum `uc  1 a 1 0 ]
-"59
-} 0
-"33
-[v _EEPROM_WriteHeader EEPROM_WriteHeader `(v  1 e 1 0 ]
-{
-[v EEPROM_WriteHeader@magic magic `us  1 p 2 6 ]
-[v EEPROM_WriteHeader@checksum checksum `uc  1 p 1 8 ]
-"37
-} 0
 "180 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/mcc_generated_files/memory.c
 [v _DATAEE_WriteByte DATAEE_WriteByte `(v  1 e 1 0 ]
 {
@@ -1955,21 +1994,6 @@ channel_FVR_buf1 63
 [v DATAEE_WriteByte@bAdd bAdd `us  1 p 2 2 ]
 [v DATAEE_WriteByte@bData bData `uc  1 p 1 4 ]
 "200
-} 0
-"10 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/EEPROM/EEPROM.c
-[v _EEPROM_ReadConfig EEPROM_ReadConfig `(uc  1 e 1 0 ]
-{
-[v EEPROM_ReadConfig@config_id config_id `uc  1 p 1 wreg ]
-[v EEPROM_ReadConfig@config_id config_id `uc  1 p 1 wreg ]
-"12
-[v EEPROM_ReadConfig@config_id config_id `uc  1 p 1 4 ]
-"13
-} 1
-"202 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/mcc_generated_files/memory.c
-[v _DATAEE_ReadByte DATAEE_ReadByte `(uc  1 e 1 0 ]
-{
-[v DATAEE_ReadByte@bAdd bAdd `us  1 p 2 2 ]
-"212
 } 0
 "30 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/Clock/clock.c
 [v _AppClock_Seconds AppClock_Seconds `(ul  1 e 4 0 ]
@@ -2047,7 +2071,7 @@ channel_FVR_buf1 63
 {
 "190
 } 0
-"704 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
+"808 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
 [v _S2_Callback S2_Callback `(v  1 e 1 0 ]
 {
 } 0
@@ -2066,7 +2090,7 @@ channel_FVR_buf1 63
 {
 "57
 } 0
-"703 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
+"807 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
 [v _S1_Callback S1_Callback `(v  1 e 1 0 ]
 {
 } 0

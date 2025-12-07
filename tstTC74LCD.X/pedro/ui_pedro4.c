@@ -332,27 +332,6 @@ void OnS2Pressed(void)
 }
 
 /*-------------------    UI functions ----------------------------*/
-static uint8_t ConfigLooksSane(void)
-{
-    if (pmon == 0 || pmon > 60) return 0;
-    if (tala == 0 || tala > 20) return 0;
-    if (tina == 0 || tina > 60) return 0;
-
-    if (alarmsEnabled > 1) return 0;
-
-    if (thrHour > 23) return 0;
-    if (thrMinute > 59) return 0;
-    if (thrSecond > 59) return 0;
-
-    if ((uint8_t)thrTemp > 50) return 0;
-    if ((uint8_t)thrLum > 3) return 0;
-
-    if (hh > 23) return 0;
-    if (mm > 59) return 0;
-
-    return 1;
-}
-
 void set_defaults(void){
     pmon = (uint8_t) PMON;
     tala = (uint8_t) TALA;
@@ -376,11 +355,6 @@ void set_defaults(void){
     EEPROM_WriteConfig(EEPROM_CONFIG_ALAS, thrSecond);
     EEPROM_WriteConfig(EEPROM_CONFIG_ALAT, thrTemp);
     EEPROM_WriteConfig(EEPROM_CONFIG_ALAL, thrLum);
-
-    EEPROM_WriteConfig(EEPROM_CONFIG_CLKH, hh);
-    EEPROM_WriteConfig(EEPROM_CONFIG_CLKM, mm);
-
-
     ClearRecords();
 
     records[0].temp = (uint8_t)0;   records[0].lum = (uint8_t)0;
@@ -430,11 +404,11 @@ void UI_Init(void)
         tala = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_TALA);
         tina = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_TINA);
         alarmsEnabled = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_ALAF);
-        thrHour       = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_ALAH);
-        thrMinute     = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_ALAM);
-        thrSecond     = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_ALAS);
-        thrTemp       = (char) EEPROM_ReadConfig(EEPROM_CONFIG_ALAT);
-        thrLum        = (char) EEPROM_ReadConfig(EEPROM_CONFIG_ALAL);
+        thrHour   = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_ALAH);
+        thrMinute = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_ALAM);
+        thrSecond = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_ALAS);
+        thrTemp   = (char) EEPROM_ReadConfig(EEPROM_CONFIG_ALAT);
+        thrLum    = (char) EEPROM_ReadConfig(EEPROM_CONFIG_ALAL);
         hh = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_CLKH);
         mm = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_CLKM);
         ss = (uint8_t) 0;
@@ -466,8 +440,6 @@ void UI_Init(void)
     mode = UI_NORMAL;
     field = CF_CLK_HH;
     record_type = RECORD_NONE;
-
-    if(!ConfigLooksSane()){set_defaults();UpdateEEPROMChecksum();}
 
     LCDinit();
     RenderNormal();
