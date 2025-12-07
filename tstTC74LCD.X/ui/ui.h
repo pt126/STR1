@@ -9,8 +9,7 @@
 uint8_t pmon = PMON;  // monitoring period
 
 
-/*-----------------------     Utils functions...    ---------------------*/
-
+/*--------------------    Time functions ------------------------*/
 void Clock_Tick1s(void);
 void ClearAlarmFlags(void);
 
