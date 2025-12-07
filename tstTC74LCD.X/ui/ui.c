@@ -96,7 +96,7 @@ static inline void Alarm_BeepStart(void)
     if (pwm_seconds_left != 0) return;
 
     pwm_seconds_left = TALA;
-    PWM6_LoadDutyValue(512); // keep your duty choice
+    PWM6_LoadDutyValue(512); //50 percent duty cycle
     PWM6_Start();
 }
 
@@ -218,6 +218,9 @@ void OnS2Pressed(void)
         switch (field) {
             case CF_CLK_HH: 
                 hh = (hh + 1) % 24;
+                //char line[17];
+                //sprintf(line,"hh %d",hh);
+                //LCDcmd(0x80); LCDpos(0,0);LCDstr(line); while (LCDbusy()){}; __delay_ms(5000);
                 EEPROM_WriteConfig(EEPROM_CONFIG_CLKH, hh);
                 break;           
             case CF_CLK_MM: 
@@ -230,6 +233,8 @@ void OnS2Pressed(void)
             case CF_CTL_C:  field = CF_CTL_C_HH; break;
             case CF_CTL_C_HH :
                 thrHour = (thrHour + 1) %24;
+                //sprintf(line,"thrHour %d",thrHour);
+                //LCDcmd(0x80); LCDpos(0,0);LCDstr(line); while (LCDbusy()){}; __delay_ms(5000);
                 EEPROM_WriteConfig(EEPROM_CONFIG_ALAH, thrHour);
                 break;
             case CF_CTL_C_MM :
@@ -246,7 +251,7 @@ void OnS2Pressed(void)
                 break;       // 0..50 
             case CF_CTL_L:  
                 thrLum  = (thrLum  + 1) % 4;
-                EEPROM_WriteConfig(EEPROM_CONFIG_ALAL, thrLum);
+                EEPROM_WriteConfig(EEPROM_CONFIG_ALAL, (uint8_t)thrLum);
                 break;       // 0..3 
             case CF_ALARM_EN: 
                 alarmsEnabled ^= 1; 
@@ -287,18 +292,18 @@ void OnS2Pressed(void)
 
 /*-------------------    UI functions ----------------------------*/
 void set_defaults(void){
-    pmon = PMON;
-    tala = TALA;
-    tina = TINA;
-    alarmsEnabled = ALAF;
-    thrHour   = ALAH;
-    thrMinute = ALAM;
-    thrSecond = ALAS;
-    thrTemp   = ALAT;
-    thrLum    = ALAL;
-    hh = CLKH;
-    mm = CLKM;
-    ss = 0;
+    pmon = (uint8_t) PMON;
+    tala = (uint8_t) TALA;
+    tina = (uint8_t) TINA;
+    alarmsEnabled = (uint8_t) ALAF;
+    thrHour   = (uint8_t) ALAH;
+    thrMinute = (uint8_t) ALAM;
+    thrSecond = (uint8_t) ALAS;
+    thrTemp   = (char) ALAT;
+    thrLum    = (char) ALAL;
+    hh = (uint8_t) CLKH;
+    mm = (uint8_t) CLKM;
+    ss = (uint8_t) 0;
 
     // Save default config to EEPROM
     EEPROM_WriteConfig(EEPROM_CONFIG_PMON, pmon);
@@ -313,10 +318,10 @@ void set_defaults(void){
     ClearRecords();
 
     // init records to sane extremes
-    records[0].temp = 0;   records[0].lum = 0;
-    records[1].temp = 255; records[1].lum = 3;
-    records[2].temp = 0;   records[2].lum = 0;
-    records[3].temp = 255; records[3].lum = 3;
+    records[0].temp = (uint8_t)0;   records[0].lum = (uint8_t)0;
+    records[1].temp = (uint8_t)255; records[1].lum = (uint8_t)3;
+    records[2].temp = (uint8_t)0;   records[2].lum = (uint8_t)0;
+    records[3].temp = (uint8_t)255; records[3].lum = (uint8_t)3;
 }
 
 void UI_Init(void)
@@ -325,7 +330,7 @@ void UI_Init(void)
     uint16_t magic;
     uint8_t stored_checksum, calc_checksum = 0;
 
-    //LCDcmd(0x80); LCDpos(0,0);LCDstr("1"); while (LCDbusy()){};__delay_ms(5000);
+    
 
     EEPROM_ReadHeader(&magic, &stored_checksum);
     
@@ -338,6 +343,11 @@ void UI_Init(void)
         for (uint8_t i = 0; i <= EEPROM_CONFIG_CLKM; i++) {
             calc_checksum += EEPROM_ReadConfig(i);
         }
+        
+        for (uint16_t addr = EEPROM_ADDR_TMAX; addr <= EEPROM_ADDR_LMIN + 4; addr++) {
+            calc_checksum += DATAEE_ReadByte(addr);
+        }
+
         EEPROM_WriteHeader(MAGIC_WORD, calc_checksum);
 
     } else {
@@ -346,6 +356,11 @@ void UI_Init(void)
         for (uint8_t i = 0; i <= EEPROM_CONFIG_CLKM; i++) {
             calc_checksum += EEPROM_ReadConfig(i);
         }
+        
+        for (uint16_t addr = EEPROM_ADDR_TMAX; addr <= EEPROM_ADDR_LMIN + 4; addr++) {
+            calc_checksum += DATAEE_ReadByte(addr);
+        }
+
         if (stored_checksum != calc_checksum) {
 
             set_defaults();
@@ -353,17 +368,19 @@ void UI_Init(void)
             return;
         }
         // Load config and records from EEPROM
-        pmon = EEPROM_ReadConfig(EEPROM_CONFIG_PMON);
-        tala = EEPROM_ReadConfig(EEPROM_CONFIG_TALA);
-        tina = EEPROM_ReadConfig(EEPROM_CONFIG_TINA);
-        alarmsEnabled = EEPROM_ReadConfig(EEPROM_CONFIG_ALAF);
-        thrHour   = EEPROM_ReadConfig(EEPROM_CONFIG_ALAH);
-        thrMinute = EEPROM_ReadConfig(EEPROM_CONFIG_ALAM);
-        thrSecond = EEPROM_ReadConfig(EEPROM_CONFIG_ALAS);
-        thrTemp   = EEPROM_ReadConfig(EEPROM_CONFIG_ALAT);
-        thrLum    = EEPROM_ReadConfig(EEPROM_CONFIG_ALAL);
-        hh = EEPROM_ReadConfig(EEPROM_CONFIG_CLKH);
-        mm = EEPROM_ReadConfig(EEPROM_CONFIG_CLKM);
+        pmon = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_PMON);
+        tala = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_TALA);
+        tina = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_TINA);
+        alarmsEnabled = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_ALAF);
+        thrHour   = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_ALAH);
+        thrMinute = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_ALAM);
+        thrSecond = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_ALAS);
+        thrTemp   = (char) EEPROM_ReadConfig(EEPROM_CONFIG_ALAT);
+        thrLum    = (char) EEPROM_ReadConfig(EEPROM_CONFIG_ALAL);
+        hh = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_CLKH);
+        mm = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_CLKM);
+        ss = (uint8_t) 0;
+
 
         EEPROM_ReadRecord(EEPROM_ADDR_TMAX, &records[0].clk_hh, &records[0].clk_mm, &records[0].clk_ss, &records[0].temp, &records[0].lum);
         EEPROM_ReadRecord(EEPROM_ADDR_TMIN, &records[1].clk_hh, &records[1].clk_mm, &records[1].clk_ss, &records[1].temp, &records[1].lum);
@@ -389,10 +406,11 @@ void UI_Init(void)
     RenderNormal();
 }
 
+
 void UI_OnTick1s(void)
 {
-    //time_inactive ++;
-    //LCDcmd(0x80); LCDpos(0,0);LCDstr("Dentro do Tick"); while (LCDbusy()){}; __delay_ms(5000);
+    
+    
     if (time_inactive > tina) {time_inactive = 0;mode = UI_NORMAL;}
     
     Alarm_BeepTick1s();
@@ -409,9 +427,9 @@ void UI_OnTick1s(void)
     }
     
     // Render the UI according to the mode
-    if      (mode == UI_NORMAL)      { RenderNormal (); }
-    else if (mode == UI_CONFIG)      { RenderConfig (); }
-    else if (mode == UI_SHOW_RECORDS){ RenderRecords(); }
+    if      (mode == UI_NORMAL)      { RenderNormal (); } //here its ok to be inactive
+    else if (mode == UI_CONFIG)      { time_inactive ++; RenderConfig (); }
+    else if (mode == UI_SHOW_RECORDS){ time_inactive ++; RenderRecords(); }
     return;
 
     // 4) LEDs for normal mode (later add other LEDs + PWM alarm)

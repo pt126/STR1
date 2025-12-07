@@ -866,15 +866,7 @@ static char dbuf[32];
 static void pad(FILE *fp, char *buf, int p)
 {
     int i;
-
-
-
-    if (flags & (1 << 0)) {
-        fputs((const char *)buf, fp);
-    }
-
-
-
+# 205 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
  if (p < 0) {
   p = 0;
  }
@@ -886,75 +878,18 @@ static void pad(FILE *fp, char *buf, int p)
 
 
 
-    if (!(flags & (1 << 0))) {
+
 
         fputs((const char *)buf, fp);
 
-    }
+
 
 
 
 
 
 }
-# 1001 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
-static void utoa(FILE *fp, vfpf_uint_t d)
-{
-    int i, w;
-
-
-
- _Bool p = 1;
-# 1019 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
-    w = width;
-
-
-    i = sizeof(dbuf) - 1;
-    dbuf[i] = '\0';
-    while (i && (d != 0
-
-
-
-    || p
-
-
-    || ((0 < w) && (flags & (1 << 1)))
-
-    )) {
-        --i;
-        dbuf[i] = '0' + (d % 10);
-
-
-
-  p = 0;
-
-        --w;
-        d = d / 10;
-    }
-
-
-    return (void) pad(fp, &dbuf[i], w);
-}
-# 1157 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
-static int
-read_prec_or_width (const char **fmt, va_list *ap) {
-    int n = 0;
-    if ((*fmt)[0] == '*') {
-        ++*fmt;
-        n = (*(int *)__va_arg(*(int **)*ap, (int)0));
-    } else {
-        unsigned char c;
-        while ((c = ((unsigned)(*fmt)[0]) - '0') < 10) {
-            n = n * 10 + c;
-            ++*fmt;
-        }
-    }
-    return n;
-}
-
-
-
-
+# 1176 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
 static void
 vfpfcnvrt(FILE *fp, char *fmt[], va_list ap)
 {
@@ -974,54 +909,41 @@ vfpfcnvrt(FILE *fp, char *fmt[], va_list ap)
 
         flags = width = 0;
         prec = -1;
-
-
-
-        done = 0;
-        while (!done) {
-            switch ((*fmt)[0]) {
-
-
-
-
-
-
-
-                case '0' :
-                    flags |= (1 << 1);
-                    ++*fmt;
-                    break;
-# 1242 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
-                default:
-                    done = 1;
-                    break;
-            }
-        }
-# 1256 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
-  width = read_prec_or_width(fmt, ap);
-  if (width < 0) {
-   flags |= (1 << 0);
-   width = -width;
-  }
 # 1291 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
   cp = *fmt;
-# 1439 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
-  if (0
-# 1450 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
-    || *cp == 'u'
-
-    ) {
-# 1495 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
-   convarg.uint = (vfpf_uint_t)(unsigned int)(*(unsigned int *)__va_arg(*(unsigned int **)ap, (unsigned int)0));
+# 1361 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
+  if (*cp == 'd' || *cp == 'i') {
+# 1404 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
+   convarg.sint = (vfpf_sint_t)(int)(*(int *)__va_arg(*(int **)ap, (int)0));
 
    *fmt = cp+1;
-   switch (*cp) {
-# 1523 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
-    case 'u':
-# 1542 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
-     return (void) utoa(fp, convarg.uint);
-# 1589 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
+
+   c = sizeof(dbuf);
+   done = convarg.sint < 0;
+   do {
+    dbuf[--c] = abs(convarg.sint % 10) + '0';
+    convarg.sint /= 10;
+
+
+
+   } while (convarg.sint != 0 && c != 0);
+   if (c != 0 && done) {
+    dbuf[--c] = '-';
+
+
+
    }
+   while (c != sizeof(dbuf)) {
+    fputc(dbuf[c++], fp);
+   }
+
+
+
+   return;
+
+
+
+
   }
 # 1806 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
         ++*fmt;

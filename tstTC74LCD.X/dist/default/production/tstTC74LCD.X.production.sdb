@@ -138,7 +138,7 @@ RECORD_NONE 0
 RECORD_TEMP 1
 RECORD_LUM 2
 ]
-"567
+"585
 [e E12797 . `uc
 channel_ANA0 0
 channel_VSS 60
@@ -169,16 +169,18 @@ channel_FVR_buf1 63
 "32
 [v _AppClock_ConsumeTick1s AppClock_ConsumeTick1s `(uc  1 e 1 0 ]
 "4 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/EEPROM/EEPROM.c
+[v _reverse_bits reverse_bits `(uc  1 e 1 0 ]
+"16
 [v _EEPROM_WriteConfig EEPROM_WriteConfig `(v  1 e 1 0 ]
-"8
-[v _EEPROM_ReadConfig EEPROM_ReadConfig `(uc  1 e 1 0 ]
-"12
-[v _EEPROM_WriteRecord EEPROM_WriteRecord `(v  1 e 1 0 ]
 "20
+[v _EEPROM_ReadConfig EEPROM_ReadConfig `(uc  1 e 1 0 ]
+"24
+[v _EEPROM_WriteRecord EEPROM_WriteRecord `(v  1 e 1 0 ]
+"32
 [v _EEPROM_ReadRecord EEPROM_ReadRecord `(v  1 e 1 0 ]
-"28
+"40
 [v _EEPROM_WriteHeader EEPROM_WriteHeader `(v  1 e 1 0 ]
-"34
+"46
 [v _EEPROM_ReadHeader EEPROM_ReadHeader `(v  1 e 1 0 ]
 "26 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/I2C/i2c.c
 [v _OpenI2C OpenI2C `(v  1 e 1 0 ]
@@ -416,43 +418,43 @@ channel_FVR_buf1 63
 [v _OnS1Pressed OnS1Pressed `(v  1 e 1 0 ]
 "214
 [v _OnS2Pressed OnS2Pressed `(v  1 e 1 0 ]
-"289
+"294
 [v _set_defaults set_defaults `(v  1 e 1 0 ]
-"322
+"327
 [v _UI_Init UI_Init `(v  1 e 1 0 ]
-"392
+"410
 [v _UI_OnTick1s UI_OnTick1s `(v  1 e 1 0 ]
-"425
+"443
 [v _RenderRecords RenderRecords `(v  1 e 1 0 ]
-"449
+"467
 [v _RenderConfig RenderConfig `(v  1 e 1 0 ]
-"506
+"524
 [v _RenderNormal RenderNormal `(v  1 e 1 0 ]
-"536
+"554
 [v _readTC74 readTC74 `(uc  1 e 1 0 ]
-"565
+"583
 [v _readLuminosityLevel readLuminosityLevel `(uc  1 s 1 readLuminosityLevel ]
-"576
+"594
 [v _ReadSensors ReadSensors `(v  1 e 1 0 ]
-"607
+"625
 [v _CompareReading CompareReading `(v  1 e 1 0 ]
-"646
+"664
 [v _SaveRecord_EEPROM SaveRecord_EEPROM `(v  1 e 1 0 ]
-"667
+"685
 [v _ClearRecords ClearRecords `(v  1 e 1 0 ]
-"682
-[v _UpdateEEPROMChecksum UpdateEEPROMChecksum `(v  1 e 1 0 ]
-"698
-[v _S1_Callback S1_Callback `(v  1 e 1 0 ]
-"699
-[v _S2_Callback S2_Callback `(v  1 e 1 0 ]
 "700
+[v _UpdateEEPROMChecksum UpdateEEPROMChecksum `(v  1 e 1 0 ]
+"716
+[v _S1_Callback S1_Callback `(v  1 e 1 0 ]
+"717
+[v _S2_Callback S2_Callback `(v  1 e 1 0 ]
+"718
 [v _S1_check S1_check `(i  1 e 2 0 ]
-"701
+"719
 [v _S2_check S2_check `(i  1 e 2 0 ]
-"702
+"720
 [v _Reset_flag_S1 Reset_flag_S1 `(v  1 e 1 0 ]
-"703
+"721
 [v _Reset_flag_S2 Reset_flag_S2 `(v  1 e 1 0 ]
 "213 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/mcc_generated_files/i2c1_master.h
 [v _MSSP1_InterruptHandler MSSP1_InterruptHandler `*.37(v  1 e 2 0 ]
@@ -528,20 +530,20 @@ channel_FVR_buf1 63
 [v _TMR0H TMR0H `VEuc  1 e 1 @29 ]
 "1623
 [v _T0CON0 T0CON0 `VEuc  1 e 1 @30 ]
-[s S3460 . 1 `uc 1 T0OUTPS 1 0 :4:0 
+[s S3468 . 1 `uc 1 T0OUTPS 1 0 :4:0 
 `uc 1 T016BIT 1 0 :1:4 
 `uc 1 T0OUT 1 0 :1:5 
 `uc 1 . 1 0 :1:6 
 `uc 1 T0EN 1 0 :1:7 
 ]
 "1643
-[s S3466 . 1 `uc 1 T0OUTPS0 1 0 :1:0 
+[s S3474 . 1 `uc 1 T0OUTPS0 1 0 :1:0 
 `uc 1 T0OUTPS1 1 0 :1:1 
 `uc 1 T0OUTPS2 1 0 :1:2 
 `uc 1 T0OUTPS3 1 0 :1:3 
 ]
-[u S3471 . 1 `S3460 1 . 1 0 `S3466 1 . 1 0 ]
-[v _T0CON0bits T0CON0bits `VES3471  1 e 1 @30 ]
+[u S3479 . 1 `S3468 1 . 1 0 `S3474 1 . 1 0 ]
+[v _T0CON0bits T0CON0bits `VES3479  1 e 1 @30 ]
 "1688
 [v _T0CON1 T0CON1 `VEuc  1 e 1 @31 ]
 "1806
@@ -1451,32 +1453,32 @@ channel_FVR_buf1 63
 [v main@last_update last_update `ul  1 a 4 4 ]
 "102
 } 0
-"392 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
+"410 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
 [v _UI_OnTick1s UI_OnTick1s `(v  1 e 1 0 ]
 {
-"399
+"417
 [v UI_OnTick1s@clockCond clockCond `uc  1 a 1 57 ]
-"421
+"439
 } 0
-"425
+"443
 [v _RenderRecords RenderRecords `(v  1 e 1 0 ]
 {
-"426
+"444
 [v RenderRecords@line2 line2 `[17]uc  1 a 17 29 ]
 [v RenderRecords@line1 line1 `[17]uc  1 a 17 12 ]
-"447
+"465
 } 0
-"449
+"467
 [v _RenderConfig RenderConfig `(v  1 e 1 0 ]
 {
-"451
+"469
 [v RenderConfig@line1 line1 `[17]uc  1 a 17 31 ]
 [v RenderConfig@line2 line2 `[17]uc  1 a 17 14 ]
-"456
+"474
 [v RenderConfig@show_ss show_ss `uc  1 a 1 52 ]
 [v RenderConfig@show_mm show_mm `uc  1 a 1 51 ]
 [v RenderConfig@show_hh show_hh `uc  1 a 1 50 ]
-"504
+"522
 } 0
 "103
 [v _Alarm_BeepTick1s Alarm_BeepTick1s `T(v  1 s 1 Alarm_BeepTick1s ]
@@ -1493,58 +1495,62 @@ channel_FVR_buf1 63
 {
 "85
 } 0
-"322
+"327
 [v _UI_Init UI_Init `(v  1 e 1 0 ]
 {
-"346
-[v UI_Init@i_3290 i `uc  1 a 1 61 ]
-"338
-[v UI_Init@i i `uc  1 a 1 60 ]
-"325
+"360
+[v UI_Init@addr_3293 addr `us  1 a 2 61 ]
+"356
+[v UI_Init@i_3292 i `uc  1 a 1 64 ]
+"347
+[v UI_Init@addr addr `us  1 a 2 59 ]
+"343
+[v UI_Init@i i `uc  1 a 1 63 ]
+"330
 [v UI_Init@magic magic `us  1 a 2 56 ]
-"326
-[v UI_Init@calc_checksum calc_checksum `uc  1 a 1 59 ]
+"331
+[v UI_Init@calc_checksum calc_checksum `uc  1 a 1 65 ]
 [v UI_Init@stored_checksum stored_checksum `uc  1 a 1 58 ]
-"390
+"407
 } 0
-"289
+"294
 [v _set_defaults set_defaults `(v  1 e 1 0 ]
 {
-"320
+"325
 } 0
-"682
+"700
 [v _UpdateEEPROMChecksum UpdateEEPROMChecksum `(v  1 e 1 0 ]
 {
-"690
-[v UpdateEEPROMChecksum@addr addr `us  1 a 2 1 ]
-"686
-[v UpdateEEPROMChecksum@i i `uc  1 a 1 3 ]
-"684
-[v UpdateEEPROMChecksum@calc_checksum calc_checksum `uc  1 a 1 0 ]
-"695
+"708
+[v UpdateEEPROMChecksum@addr addr `us  1 a 2 7 ]
+"704
+[v UpdateEEPROMChecksum@i i `uc  1 a 1 9 ]
+"702
+[v UpdateEEPROMChecksum@calc_checksum calc_checksum `uc  1 a 1 6 ]
+"713
 } 0
-"28 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/EEPROM/EEPROM.c
+"40 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/EEPROM/EEPROM.c
 [v _EEPROM_WriteHeader EEPROM_WriteHeader `(v  1 e 1 0 ]
 {
-[v EEPROM_WriteHeader@magic magic `us  1 p 2 6 ]
-[v EEPROM_WriteHeader@checksum checksum `uc  1 p 1 8 ]
-"32
+[v EEPROM_WriteHeader@magic magic `us  1 p 2 3 ]
+[v EEPROM_WriteHeader@checksum checksum `uc  1 p 1 5 ]
+"44
 } 0
-"8
+"20
 [v _EEPROM_ReadConfig EEPROM_ReadConfig `(uc  1 e 1 0 ]
 {
 [v EEPROM_ReadConfig@config_id config_id `uc  1 p 1 wreg ]
 [v EEPROM_ReadConfig@config_id config_id `uc  1 p 1 wreg ]
 [v EEPROM_ReadConfig@config_id config_id `uc  1 p 1 4 ]
-"10
+"22
 } 1
-"506 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
+"524 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
 [v _RenderNormal RenderNormal `(v  1 e 1 0 ]
 {
-"508
+"526
 [v RenderNormal@line1 line1 `[17]uc  1 a 17 31 ]
 [v RenderNormal@line2 line2 `[17]uc  1 a 17 14 ]
-"533
+"551
 } 0
 "119
 [v _put2 put2 `(v  1 s 1 put2 ]
@@ -1677,7 +1683,7 @@ channel_FVR_buf1 63
 [v LCDsend@c c `uc  1 p 1 5 ]
 "24
 } 1
-"20 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/EEPROM/EEPROM.c
+"32 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/EEPROM/EEPROM.c
 [v _EEPROM_ReadRecord EEPROM_ReadRecord `(v  1 e 1 0 ]
 {
 [v EEPROM_ReadRecord@base_addr base_addr `us  1 p 2 0 ]
@@ -1686,19 +1692,19 @@ channel_FVR_buf1 63
 [v EEPROM_ReadRecord@s s `*.4uc  1 p 1 4 ]
 [v EEPROM_ReadRecord@T T `*.4uc  1 p 1 5 ]
 [v EEPROM_ReadRecord@L L `*.4uc  1 p 1 6 ]
-"26
+"38
 } 0
-"34
+"46
 [v _EEPROM_ReadHeader EEPROM_ReadHeader `(v  1 e 1 0 ]
 {
-"36
+"48
 [v EEPROM_ReadHeader@high high `uc  1 a 1 7 ]
-"35
+"47
 [v EEPROM_ReadHeader@low low `uc  1 a 1 6 ]
-"34
+"46
 [v EEPROM_ReadHeader@magic magic `*.4us  1 p 1 4 ]
 [v EEPROM_ReadHeader@checksum checksum `*.4uc  1 p 1 5 ]
-"39
+"51
 } 0
 "202 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/mcc_generated_files/memory.c
 [v _DATAEE_ReadByte DATAEE_ReadByte `(uc  1 e 1 0 ]
@@ -1789,33 +1795,33 @@ channel_FVR_buf1 63
 {
 "106
 } 0
-"701 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
+"719 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
 [v _S2_check S2_check `(i  1 e 2 0 ]
 {
 } 0
-"700
+"718
 [v _S1_check S1_check `(i  1 e 2 0 ]
 {
 } 0
-"703
+"721
 [v _Reset_flag_S2 Reset_flag_S2 `(v  1 e 1 0 ]
 {
 } 0
-"702
+"720
 [v _Reset_flag_S1 Reset_flag_S1 `(v  1 e 1 0 ]
 {
 } 0
-"576
+"594
 [v _ReadSensors ReadSensors `(v  1 e 1 0 ]
 {
-"580
+"598
 } 0
-"536
+"554
 [v _readTC74 readTC74 `(uc  1 e 1 0 ]
 {
-"538
+"556
 [v readTC74@value value `uc  1 a 1 5 ]
-"563
+"581
 } 0
 "59 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/I2C/i2c.c
 [v _WriteI2C WriteI2C `(c  1 e 1 0 ]
@@ -1831,14 +1837,14 @@ channel_FVR_buf1 63
 {
 "50
 } 0
-"565 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
+"583 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
 [v _readLuminosityLevel readLuminosityLevel `(uc  1 s 1 readLuminosityLevel ]
 {
-"567
+"585
 [v readLuminosityLevel@raw raw `us  1 a 2 5 ]
-"571
+"589
 [v readLuminosityLevel@level level `uc  1 a 1 7 ]
-"574
+"592
 } 0
 "132 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/mcc_generated_files/adcc.c
 [v _ADCC_GetSingleConversion ADCC_GetSingleConversion `(us  1 e 2 0 ]
@@ -1849,16 +1855,16 @@ channel_FVR_buf1 63
 [v ADCC_GetSingleConversion@channel channel `E12225  1 p 1 4 ]
 "157
 } 1
-"607 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
+"625 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
 [v _CompareReading CompareReading `(v  1 e 1 0 ]
 {
-"644
+"662
 } 0
-"646
+"664
 [v _SaveRecord_EEPROM SaveRecord_EEPROM `(v  1 e 1 0 ]
 {
-[v SaveRecord_EEPROM@record_to_save record_to_save `i  1 p 2 6 ]
-"665
+[v SaveRecord_EEPROM@record_to_save record_to_save `i  1 p 2 10 ]
+"683
 } 0
 "26 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/I2C/i2c.c
 [v _OpenI2C OpenI2C `(v  1 e 1 0 ]
@@ -1868,7 +1874,7 @@ channel_FVR_buf1 63
 "214 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
 [v _OnS2Pressed OnS2Pressed `(v  1 e 1 0 ]
 {
-"286
+"291
 } 0
 "5 /opt/microchip/xc8/v3.10/pic/sources/c99/common/awmod.c
 [v ___awmod __awmod `(i  1 e 2 0 ]
@@ -1881,12 +1887,12 @@ channel_FVR_buf1 63
 [v ___awmod@dividend dividend `i  1 p 2 4 ]
 "34
 } 0
-"667 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
+"685 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
 [v _ClearRecords ClearRecords `(v  1 e 1 0 ]
 {
-"669
-[v ClearRecords@i i `uc  1 a 1 6 ]
-"680
+"687
+[v ClearRecords@i i `uc  1 a 1 10 ]
+"698
 } 0
 "4 /opt/microchip/xc8/v3.10/pic/sources/c99/common/Umul8.c
 [v ___bmul __bmul `(uc  1 e 1 0 ]
@@ -1901,16 +1907,16 @@ channel_FVR_buf1 63
 [v ___bmul@multiplier multiplier `uc  1 p 1 4 ]
 "51
 } 1
-"12 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/EEPROM/EEPROM.c
+"24 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/EEPROM/EEPROM.c
 [v _EEPROM_WriteRecord EEPROM_WriteRecord `(v  1 e 1 0 ]
 {
-[v EEPROM_WriteRecord@base_addr base_addr `us  1 p 2 0 ]
-[v EEPROM_WriteRecord@h h `uc  1 p 1 2 ]
-[v EEPROM_WriteRecord@m m `uc  1 p 1 3 ]
-[v EEPROM_WriteRecord@s s `uc  1 p 1 4 ]
-[v EEPROM_WriteRecord@T T `uc  1 p 1 5 ]
-[v EEPROM_WriteRecord@L L `uc  1 p 1 6 ]
-"18
+[v EEPROM_WriteRecord@base_addr base_addr `us  1 p 2 3 ]
+[v EEPROM_WriteRecord@h h `uc  1 p 1 5 ]
+[v EEPROM_WriteRecord@m m `uc  1 p 1 6 ]
+[v EEPROM_WriteRecord@s s `uc  1 p 1 7 ]
+[v EEPROM_WriteRecord@T T `uc  1 p 1 8 ]
+[v EEPROM_WriteRecord@L L `uc  1 p 1 9 ]
+"30
 } 0
 "174 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
 [v _OnS1Pressed OnS1Pressed `(v  1 e 1 0 ]
@@ -1936,23 +1942,36 @@ channel_FVR_buf1 63
 {
 "147
 } 0
-"4 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/EEPROM/EEPROM.c
+"16 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/EEPROM/EEPROM.c
 [v _EEPROM_WriteConfig EEPROM_WriteConfig `(v  1 e 1 0 ]
 {
 [v EEPROM_WriteConfig@config_id config_id `uc  1 p 1 wreg ]
 [v EEPROM_WriteConfig@config_id config_id `uc  1 p 1 wreg ]
-[v EEPROM_WriteConfig@value value `uc  1 p 1 6 ]
-[v EEPROM_WriteConfig@config_id config_id `uc  1 p 1 7 ]
-"6
+[v EEPROM_WriteConfig@value value `uc  1 p 1 3 ]
+[v EEPROM_WriteConfig@config_id config_id `uc  1 p 1 4 ]
+"18
+} 1
+"4
+[v _reverse_bits reverse_bits `(uc  1 e 1 0 ]
+{
+[v reverse_bits@x x `uc  1 p 1 wreg ]
+"10
+[v reverse_bits@i i `i  1 a 2 6 ]
+"9
+[v reverse_bits@rev rev `uc  1 a 1 4 ]
+"4
+[v reverse_bits@x x `uc  1 p 1 wreg ]
+[v reverse_bits@x x `uc  1 p 1 8 ]
+"14
 } 1
 "180 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/mcc_generated_files/memory.c
 [v _DATAEE_WriteByte DATAEE_WriteByte `(v  1 e 1 0 ]
 {
 "182
-[v DATAEE_WriteByte@GIEBitValue GIEBitValue `uc  1 a 1 5 ]
+[v DATAEE_WriteByte@GIEBitValue GIEBitValue `uc  1 a 1 9 ]
 "180
-[v DATAEE_WriteByte@bAdd bAdd `us  1 p 2 2 ]
-[v DATAEE_WriteByte@bData bData `uc  1 p 1 4 ]
+[v DATAEE_WriteByte@bAdd bAdd `us  1 p 2 0 ]
+[v DATAEE_WriteByte@bData bData `uc  1 p 1 2 ]
 "200
 } 0
 "30 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/Clock/clock.c
@@ -2031,7 +2050,7 @@ channel_FVR_buf1 63
 {
 "190
 } 0
-"699 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
+"717 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
 [v _S2_Callback S2_Callback `(v  1 e 1 0 ]
 {
 } 0
@@ -2050,7 +2069,7 @@ channel_FVR_buf1 63
 {
 "57
 } 0
-"698 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
+"716 /home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c
 [v _S1_Callback S1_Callback `(v  1 e 1 0 ]
 {
 } 0

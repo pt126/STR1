@@ -1,8 +1,20 @@
 #include "EEPROM.h"
 #include "../mcc_generated_files/memory.h" 
 
+uint8_t reverse_bits(uint8_t x) {
+    x = (x >> 4) | (x << 4);              // swap nibbles
+    x = ((x & 0xCC) >> 2) | ((x & 0x33) << 2); // swap pairs
+    x = ((x & 0xAA) >> 1) | ((x & 0x55) << 1); // swap individual bits
+
+    uint8_t rev = 0;
+    for(int i= 0; i<8;i++){
+        rev +=  ((x>>i) && 0x01)<<(7-i);
+    }
+    return rev;
+}
+
 void EEPROM_WriteConfig(uint8_t config_id, uint8_t value) {
-    DATAEE_WriteByte(EEPROM_ADDR_CONFIG + config_id, value);
+    DATAEE_WriteByte(EEPROM_ADDR_CONFIG + config_id, reverse_bits(value));
 }
 
 uint8_t EEPROM_ReadConfig(uint8_t config_id) {

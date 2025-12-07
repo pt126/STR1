@@ -145,8 +145,20 @@ void DATAEE_WriteByte(uint16_t bAdd, uint8_t bData);
 uint8_t DATAEE_ReadByte(uint16_t bAdd);
 # 3 "EEPROM/EEPROM.c" 2
 
+uint8_t reverse_bits(uint8_t x) {
+    x = (x >> 4) | (x << 4);
+    x = ((x & 0xCC) >> 2) | ((x & 0x33) << 2);
+    x = ((x & 0xAA) >> 1) | ((x & 0x55) << 1);
+
+    uint8_t rev = 0;
+    for(int i= 0; i<8;i++){
+        rev += ((x>>i) && 0x01)<<(7-i);
+    }
+    return rev;
+}
+
 void EEPROM_WriteConfig(uint8_t config_id, uint8_t value) {
-    DATAEE_WriteByte(0x03 + config_id, value);
+    DATAEE_WriteByte(0x03 + config_id, reverse_bits(value));
 }
 
 uint8_t EEPROM_ReadConfig(uint8_t config_id) {

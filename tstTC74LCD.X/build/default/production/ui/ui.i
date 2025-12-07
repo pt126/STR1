@@ -21699,15 +21699,15 @@ void Clock_Tick1s(void)
         ss = 0;
         if (++mm >= 60) {
             mm = 0;
-            EEPROM_WriteConfig(10, mm);
+            EEPROM_WriteConfig(0x0A, mm);
             if (++hh >= 24) {
                 hh = 0;
-                EEPROM_WriteConfig(9, hh);
+                EEPROM_WriteConfig(0x09, hh);
             } else {
-                EEPROM_WriteConfig(9, hh);
+                EEPROM_WriteConfig(0x09, hh);
             }
         } else {
-            EEPROM_WriteConfig(10, mm);
+            EEPROM_WriteConfig(0x0A, mm);
         }
     }
 }
@@ -21784,11 +21784,14 @@ void OnS2Pressed(void)
         switch (field) {
             case CF_CLK_HH:
                 hh = (hh + 1) % 24;
-                EEPROM_WriteConfig(9, hh);
+
+
+
+                EEPROM_WriteConfig(0x09, hh);
                 break;
             case CF_CLK_MM:
                 mm = (mm + 1) % 60;
-                EEPROM_WriteConfig(10, mm);
+                EEPROM_WriteConfig(0x0A, mm);
                 break;
             case CF_CLK_SS:
                 ss = (ss + 1) % 60;
@@ -21796,27 +21799,29 @@ void OnS2Pressed(void)
             case CF_CTL_C: field = CF_CTL_C_HH; break;
             case CF_CTL_C_HH :
                 thrHour = (thrHour + 1) %24;
-                EEPROM_WriteConfig(4, thrHour);
+
+
+                EEPROM_WriteConfig(0x04, thrHour);
                 break;
             case CF_CTL_C_MM :
                 thrMinute = (thrMinute + 1) %60;
-                EEPROM_WriteConfig(5, thrMinute);
+                EEPROM_WriteConfig(0x05, thrMinute);
                 break;
             case CF_CTL_C_SS :
                 thrSecond = (thrSecond + 1) %60;
-                EEPROM_WriteConfig(6, thrSecond);
+                EEPROM_WriteConfig(0x06, thrSecond);
                 break;
             case CF_CTL_T:
                 thrTemp = (thrTemp + 1) % 51;
-                EEPROM_WriteConfig(7, thrTemp);
+                EEPROM_WriteConfig(0x07, thrTemp);
                 break;
             case CF_CTL_L:
                 thrLum = (thrLum + 1) % 4;
-                EEPROM_WriteConfig(8, thrLum);
+                EEPROM_WriteConfig(0x08, (uint8_t)thrLum);
                 break;
             case CF_ALARM_EN:
                 alarmsEnabled ^= 1;
-                EEPROM_WriteConfig(3, alarmsEnabled);
+                EEPROM_WriteConfig(0x03, alarmsEnabled);
                 break;
             case CF_RESET:
                 ClearRecords();
@@ -21853,36 +21858,36 @@ void OnS2Pressed(void)
 
 
 void set_defaults(void){
-    pmon = 5;
-    tala = 3;
-    tina = 10;
-    alarmsEnabled = 0;
-    thrHour = 12;
-    thrMinute = 0;
-    thrSecond = 0;
-    thrTemp = 20;
-    thrLum = 2;
-    hh = 0;
-    mm = 0;
-    ss = 0;
+    pmon = (uint8_t) 5;
+    tala = (uint8_t) 3;
+    tina = (uint8_t) 10;
+    alarmsEnabled = (uint8_t) 0;
+    thrHour = (uint8_t) 12;
+    thrMinute = (uint8_t) 0;
+    thrSecond = (uint8_t) 0;
+    thrTemp = (char) 20;
+    thrLum = (char) 2;
+    hh = (uint8_t) 0;
+    mm = (uint8_t) 0;
+    ss = (uint8_t) 0;
 
 
-    EEPROM_WriteConfig(0, pmon);
-    EEPROM_WriteConfig(1, tala);
-    EEPROM_WriteConfig(2, tina);
-    EEPROM_WriteConfig(3, alarmsEnabled);
-    EEPROM_WriteConfig(4, thrHour);
-    EEPROM_WriteConfig(5, thrMinute);
-    EEPROM_WriteConfig(6, thrSecond);
-    EEPROM_WriteConfig(7, thrTemp);
-    EEPROM_WriteConfig(8, thrLum);
+    EEPROM_WriteConfig(0x00, pmon);
+    EEPROM_WriteConfig(0x01, tala);
+    EEPROM_WriteConfig(0x02, tina);
+    EEPROM_WriteConfig(0x03, alarmsEnabled);
+    EEPROM_WriteConfig(0x04, thrHour);
+    EEPROM_WriteConfig(0x05, thrMinute);
+    EEPROM_WriteConfig(0x06, thrSecond);
+    EEPROM_WriteConfig(0x07, thrTemp);
+    EEPROM_WriteConfig(0x08, thrLum);
     ClearRecords();
 
 
-    records[0].temp = 0; records[0].lum = 0;
-    records[1].temp = 255; records[1].lum = 3;
-    records[2].temp = 0; records[2].lum = 0;
-    records[3].temp = 255; records[3].lum = 3;
+    records[0].temp = (uint8_t)0; records[0].lum = (uint8_t)0;
+    records[1].temp = (uint8_t)255; records[1].lum = (uint8_t)3;
+    records[2].temp = (uint8_t)0; records[2].lum = (uint8_t)0;
+    records[3].temp = (uint8_t)255; records[3].lum = (uint8_t)3;
 }
 
 void UI_Init(void)
@@ -21895,23 +21900,33 @@ void UI_Init(void)
 
     EEPROM_ReadHeader(&magic, &stored_checksum);
 
-    if (magic != 0xF1A1) {
+    if (magic != 0xF1A4) {
 
         set_defaults();
 
 
         calc_checksum = 0;
-        for (uint8_t i = 0; i <= 10; i++) {
+        for (uint8_t i = 0; i <= 0x0A; i++) {
             calc_checksum += EEPROM_ReadConfig(i);
         }
-        EEPROM_WriteHeader(0xF1A1, calc_checksum);
+
+        for (uint16_t addr = (0x0E); addr <= (0x0E + 3 * 0x05) + 4; addr++) {
+            calc_checksum += DATAEE_ReadByte(addr);
+        }
+
+        EEPROM_WriteHeader(0xF1A4, calc_checksum);
 
     } else {
 
         calc_checksum = 0;
-        for (uint8_t i = 0; i <= 10; i++) {
+        for (uint8_t i = 0; i <= 0x0A; i++) {
             calc_checksum += EEPROM_ReadConfig(i);
         }
+
+        for (uint16_t addr = (0x0E); addr <= (0x0E + 3 * 0x05) + 4; addr++) {
+            calc_checksum += DATAEE_ReadByte(addr);
+        }
+
         if (stored_checksum != calc_checksum) {
 
             set_defaults();
@@ -21919,22 +21934,24 @@ void UI_Init(void)
             return;
         }
 
-        pmon = EEPROM_ReadConfig(0);
-        tala = EEPROM_ReadConfig(1);
-        tina = EEPROM_ReadConfig(2);
-        alarmsEnabled = EEPROM_ReadConfig(3);
-        thrHour = EEPROM_ReadConfig(4);
-        thrMinute = EEPROM_ReadConfig(5);
-        thrSecond = EEPROM_ReadConfig(6);
-        thrTemp = EEPROM_ReadConfig(7);
-        thrLum = EEPROM_ReadConfig(8);
-        hh = EEPROM_ReadConfig(9);
-        mm = EEPROM_ReadConfig(10);
+        pmon = (uint8_t) EEPROM_ReadConfig(0x00);
+        tala = (uint8_t) EEPROM_ReadConfig(0x01);
+        tina = (uint8_t) EEPROM_ReadConfig(0x02);
+        alarmsEnabled = (uint8_t) EEPROM_ReadConfig(0x03);
+        thrHour = (uint8_t) EEPROM_ReadConfig(0x04);
+        thrMinute = (uint8_t) EEPROM_ReadConfig(0x05);
+        thrSecond = (uint8_t) EEPROM_ReadConfig(0x06);
+        thrTemp = (char) EEPROM_ReadConfig(0x07);
+        thrLum = (char) EEPROM_ReadConfig(0x08);
+        hh = (uint8_t) EEPROM_ReadConfig(0x09);
+        mm = (uint8_t) EEPROM_ReadConfig(0x0A);
+        ss = (uint8_t) 0;
+
 
         EEPROM_ReadRecord((0x0E), &records[0].clk_hh, &records[0].clk_mm, &records[0].clk_ss, &records[0].temp, &records[0].lum);
-        EEPROM_ReadRecord((0x0E + 5), &records[1].clk_hh, &records[1].clk_mm, &records[1].clk_ss, &records[1].temp, &records[1].lum);
-        EEPROM_ReadRecord((0x0E + 2 * 5), &records[2].clk_hh, &records[2].clk_mm, &records[2].clk_ss, &records[2].temp, &records[2].lum);
-        EEPROM_ReadRecord((0x0E + 3 * 5), &records[3].clk_hh, &records[3].clk_mm, &records[3].clk_ss, &records[3].temp, &records[3].lum);
+        EEPROM_ReadRecord((0x0E + 0x05), &records[1].clk_hh, &records[1].clk_mm, &records[1].clk_ss, &records[1].temp, &records[1].lum);
+        EEPROM_ReadRecord((0x0E + 2 * 0x05), &records[2].clk_hh, &records[2].clk_mm, &records[2].clk_ss, &records[2].temp, &records[2].lum);
+        EEPROM_ReadRecord((0x0E + 3 * 0x05), &records[3].clk_hh, &records[3].clk_mm, &records[3].clk_ss, &records[3].temp, &records[3].lum);
     }
 
     ClearAlarmFlags();
@@ -21954,6 +21971,7 @@ void UI_Init(void)
     LCDinit();
     RenderNormal();
 }
+
 
 void UI_OnTick1s(void)
 {
@@ -21976,8 +21994,8 @@ void UI_OnTick1s(void)
 
 
     if (mode == UI_NORMAL) { RenderNormal (); }
-    else if (mode == UI_CONFIG) { RenderConfig (); }
-    else if (mode == UI_SHOW_RECORDS){ RenderRecords(); }
+    else if (mode == UI_CONFIG) { time_inactive ++; RenderConfig (); }
+    else if (mode == UI_SHOW_RECORDS){ time_inactive ++; RenderRecords(); }
     return;
 
 
@@ -22217,13 +22235,13 @@ void SaveRecord_EEPROM(int record_to_save)
             EEPROM_WriteRecord((0x0E), records[0].clk_hh, records[0].clk_mm, records[0].clk_ss, records[0].temp, records[0].lum);
             break;
         case 2:
-            EEPROM_WriteRecord((0x0E + 5), records[1].clk_hh, records[1].clk_mm, records[1].clk_ss, records[1].temp, records[1].lum);
+            EEPROM_WriteRecord((0x0E + 0x05), records[1].clk_hh, records[1].clk_mm, records[1].clk_ss, records[1].temp, records[1].lum);
             break;
         case 3:
-            EEPROM_WriteRecord((0x0E + 2 * 5), records[2].clk_hh, records[2].clk_mm, records[2].clk_ss, records[2].temp, records[2].lum);
+            EEPROM_WriteRecord((0x0E + 2 * 0x05), records[2].clk_hh, records[2].clk_mm, records[2].clk_ss, records[2].temp, records[2].lum);
             break;
         case 4:
-            EEPROM_WriteRecord((0x0E + 3 * 5), records[3].clk_hh, records[3].clk_mm, records[3].clk_ss, records[3].temp, records[3].lum);
+            EEPROM_WriteRecord((0x0E + 3 * 0x05), records[3].clk_hh, records[3].clk_mm, records[3].clk_ss, records[3].temp, records[3].lum);
             break;
         default:
             break;
@@ -22240,24 +22258,24 @@ void ClearRecords(void)
         records[i].lum = 0;
     }
     EEPROM_WriteRecord((0x0E), records[0].clk_hh, records[0].clk_mm, records[0].clk_ss, records[0].temp, records[0].lum);
-    EEPROM_WriteRecord((0x0E + 5), records[1].clk_hh, records[1].clk_mm, records[1].clk_ss, records[1].temp, records[1].lum);
-    EEPROM_WriteRecord((0x0E + 2 * 5), records[2].clk_hh, records[2].clk_mm, records[2].clk_ss, records[2].temp, records[2].lum);
-    EEPROM_WriteRecord((0x0E + 3 * 5), records[3].clk_hh, records[3].clk_mm, records[3].clk_ss, records[3].temp, records[3].lum);
+    EEPROM_WriteRecord((0x0E + 0x05), records[1].clk_hh, records[1].clk_mm, records[1].clk_ss, records[1].temp, records[1].lum);
+    EEPROM_WriteRecord((0x0E + 2 * 0x05), records[2].clk_hh, records[2].clk_mm, records[2].clk_ss, records[2].temp, records[2].lum);
+    EEPROM_WriteRecord((0x0E + 3 * 0x05), records[3].clk_hh, records[3].clk_mm, records[3].clk_ss, records[3].temp, records[3].lum);
 }
 
 void UpdateEEPROMChecksum(void)
 {
     uint8_t calc_checksum = 0;
 
-    for (uint8_t i = 0; i <= 10; i++) {
+    for (uint8_t i = 0; i <= 0x0A; i++) {
         calc_checksum += EEPROM_ReadConfig(i);
     }
 
-    for (uint16_t addr = (0x0E); addr <= (0x0E + 3 * 5) + 4; addr++) {
+    for (uint16_t addr = (0x0E); addr <= (0x0E + 3 * 0x05) + 4; addr++) {
         calc_checksum += DATAEE_ReadByte(addr);
     }
 
-    EEPROM_WriteHeader(0xF1A1, calc_checksum);
+    EEPROM_WriteHeader(0xF1A4, calc_checksum);
 }
 
 

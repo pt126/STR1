@@ -676,9 +676,199 @@ int S2_check(void){return S2_pressed;}
 void Reset_flag_S1(void){S1_pressed = 0;}
 void Reset_flag_S2(void){S2_pressed = 0;}
 
+void UI_Init(void)
+{
 
+    uint16_t magic;
+    uint8_t stored_checksum, calc_checksum = 0;
 
+    //LCDcmd(0x80); LCDpos(0,0);LCDstr("1"); while (LCDbusy()){};__delay_ms(5000);
 
+    EEPROM_ReadHeader(&magic, &stored_checksum);
+    
+    if (magic != MAGIC_WORD) {
+        // EEPROM not initialized, set defaults and write magic word
+        set_defaults();
+        
+        // Calculate and write checksum
+        calc_checksum = 0;
+        for (uint8_t i = 0; i <= EEPROM_CONFIG_CLKM; i++) {
+            calc_checksum += EEPROM_ReadConfig(i);
+        }
+        
+        for (uint16_t addr = EEPROM_ADDR_TMAX; addr <= EEPROM_ADDR_LMIN + 4; addr++) {
+            calc_checksum += DATAEE_ReadByte(addr);
+        }
+        
+        EEPROM_WriteHeader(MAGIC_WORD, calc_checksum);
+
+    } else {
+        // EEPROM is initialized, check checksum
+        calc_checksum = 0;
+        for (uint8_t i = 0; i <= EEPROM_CONFIG_CLKM; i++) {
+            calc_checksum += EEPROM_ReadConfig(i);
+        }
+        
+        for (uint16_t addr = EEPROM_ADDR_TMAX; addr <= EEPROM_ADDR_LMIN + 4; addr++) {
+            calc_checksum += DATAEE_ReadByte(addr);
+        }
+
+        if (stored_checksum != calc_checksum) {
+
+            set_defaults();
+            UpdateEEPROMChecksum();
+            return;
+        }
+        // Load config and records from EEPROM
+        pmon = EEPROM_ReadConfig(EEPROM_CONFIG_PMON);
+        tala = EEPROM_ReadConfig(EEPROM_CONFIG_TALA);
+        tina = EEPROM_ReadConfig(EEPROM_CONFIG_TINA);
+        alarmsEnabled = EEPROM_ReadConfig(EEPROM_CONFIG_ALAF);
+        thrHour   = EEPROM_ReadConfig(EEPROM_CONFIG_ALAH);
+        thrMinute = EEPROM_ReadConfig(EEPROM_CONFIG_ALAM);
+        thrSecond = EEPROM_ReadConfig(EEPROM_CONFIG_ALAS);
+        thrTemp   = EEPROM_ReadConfig(EEPROM_CONFIG_ALAT);
+        thrLum    = EEPROM_ReadConfig(EEPROM_CONFIG_ALAL);
+        hh = EEPROM_ReadConfig(EEPROM_CONFIG_CLKH);
+        mm = EEPROM_ReadConfig(EEPROM_CONFIG_CLKM);
+
+        EEPROM_ReadRecord(EEPROM_ADDR_TMAX, &records[0].clk_hh, &records[0].clk_mm, &records[0].clk_ss, &records[0].temp, &records[0].lum);
+        EEPROM_ReadRecord(EEPROM_ADDR_TMIN, &records[1].clk_hh, &records[1].clk_mm, &records[1].clk_ss, &records[1].temp, &records[1].lum);
+        EEPROM_ReadRecord(EEPROM_ADDR_LMAX, &records[2].clk_hh, &records[2].clk_mm, &records[2].clk_ss, &records[2].temp, &records[2].lum);
+        EEPROM_ReadRecord(EEPROM_ADDR_LMIN, &records[3].clk_hh, &records[3].clk_mm, &records[3].clk_ss, &records[3].temp, &records[3].lum);
+    }
+
+    ClearAlarmFlags();
+
+    prevTempCond = 0;
+    prevLumCond  = 0;
+    prevClockCond = 0;
+
+    pwm_seconds_left = 0;
+    PWM6_Stop();
+
+    time_inactive = 0;
+    mode = UI_NORMAL;
+    field = CF_CLK_HH;
+    record_type = RECORD_NONE;
+
+    LCDinit();
+    RenderNormal();
+}
+
+//---------------------------------------
+void set_defaults(void){
+    pmon = (uint8_t) PMON;
+    tala = (uint8_t) TALA;
+    tina = (uint8_t) TINA;
+    alarmsEnabled = (uint8_t) ALAF;
+    thrHour   = (uint8_t) ALAH;
+    thrMinute = (uint8_t) ALAM;
+    thrSecond = (uint8_t) ALAS;
+    thrTemp   = (char) ALAT;
+    thrLum    = (char) ALAL;
+    hh = (uint8_t) CLKH;
+    mm = (uint8_t) CLKM;
+    ss = (uint8_t) 0;
+
+    // Save default config to EEPROM
+    EEPROM_WriteConfig(EEPROM_CONFIG_PMON, pmon);
+    EEPROM_WriteConfig(EEPROM_CONFIG_TALA, tala);
+    EEPROM_WriteConfig(EEPROM_CONFIG_TINA, tina);
+    EEPROM_WriteConfig(EEPROM_CONFIG_ALAF, alarmsEnabled);
+    EEPROM_WriteConfig(EEPROM_CONFIG_ALAH, thrHour);
+    EEPROM_WriteConfig(EEPROM_CONFIG_ALAM, thrMinute);
+    EEPROM_WriteConfig(EEPROM_CONFIG_ALAS, thrSecond);
+    EEPROM_WriteConfig(EEPROM_CONFIG_ALAT, thrTemp);
+    EEPROM_WriteConfig(EEPROM_CONFIG_ALAL, thrLum);        
+    ClearRecords();
+
+    // init records to sane extremes
+    records[0].temp = 0;   records[0].lum = 0;
+    records[1].temp = 255; records[1].lum = 3;
+    records[2].temp = 0;   records[2].lum = 0;
+    records[3].temp = 255; records[3].lum = 3;
+}
+
+void UI_Init(void)
+{
+
+    uint16_t magic;
+    uint8_t stored_checksum, calc_checksum = 0;
+
+    //LCDcmd(0x80); LCDpos(0,0);LCDstr("1"); while (LCDbusy()){};__delay_ms(5000);
+
+    EEPROM_ReadHeader(&magic, &stored_checksum);
+    
+    if (magic != MAGIC_WORD) {
+        // EEPROM not initialized, set defaults and write magic word
+        set_defaults();
+        
+        // Calculate and write checksum
+        calc_checksum = 0;
+        for (uint8_t i = 0; i <= EEPROM_CONFIG_CLKM; i++) {
+            calc_checksum += EEPROM_ReadConfig(i);
+        }
+        
+        for (uint16_t addr = EEPROM_ADDR_TMAX; addr <= EEPROM_ADDR_LMIN + 4; addr++) {
+            calc_checksum += DATAEE_ReadByte(addr);
+        }
+
+        EEPROM_WriteHeader(MAGIC_WORD, calc_checksum);
+
+    } else {
+        // EEPROM is initialized, check checksum
+        calc_checksum = 0;
+        for (uint8_t i = 0; i <= EEPROM_CONFIG_CLKM; i++) {
+            calc_checksum += EEPROM_ReadConfig(i);
+        }
+        
+        for (uint16_t addr = EEPROM_ADDR_TMAX; addr <= EEPROM_ADDR_LMIN + 4; addr++) {
+            calc_checksum += DATAEE_ReadByte(addr);
+        }
+
+        if (stored_checksum != calc_checksum) {
+
+            set_defaults();
+            UpdateEEPROMChecksum();
+            return;
+        }
+        // Load config and records from EEPROM
+        pmon = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_PMON);
+        tala = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_TALA);
+        tina = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_TINA);
+        alarmsEnabled = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_ALAF);
+        thrHour   = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_ALAH);
+        thrMinute = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_ALAM);
+        thrSecond = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_ALAS);
+        thrTemp   = (char) EEPROM_ReadConfig(EEPROM_CONFIG_ALAT);
+        thrLum    = (char) EEPROM_ReadConfig(EEPROM_CONFIG_ALAL);
+        hh = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_CLKH);
+        mm = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_CLKM);
+
+        EEPROM_ReadRecord(EEPROM_ADDR_TMAX, &records[0].clk_hh, &records[0].clk_mm, &records[0].clk_ss, &records[0].temp, &records[0].lum);
+        EEPROM_ReadRecord(EEPROM_ADDR_TMIN, &records[1].clk_hh, &records[1].clk_mm, &records[1].clk_ss, &records[1].temp, &records[1].lum);
+        EEPROM_ReadRecord(EEPROM_ADDR_LMAX, &records[2].clk_hh, &records[2].clk_mm, &records[2].clk_ss, &records[2].temp, &records[2].lum);
+        EEPROM_ReadRecord(EEPROM_ADDR_LMIN, &records[3].clk_hh, &records[3].clk_mm, &records[3].clk_ss, &records[3].temp, &records[3].lum);
+    }
+
+    ClearAlarmFlags();
+
+    prevTempCond = 0;
+    prevLumCond  = 0;
+    prevClockCond = 0;
+
+    pwm_seconds_left = 0;
+    PWM6_Stop();
+
+    time_inactive = 0;
+    mode = UI_NORMAL;
+    field = CF_CLK_HH;
+    record_type = RECORD_NONE;
+
+    LCDinit();
+    RenderNormal();
+}
 
 
 
