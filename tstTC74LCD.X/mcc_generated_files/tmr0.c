@@ -56,14 +56,13 @@
   Section: TMR0 APIs
 */
 
-void (*TMR0_InterruptHandler)(void);
 
 void TMR0_Initialize(void)
 {
     // Set TMR0 to the options selected in the User Interface
 
-    // T0CS SOSC; T0CKPS 1:128; T0ASYNC not_synchronised; 
-    T0CON1 = 0xB7;
+    // T0CS T0CKI_PIN; T0CKPS 1:1; T0ASYNC synchronised; 
+    T0CON1 = 0x00;
 
     // TMR0H 255; 
     TMR0H = 0xFF;
@@ -71,14 +70,8 @@ void TMR0_Initialize(void)
     // TMR0L 0; 
     TMR0L = 0x00;
 
-    // Clear Interrupt flag before enabling the interrupt
+    // Clearing IF flag
     PIR0bits.TMR0IF = 0;
-
-    // Enabling TMR0 interrupt.
-    PIE0bits.TMR0IE = 1;
-
-    // Set Default Interrupt Handler
-    TMR0_SetInterruptHandler(TMR0_DefaultInterruptHandler);
 
     // T0OUTPS 1:1; T0EN enabled; T016BIT 8-bit; 
     T0CON0 = 0x80;
@@ -118,28 +111,11 @@ void TMR0_Reload(uint8_t periodVal)
    TMR0H = periodVal;
 }
 
-void TMR0_ISR(void)
+bool TMR0_HasOverflowOccured(void)
 {
-    // clear the TMR0 interrupt flag
-    PIR0bits.TMR0IF = 0;
-    if(TMR0_InterruptHandler)
-    {
-        TMR0_InterruptHandler();
-    }
-
-    // add your TMR0 interrupt custom code
+    // check if  overflow has occurred by checking the TMRIF bit
+    return(PIR0bits.TMR0IF);
 }
-
-
-void TMR0_SetInterruptHandler(void (* InterruptHandler)(void)){
-    TMR0_InterruptHandler = InterruptHandler;
-}
-
-void TMR0_DefaultInterruptHandler(void){
-    // add your TMR0 interrupt custom code
-    // or set custom function using TMR0_SetInterruptHandler()
-}
-
 /**
   End of File
 */

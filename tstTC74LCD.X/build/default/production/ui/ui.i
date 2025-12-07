@@ -117,6 +117,22 @@ typedef uint32_t uint_fast32_t;
 # 3 "ui/ui.h" 2
 
 
+# 1 "ui/../EEPROM/EEPROM.h" 1
+# 46 "ui/../EEPROM/EEPROM.h"
+void EEPROM_WriteConfig(uint8_t config_id, uint8_t value);
+uint8_t EEPROM_ReadConfig(uint8_t config_id);
+
+void EEPROM_WriteRecord(uint16_t base_addr, uint8_t h, uint8_t m, uint8_t s, uint8_t T, uint8_t L);
+void EEPROM_ReadRecord(uint16_t base_addr, uint8_t *h, uint8_t *m, uint8_t *s, uint8_t *T, uint8_t *L);
+
+void EEPROM_WriteHeader(uint16_t magic, uint8_t checksum);
+void EEPROM_ReadHeader(uint16_t *magic, uint8_t *checksum);
+# 6 "ui/ui.h" 2
+
+
+
+uint8_t pmon = 5;
+
 
 
 
@@ -141,7 +157,9 @@ void ReadSensors(void);
 
 
 void CompareReading(void);
-void SaveRecord(void);
+void SaveRecord_EEPROM(int record_to_save);
+void ClearRecords(void);
+
 
 
 
@@ -20867,17 +20885,17 @@ extern __bank0 __bit __timeout;
 # 1 "ui/../mcc_generated_files/device_config.h" 1
 # 51 "ui/../mcc_generated_files/mcc.h" 2
 # 1 "ui/../mcc_generated_files/pin_manager.h" 1
-# 238 "ui/../mcc_generated_files/pin_manager.h"
-void PIN_MANAGER_Initialize (void);
 # 250 "ui/../mcc_generated_files/pin_manager.h"
+void PIN_MANAGER_Initialize (void);
+# 262 "ui/../mcc_generated_files/pin_manager.h"
 void PIN_MANAGER_IOC(void);
-# 263 "ui/../mcc_generated_files/pin_manager.h"
+# 275 "ui/../mcc_generated_files/pin_manager.h"
 void IOCCF5_ISR(void);
-# 286 "ui/../mcc_generated_files/pin_manager.h"
+# 298 "ui/../mcc_generated_files/pin_manager.h"
 void IOCCF5_SetInterruptHandler(void (* InterruptHandler)(void));
-# 310 "ui/../mcc_generated_files/pin_manager.h"
+# 322 "ui/../mcc_generated_files/pin_manager.h"
 extern void (*IOCCF5_InterruptHandler)(void);
-# 334 "ui/../mcc_generated_files/pin_manager.h"
+# 346 "ui/../mcc_generated_files/pin_manager.h"
 void IOCCF5_DefaultInterruptHandler(void);
 # 52 "ui/../mcc_generated_files/mcc.h" 2
 
@@ -21181,6 +21199,223 @@ void TMR1_GATE_ISR(void);
 # 462 "ui/../mcc_generated_files/tmr1.h"
 void TMR1_SetGateInterruptHandler(void (* InterruptHandler)(void));
 # 59 "ui/../mcc_generated_files/mcc.h" 2
+# 1 "ui/../mcc_generated_files/pwm6.h" 1
+# 102 "ui/../mcc_generated_files/pwm6.h"
+ void PWM6_Initialize(void);
+# 129 "ui/../mcc_generated_files/pwm6.h"
+ void PWM6_LoadDutyValue(uint16_t dutyValue);
+# 60 "ui/../mcc_generated_files/mcc.h" 2
+# 1 "ui/../mcc_generated_files/tmr2.h" 1
+# 79 "ui/../mcc_generated_files/tmr2.h"
+typedef enum
+{
+# 89 "ui/../mcc_generated_files/tmr2.h"
+   TMR2_ROP_STARTS_TMRON,
+
+
+
+
+   TMR2_ROP_STARTS_TMRON_ERSHIGH,
+
+
+
+
+   TMR2_ROP_STARTS_TMRON_ERSLOW,
+
+
+
+
+   TMR2_ROP_RESETS_ERSBOTHEDGE,
+
+
+
+
+   TMR2_ROP_RESETS_ERSRISINGEDGE,
+
+
+
+
+   TMR2_ROP_RESETS_ERSFALLINGEDGE,
+
+
+
+
+   TMR2_ROP_RESETS_ERSLOW,
+
+
+
+
+   TMR2_ROP_RESETS_ERSHIGH,
+# 135 "ui/../mcc_generated_files/tmr2.h"
+   TMR2_OS_STARTS_TMRON,
+
+
+
+
+   TMR2_OS_STARTS_ERSRISINGEDGE ,
+
+
+
+
+   TMR2_OS_STARTS_ERSFALLINGEDGE ,
+
+
+
+
+   TMR2_OS_STARTS_ERSBOTHEDGE,
+
+
+
+
+
+   TMR2_OS_STARTS_ERSFIRSTRISINGEDGE,
+
+
+
+
+
+   TMR2_OS_STARTS_ERSFIRSTFALLINGEDGE,
+
+
+
+
+
+   TMR2_OS_STARTS_ERSRISINGEDGEDETECT,
+
+
+
+
+   TMR2_OS_STARTS_ERSFALLINGEDGEDETECT,
+
+
+
+
+   TMR2_OS_STARTS_TMRON_ERSHIGH = 0x16,
+
+
+
+
+   TMR2_OS_STARTS_TMRON_ERSLOW = 0x17,
+# 192 "ui/../mcc_generated_files/tmr2.h"
+   TMR2_MS_STARTS_TMRON_ERSRISINGEDGEDETECT = 0x11,
+
+
+
+
+   TMR2_MS_STARTS_TMRON_ERSFALLINGEDGEDETECT = 0x12,
+
+
+
+
+
+   TMR2_MS_STARTS_TMRON_ERSBOTHEDGE = 0x13
+
+} TMR2_HLT_MODE;
+# 220 "ui/../mcc_generated_files/tmr2.h"
+typedef enum
+{
+
+
+    TMR2_T2INPPS,
+
+
+
+    TMR2_RESERVED,
+
+
+
+    TMR2_T4POSTSCALED,
+
+
+
+    TMR2_T6POSTSCALED,
+
+
+    TMR2_CCP1_OUT,
+
+
+
+    TMR2_CCP2_OUT,
+
+
+
+    TMR2_CCP3_OUT,
+
+
+
+    TMR2_CCP4_OUT,
+
+
+
+    TMR2_CCP5_OUT,
+
+
+
+    TMR2_PWM6_OUT,
+
+
+
+    TMR2_PWM7_OUT,
+
+
+
+    TMR2_C1_OUT_SYNC,
+
+
+
+    TMR2_C2_OUT_SYNC,
+
+
+
+    TMR2_ZCD_OUTPUT,
+
+
+
+    TMR2_CLC1_OUT,
+
+
+
+    TMR2_CLC2_OUT,
+
+
+
+    TMR2_CLC3_OUT,
+
+
+
+    TMR2_CLC4_OUT
+
+
+} TMR2_HLT_EXT_RESET_SOURCE;
+# 336 "ui/../mcc_generated_files/tmr2.h"
+void TMR2_Initialize(void);
+# 372 "ui/../mcc_generated_files/tmr2.h"
+void TMR2_ModeSet(TMR2_HLT_MODE mode);
+# 407 "ui/../mcc_generated_files/tmr2.h"
+void TMR2_ExtResetSourceSet(TMR2_HLT_EXT_RESET_SOURCE reset);
+# 436 "ui/../mcc_generated_files/tmr2.h"
+void TMR2_Start(void);
+# 465 "ui/../mcc_generated_files/tmr2.h"
+void TMR2_StartTimer(void);
+# 497 "ui/../mcc_generated_files/tmr2.h"
+void TMR2_Stop(void);
+# 529 "ui/../mcc_generated_files/tmr2.h"
+void TMR2_StopTimer(void);
+# 564 "ui/../mcc_generated_files/tmr2.h"
+uint8_t TMR2_Counter8BitGet(void);
+# 599 "ui/../mcc_generated_files/tmr2.h"
+uint8_t TMR2_ReadTimer(void);
+# 638 "ui/../mcc_generated_files/tmr2.h"
+void TMR2_Counter8BitSet(uint8_t timerVal);
+# 677 "ui/../mcc_generated_files/tmr2.h"
+void TMR2_WriteTimer(uint8_t timerVal);
+# 729 "ui/../mcc_generated_files/tmr2.h"
+void TMR2_Period8BitSet(uint8_t periodVal);
+# 781 "ui/../mcc_generated_files/tmr2.h"
+void TMR2_LoadPeriodRegister(uint8_t periodVal);
+# 819 "ui/../mcc_generated_files/tmr2.h"
+_Bool TMR2_HasOverflowOccured(void);
+# 61 "ui/../mcc_generated_files/mcc.h" 2
 # 1 "ui/../mcc_generated_files/tmr0.h" 1
 # 100 "ui/../mcc_generated_files/tmr0.h"
 void TMR0_Initialize(void);
@@ -21194,15 +21429,76 @@ uint8_t TMR0_ReadTimer(void);
 void TMR0_WriteTimer(uint8_t timerVal);
 # 272 "ui/../mcc_generated_files/tmr0.h"
 void TMR0_Reload(uint8_t periodVal);
-# 291 "ui/../mcc_generated_files/tmr0.h"
-void TMR0_ISR(void);
-# 310 "ui/../mcc_generated_files/tmr0.h"
- void TMR0_SetInterruptHandler(void (* InterruptHandler)(void));
-# 328 "ui/../mcc_generated_files/tmr0.h"
-extern void (*TMR0_InterruptHandler)(void);
-# 346 "ui/../mcc_generated_files/tmr0.h"
-void TMR0_DefaultInterruptHandler(void);
-# 60 "ui/../mcc_generated_files/mcc.h" 2
+# 308 "ui/../mcc_generated_files/tmr0.h"
+_Bool TMR0_HasOverflowOccured(void);
+# 62 "ui/../mcc_generated_files/mcc.h" 2
+# 1 "ui/../mcc_generated_files/adcc.h" 1
+# 72 "ui/../mcc_generated_files/adcc.h"
+typedef uint16_t adc_result_t;
+# 86 "ui/../mcc_generated_files/adcc.h"
+typedef enum
+{
+    channel_ANA0 = 0x0,
+    channel_VSS = 0x3C,
+    channel_Temp = 0x3D,
+    channel_DAC1 = 0x3E,
+    channel_FVR_buf1 = 0x3F
+} adcc_channel_t;
+# 127 "ui/../mcc_generated_files/adcc.h"
+void ADCC_Initialize(void);
+# 156 "ui/../mcc_generated_files/adcc.h"
+void ADCC_StartConversion(adcc_channel_t channel);
+# 186 "ui/../mcc_generated_files/adcc.h"
+_Bool ADCC_IsConversionDone(void);
+# 218 "ui/../mcc_generated_files/adcc.h"
+adc_result_t ADCC_GetConversionResult(void);
+# 249 "ui/../mcc_generated_files/adcc.h"
+adc_result_t ADCC_GetSingleConversion(adcc_channel_t channel);
+# 274 "ui/../mcc_generated_files/adcc.h"
+void ADCC_StopConversion(void);
+# 301 "ui/../mcc_generated_files/adcc.h"
+void ADCC_SetStopOnInterrupt(void);
+# 326 "ui/../mcc_generated_files/adcc.h"
+void ADCC_DischargeSampleCapacitor(void);
+# 352 "ui/../mcc_generated_files/adcc.h"
+void ADCC_LoadAcquisitionRegister(uint8_t);
+# 378 "ui/../mcc_generated_files/adcc.h"
+void ADCC_SetPrechargeTime(uint8_t);
+# 403 "ui/../mcc_generated_files/adcc.h"
+void ADCC_SetRepeatCount(uint8_t);
+# 431 "ui/../mcc_generated_files/adcc.h"
+uint8_t ADCC_GetCurrentCountofConversions(void);
+# 455 "ui/../mcc_generated_files/adcc.h"
+void ADCC_ClearAccumulator(void);
+# 480 "ui/../mcc_generated_files/adcc.h"
+uint16_t ADCC_GetAccumulatorValue(void);
+# 508 "ui/../mcc_generated_files/adcc.h"
+_Bool ADCC_HasAccumulatorOverflowed(void);
+# 533 "ui/../mcc_generated_files/adcc.h"
+uint16_t ADCC_GetFilterValue(void);
+# 561 "ui/../mcc_generated_files/adcc.h"
+uint16_t ADCC_GetPreviousResult(void);
+# 587 "ui/../mcc_generated_files/adcc.h"
+void ADCC_DefineSetPoint(uint16_t);
+# 613 "ui/../mcc_generated_files/adcc.h"
+void ADCC_SetUpperThreshold(uint16_t);
+# 639 "ui/../mcc_generated_files/adcc.h"
+void ADCC_SetLowerThreshold(uint16_t);
+# 666 "ui/../mcc_generated_files/adcc.h"
+uint16_t ADCC_GetErrorCalculation(void);
+# 693 "ui/../mcc_generated_files/adcc.h"
+void ADCC_EnableDoubleSampling(void);
+# 717 "ui/../mcc_generated_files/adcc.h"
+void ADCC_EnableContinuousConversion(void);
+# 741 "ui/../mcc_generated_files/adcc.h"
+void ADCC_DisableContinuousConversion(void);
+# 769 "ui/../mcc_generated_files/adcc.h"
+_Bool ADCC_HasErrorCrossedUpperThreshold(void);
+# 797 "ui/../mcc_generated_files/adcc.h"
+_Bool ADCC_HasErrorCrossedLowerThreshold(void);
+# 824 "ui/../mcc_generated_files/adcc.h"
+uint8_t ADCC_GetConversionStageStatus(void);
+# 63 "ui/../mcc_generated_files/mcc.h" 2
 # 1 "ui/../mcc_generated_files/memory.h" 1
 # 99 "ui/../mcc_generated_files/memory.h"
 uint16_t FLASH_ReadWord(uint16_t flashAddr);
@@ -21216,7 +21512,7 @@ void FLASH_EraseBlock(uint16_t startAddr);
 void DATAEE_WriteByte(uint16_t bAdd, uint8_t bData);
 # 248 "ui/../mcc_generated_files/memory.h"
 uint8_t DATAEE_ReadByte(uint16_t bAdd);
-# 61 "ui/../mcc_generated_files/mcc.h" 2
+# 64 "ui/../mcc_generated_files/mcc.h" 2
 # 1 "ui/../mcc_generated_files/ext_int.h" 1
 # 250 "ui/../mcc_generated_files/ext_int.h"
 void EXT_INT_Initialize(void);
@@ -21230,16 +21526,16 @@ void INT_SetInterruptHandler(void (* InterruptHandler)(void));
 extern void (*INT_InterruptHandler)(void);
 # 367 "ui/../mcc_generated_files/ext_int.h"
 void INT_DefaultInterruptHandler(void);
-# 62 "ui/../mcc_generated_files/mcc.h" 2
+# 65 "ui/../mcc_generated_files/mcc.h" 2
 # 1 "ui/../mcc_generated_files/clkref.h" 1
 # 92 "ui/../mcc_generated_files/clkref.h"
 void CLKREF_Initialize(void);
-# 63 "ui/../mcc_generated_files/mcc.h" 2
-# 77 "ui/../mcc_generated_files/mcc.h"
+# 66 "ui/../mcc_generated_files/mcc.h" 2
+# 80 "ui/../mcc_generated_files/mcc.h"
 void SYSTEM_Initialize(void);
-# 90 "ui/../mcc_generated_files/mcc.h"
+# 93 "ui/../mcc_generated_files/mcc.h"
 void OSCILLATOR_Initialize(void);
-# 103 "ui/../mcc_generated_files/mcc.h"
+# 106 "ui/../mcc_generated_files/mcc.h"
 void PMD_Initialize(void);
 # 3 "ui/ui.c" 2
 # 1 "ui/../LCD/lcd.h" 1
@@ -21272,7 +21568,13 @@ signed char putsI2C( unsigned char *wrptr );
 
 unsigned char ReadI2C( void );
 # 5 "ui/ui.c" 2
-# 19 "ui/ui.c"
+
+
+
+
+
+
+
 typedef enum { UI_NORMAL, UI_CONFIG, UI_SHOW_RECORDS } ui_mode_t;
 
 
@@ -21321,14 +21623,14 @@ record_field_t records[4];
 uint8_t record_index = 0;
 
 
+uint8_t tala = 3;
+uint8_t tina = 10;
 uint8_t thrSecond = 0;
 uint8_t thrMinute = 0;
 uint8_t thrHour = 12;
 char thrTemp = 20;
 char thrLum = 2;
 
-
-static uint8_t s1_prev = 1, s2_prev = 1;
 
 uint8_t time_inactive;
 
@@ -21337,6 +21639,58 @@ static volatile int S1_pressed ;
 static volatile int S2_pressed ;
 
 
+static uint8_t prevTempCond, prevLumCond, prevClockCond;
+
+
+static volatile uint8_t pwm_seconds_left;
+
+
+static __attribute__((inline)) void PWM6_Start(void)
+{
+    PWM6CONbits.PWM6EN = 1;
+}
+
+static __attribute__((inline)) void PWM6_Stop(void)
+{
+    PWM6_LoadDutyValue(0);
+    PWM6CONbits.PWM6EN = 0;
+}
+
+static __attribute__((inline)) void Alarm_BeepStart(void)
+{
+
+    if (pwm_seconds_left != 0) return;
+
+    pwm_seconds_left = 3;
+    PWM6_LoadDutyValue(512);
+    PWM6_Start();
+}
+
+static __attribute__((inline)) void Alarm_BeepTick1s(void)
+{
+    if (pwm_seconds_left == 0) return;
+    if (--pwm_seconds_left == 0) PWM6_Stop();
+}
+
+
+
+
+static void fill16(char s[17])
+{
+    for (uint8_t i = 0; i < 16; i++) s[i] = ' ';
+    s[16] = '\0';
+}
+
+
+static void put2(char *p, uint8_t v)
+{
+
+    uint8_t rightdigit = v%10;
+    uint8_t leftdigit = (v%100 - rightdigit)/10;
+    p[0] = (char)('0' + leftdigit);
+    p[1] = (char)('0' + rightdigit);
+}
+
 
 void Clock_Tick1s(void)
 {
@@ -21344,7 +21698,15 @@ void Clock_Tick1s(void)
         ss = 0;
         if (++mm >= 60) {
             mm = 0;
-            if (++hh >= 24) {hh = 0;}
+            EEPROM_WriteConfig(10, mm);
+            if (++hh >= 24) {
+                hh = 0;
+                EEPROM_WriteConfig(9, hh);
+            } else {
+                EEPROM_WriteConfig(9, hh);
+            }
+        } else {
+            EEPROM_WriteConfig(10, mm);
         }
     }
 }
@@ -21352,12 +21714,32 @@ void Clock_Tick1s(void)
 void ClearAlarmFlags(void) { alarmFlagC = alarmFlagT = alarmFlagL = 0; }
 
 
+static cfg_field_t cfg_next(cfg_field_t f)
+{
+    switch (f) {
+        case CF_CLK_HH: return CF_CLK_MM;
+        case CF_CLK_MM: return CF_CLK_SS;
+        case CF_CLK_SS: return CF_CTL_C;
+
+        case CF_CTL_C: return CF_CTL_T;
+        case CF_CTL_T: return CF_CTL_L;
+        case CF_CTL_L: return CF_ALARM_EN;
+        case CF_ALARM_EN: return CF_RESET;
+        case CF_RESET: return CF_CLK_HH;
+
+        case CF_CTL_C_HH: return CF_CTL_C_MM;
+        case CF_CTL_C_MM: return CF_CTL_C_SS;
+        case CF_CTL_C_SS: return CF_CTL_T;
+        default: return CF_CLK_HH;
+    }
+}
+
+
 
 void OnS1Pressed(void)
 {
 
     ClearAlarmFlags();
-
     time_inactive = 0;
 
     if (mode == UI_NORMAL) {
@@ -21367,16 +21749,14 @@ void OnS1Pressed(void)
     }
 
     if (mode == UI_CONFIG) {
-        field = (cfg_field_t)(field + 1);
-        if (field == CF_DONE) {
+        cfg_field_t next = cfg_next(field);
+        if (field == CF_RESET) {
             mode = UI_NORMAL;
             field = CF_CLK_HH;
             return;
         }
-        if (field > CF_CTL_C_SS){
-            field = CF_CTL_T;
-        }
 
+        field = next;
         return;
     }
 
@@ -21388,8 +21768,8 @@ void OnS1Pressed(void)
             return;
         }
         else if (record_type == RECORD_LUM){
-            record_type = (record_type_t)(record_type - 1);
-            record_index -= 2;
+            record_type = RECORD_TEMP;
+            record_index = 0;
             return;
         }
     }
@@ -21401,25 +21781,51 @@ void OnS2Pressed(void)
     time_inactive = 0;
     if (mode == UI_CONFIG) {
         switch (field) {
-            case CF_CLK_HH: hh = (hh + 1) % 24; break;
-            case CF_CLK_MM: mm = (mm + 1) % 60; break;
-            case CF_CLK_SS: ss = (ss + 1) % 60; break;
+            case CF_CLK_HH:
+                hh = (hh + 1) % 24;
+                EEPROM_WriteConfig(9, hh);
+                break;
+            case CF_CLK_MM:
+                mm = (mm + 1) % 60;
+                EEPROM_WriteConfig(10, mm);
+                break;
+            case CF_CLK_SS:
+                ss = (ss + 1) % 60;
+                break;
             case CF_CTL_C: field = CF_CTL_C_HH; break;
-            case CF_CTL_C_HH :thrHour = (thrHour + 1) % 24; break;
-            case CF_CTL_C_MM :thrMinute = (thrMinute + 1) %60; break;
-            case CF_CTL_C_SS :thrSecond = (thrSecond + 1) %60; break;
-            case CF_CTL_T: thrTemp = (thrTemp + 1) % 51; break;
-            case CF_CTL_L: thrLum = (thrLum + 1) % 4; break;
-            case CF_ALARM_EN: alarmsEnabled ^= 1; break;
-            case CF_RESET: break;
+            case CF_CTL_C_HH :
+                thrHour = (thrHour + 1) %24;
+                EEPROM_WriteConfig(4, thrHour);
+                break;
+            case CF_CTL_C_MM :
+                thrMinute = (thrMinute + 1) %60;
+                EEPROM_WriteConfig(5, thrMinute);
+                break;
+            case CF_CTL_C_SS :
+                thrSecond = (thrSecond + 1) %60;
+                EEPROM_WriteConfig(6, thrSecond);
+                break;
+            case CF_CTL_T:
+                thrTemp = (thrTemp + 1) % 51;
+                EEPROM_WriteConfig(7, thrTemp);
+                break;
+            case CF_CTL_L:
+                thrLum = (thrLum + 1) % 4;
+                EEPROM_WriteConfig(8, thrLum);
+                break;
+            case CF_ALARM_EN:
+                alarmsEnabled ^= 1;
+                EEPROM_WriteConfig(3, alarmsEnabled);
+                break;
+            case CF_RESET:
+                ClearRecords();
+                break;
             default: break;
         }
         return;
     }
 
     if (mode == UI_NORMAL) {
-
-
         mode = UI_SHOW_RECORDS;
         record_type = RECORD_TEMP;
         record_index = 0;
@@ -21434,29 +21840,112 @@ void OnS2Pressed(void)
             return;
         }
         else if (record_type == RECORD_TEMP) {
-            record_type = (record_type_t)(record_type + 1);
+            record_type = RECORD_LUM;
             record_index += 2;
             return;
         }
 
     }
 
-
-
     return;
 }
 
 
+void set_defaults(void){
+    pmon = 5;
+    tala = 3;
+    tina = 10;
+    alarmsEnabled = 0;
+    thrHour = 12;
+    thrMinute = 0;
+    thrSecond = 0;
+    thrTemp = 20;
+    thrLum = 2;
+    hh = 0;
+    mm = 0;
+    ss = 0;
+
+
+    EEPROM_WriteConfig(0, pmon);
+    EEPROM_WriteConfig(1, tala);
+    EEPROM_WriteConfig(2, tina);
+    EEPROM_WriteConfig(3, alarmsEnabled);
+    EEPROM_WriteConfig(4, thrHour);
+    EEPROM_WriteConfig(5, thrMinute);
+    EEPROM_WriteConfig(6, thrSecond);
+    EEPROM_WriteConfig(7, thrTemp);
+    EEPROM_WriteConfig(8, thrLum);
+    ClearRecords();
+
+
+    records[0].temp = 0; records[0].lum = 0;
+    records[1].temp = 255; records[1].lum = 3;
+    records[2].temp = 0; records[2].lum = 0;
+    records[3].temp = 255; records[3].lum = 3;
+}
 
 void UI_Init(void)
 {
 
+    uint16_t magic;
+    uint8_t stored_checksum, calc_checksum = 0;
 
-    alarmsEnabled = 0;
-    hh = mm = ss = 0;
-    thrTemp = 20;
-    thrLum = 2;
 
+
+    EEPROM_ReadHeader(&magic, &stored_checksum);
+
+    if (magic != 0xF1A1) {
+
+        set_defaults();
+
+
+        calc_checksum = 0;
+        for (uint8_t i = 0; i <= 10; i++) {
+            calc_checksum += EEPROM_ReadConfig(i);
+        }
+        EEPROM_WriteHeader(0xF1A1, calc_checksum);
+
+    } else {
+
+        calc_checksum = 0;
+        for (uint8_t i = 0; i <= 10; i++) {
+            calc_checksum += EEPROM_ReadConfig(i);
+        }
+        if (stored_checksum != calc_checksum) {
+
+            set_defaults();
+
+            return;
+        }
+
+        pmon = EEPROM_ReadConfig(0);
+        tala = EEPROM_ReadConfig(1);
+        tina = EEPROM_ReadConfig(2);
+        alarmsEnabled = EEPROM_ReadConfig(3);
+        thrHour = EEPROM_ReadConfig(4);
+        thrMinute = EEPROM_ReadConfig(5);
+        thrSecond = EEPROM_ReadConfig(6);
+        thrTemp = EEPROM_ReadConfig(7);
+        thrLum = EEPROM_ReadConfig(8);
+        hh = EEPROM_ReadConfig(9);
+        mm = EEPROM_ReadConfig(10);
+
+        EEPROM_ReadRecord((0x0E), &records[0].clk_hh, &records[0].clk_mm, &records[0].clk_ss, &records[0].temp, &records[0].lum);
+        EEPROM_ReadRecord((0x0E + 5), &records[1].clk_hh, &records[1].clk_mm, &records[1].clk_ss, &records[1].temp, &records[1].lum);
+        EEPROM_ReadRecord((0x0E + 2 * 5), &records[2].clk_hh, &records[2].clk_mm, &records[2].clk_ss, &records[2].temp, &records[2].lum);
+        EEPROM_ReadRecord((0x0E + 3 * 5), &records[3].clk_hh, &records[3].clk_mm, &records[3].clk_ss, &records[3].temp, &records[3].lum);
+    }
+
+    ClearAlarmFlags();
+
+    prevTempCond = 0;
+    prevLumCond = 0;
+    prevClockCond = 0;
+
+    pwm_seconds_left = 0;
+    PWM6_Stop();
+
+    time_inactive = 0;
     mode = UI_NORMAL;
     field = CF_CLK_HH;
     record_type = RECORD_NONE;
@@ -21467,7 +21956,21 @@ void UI_Init(void)
 
 void UI_OnTick1s(void)
 {
-    if (time_inactive >= 10) {mode = UI_NORMAL;}
+
+    if (time_inactive >= tina) {mode = UI_NORMAL;}
+
+    Alarm_BeepTick1s();
+    uint8_t clockCond = (hh == thrHour) && (mm == thrMinute) && (ss == thrSecond);
+
+    if (!alarmsEnabled) {
+        prevClockCond = clockCond;
+    } else {
+        if (clockCond && !prevClockCond) {
+            alarmFlagC = 1;
+            Alarm_BeepStart();
+        }
+        prevClockCond = clockCond;
+    }
 
 
     if (mode == UI_NORMAL) { RenderNormal (); }
@@ -21481,6 +21984,8 @@ void UI_OnTick1s(void)
 
 }
 
+
+
 void RenderRecords(void){
     char line1[17], line2[17];
     sprintf(line1,"%02u:%02u:%02u %02uC %ul", records[record_index].clk_hh, records[record_index].clk_mm, records[record_index].clk_ss, records[record_index].temp, records[record_index].lum);
@@ -21491,139 +21996,88 @@ void RenderRecords(void){
 
 void RenderConfig(void)
 {
-# 252 "ui/ui.c"
     char line1[17], line2[17];
+    fill16(line1);
+    fill16(line2);
 
-    switch (field) {
-        case CF_CLK_HH:
-            if(alarmsEnabled==1)
-            { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"                ");
-            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
-            LCDcmd(0x80); LCDpos(0,1);
-        break;
-        case CF_CLK_MM:
-            if(alarmsEnabled==1)
-            { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"                   ");
-            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
-            LCDcmd(0x80);LCDpos(0,4);
-        break;
-        case CF_CLK_SS:
-            if(alarmsEnabled==1)
-            { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"                   ");
-            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
-            LCDcmd(0x80);LCDpos(0,7);
-        break;
-        case CF_CTL_C:
-            if(alarmsEnabled==1)
-            { sprintf(line1,"%02u:%02u:%02u   CTLAR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"                   ");
-            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
-            LCDcmd(0x80);LCDpos(0,11);
-        break;
-        case CF_CTL_C_HH:
-            if(alarmsEnabled==1)
-            { sprintf(line1,"%02u:%02u:%02u   CTLAR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"                   ");
-            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
-            LCDcmd(0x80); LCDpos(0,1);
-        break;
-        case CF_CTL_C_MM:
-            if(alarmsEnabled==1)
-            { sprintf(line1,"%02u:%02u:%02u   CTLAR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"                   ");
-            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
-            LCDcmd(0x80);LCDpos(0,4);
-        break;
-        case CF_CTL_C_SS:
-            if(alarmsEnabled==1)
-            { sprintf(line1,"%02u:%02u:%02u   CTLAR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"                   ");
-            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
-            LCDcmd(0x80);LCDpos(0,7);
-        break;
-        case CF_CTL_T:
-            if(alarmsEnabled==1)
-            { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"%02d C               ",thrTemp);
-            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
-            LCDcmd(0x80);LCDpos(0,12);
-        break;
-        case CF_CTL_L:
-            if(alarmsEnabled==1)
-            { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"             L %01d ",thrLum);
-            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
-            LCDcmd(0x80);LCDpos(0,13);
-        break;
-        case CF_ALARM_EN:
-            if(alarmsEnabled==1)
-            { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"                ");
-            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
-            LCDcmd(0x80);LCDpos(0,14);
-        break;
-        case CF_RESET:
-            if(alarmsEnabled==1)
-            { sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"                ");
-            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
-            LCDcmd(0x80);LCDpos(0,15);
-        break;
-        default: break;
+
+    uint8_t show_hh = hh, show_mm = mm, show_ss = ss;
+
+    if (field == CF_CTL_C || field == CF_CTL_C_HH || field == CF_CTL_C_MM || field == CF_CTL_C_SS) {
+        show_hh = thrHour;
+        show_mm = thrMinute;
+        show_ss = thrSecond;
     }
 
+    put2(&line1[0], show_hh); line1[2] = ':';
+    put2(&line1[3], show_mm); line1[5] = ':';
+    put2(&line1[6], show_ss);
+
+
+    line1[11] = 'C';
+    line1[12] = 'T';
+    line1[13] = 'L';
+    line1[14] = alarmsEnabled ? 'A' : 'a';
+    line1[15] = 'R';
+
+
+    put2(&line2[0], thrTemp);
+    line2[2] = ' ';
+    line2[3] = 'C';
+    line2[13] = 'L';
+
+    line2[15] = (char)('0' + thrLum );
+
+    LCDcmd(0x80); LCDpos(0,0); LCDstr(line1); while (LCDbusy());
+    LCDcmd(0xC0); LCDpos(8,0); LCDstr(line2); while (LCDbusy());
+
+
+    LCDcmd(0x80);
+    switch (field) {
+        case CF_CLK_HH: LCDpos(0,1); break;
+        case CF_CLK_MM: LCDpos(0,4); break;
+        case CF_CLK_SS: LCDpos(0,7); break;
+
+        case CF_CTL_C: LCDpos(0,11); break;
+        case CF_CTL_C_HH: LCDpos(0,1); break;
+        case CF_CTL_C_MM: LCDpos(0,4); break;
+        case CF_CTL_C_SS: LCDpos(0,7); break;
+
+        case CF_CTL_T: LCDpos(0,12); break;
+        case CF_CTL_L: LCDpos(0,13); break;
+        case CF_ALARM_EN: LCDpos(0,14); break;
+        case CF_RESET: LCDpos(0,15); break;
+        default: break;
+    }
 }
 
 void RenderNormal(void)
 {
     char line1[17], line2[17];
-
-    sprintf(line1,"                ");
-    sprintf(line2,"                ");
-
-    LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
+    fill16(line1);
+    fill16(line2);
 
 
+    put2(&line1[0], hh); line1[2] = ':';
+    put2(&line1[3], mm); line1[5] = ':';
+    put2(&line1[6], ss); line1[8] = ' ';
 
-    int any_alarm = alarmFlagC+alarmFlagL+alarmFlagT;
-    if (alarmsEnabled == 1){
-        if (any_alarm == 0){
-            sprintf(line1,"%02u:%02u:%02u      A ",hh,mm,ss);
-            LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());
-        }
-        else{
-            if (alarmFlagC == 1){
-                sprintf(line1,"%02u:%02u:%02u CA ",hh,mm,ss);
-                LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            if (alarmFlagT == 1){
-                sprintf(line1,"%02u:%02u:%02u TA ",hh,mm,ss);
-                LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            if (alarmFlagL == 1){
-                sprintf(line1,"%02u:%02u:%02u LA ",hh,mm,ss);
-                LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-        }
-    }else{
-        sprintf(line1,"%02u:%02u:%02u      a ",hh,mm,ss);
-        LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());
-    }
 
-    sprintf(line2,"%02d C         L %c ",temp,light);
+    line1[9] = alarmFlagC ? 'C' : ' ';
+    line1[10] = alarmFlagT ? 'T' : ' ';
+    line1[11] = alarmFlagL ? 'L' : ' ';
 
-    LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
+    line1[14] = alarmsEnabled ? 'A' : 'a';
+
+
+    put2(&line2[0], temp);
+    line2[2] = ' ';
+    line2[3] = 'C';
+    line2[13] = 'L';
+    line2[15] = (char)('0' + (light % 10));
+
+    LCDcmd(0x80); LCDpos(0,0); LCDstr(line1); while (LCDbusy());
+    LCDcmd(0xC0); LCDpos(8,0); LCDstr(line2); while (LCDbusy());
 }
 
 
@@ -21656,43 +22110,122 @@ unsigned char readTC74 (void)
  return value;
 }
 
+static uint8_t readLuminosityLevel(void)
+{
+    adc_result_t raw = ADCC_GetSingleConversion((adcc_channel_t)0x00);
+
+
+
+    uint8_t level = (uint8_t)(raw >> 8);
+    if (level > 3u) level = 3u;
+    return level;
+}
+
 void ReadSensors(){
     temp = readTC74();
-    light = 'H';
+    light = readLuminosityLevel();
+    CompareReading();
+}
+
+
+void EvaluateTempLumAlarms(void)
+{
+    uint8_t tempCond = (temp > thrTemp);
+    uint8_t lumCond = (light < thrLum);
+
+
+    if (tempCond) do { LATAbits.LATA5 = 1; } while(0); else do { LATAbits.LATA5 = 0; } while(0);
+    if (lumCond) do { LATAbits.LATA4 = 1; } while(0); else do { LATAbits.LATA4 = 0; } while(0);
+
+    if (!alarmsEnabled) {
+        prevTempCond = tempCond;
+        prevLumCond = lumCond;
+        return;
+    }
+
+
+    if (tempCond && !prevTempCond) { alarmFlagT = 1; Alarm_BeepStart(); }
+    if (lumCond && !prevLumCond) { alarmFlagL = 1; Alarm_BeepStart(); }
+
+    prevTempCond = tempCond;
+    prevLumCond = lumCond;
 }
 
 
 void CompareReading(void){
 
+    int record_to_save = 0;
 
     if (temp > records[0].temp) {
         records[0].temp = temp;
         records[0].clk_hh = hh;
         records[0].clk_mm = mm;
         records[0].clk_ss = ss;
+        record_to_save = 1;
+        SaveRecord_EEPROM(record_to_save);
     }
     if (temp < records[1].temp) {
         records[1].temp = temp;
         records[1].clk_hh = hh;
         records[1].clk_mm = mm;
         records[1].clk_ss = ss;
+        record_to_save = 2;
+        SaveRecord_EEPROM(record_to_save);
     }
     if (light > records[2].lum) {
         records[2].lum = light;
         records[2].clk_hh = hh;
         records[2].clk_mm = mm;
         records[2].clk_ss = ss;
+        record_to_save = 3;
+        SaveRecord_EEPROM(record_to_save);
     }
     if (light < records[3].lum) {
         records[3].lum = light;
         records[3].clk_hh = hh;
         records[3].clk_mm = mm;
         records[3].clk_ss = ss;
+        record_to_save = 4;
+        SaveRecord_EEPROM(record_to_save);
     }
 
 }
-void SaveRecord(void);
 
+void SaveRecord_EEPROM(int record_to_save)
+{
+
+    switch(record_to_save){
+        case 1:
+            EEPROM_WriteRecord((0x0E), records[0].clk_hh, records[0].clk_mm, records[0].clk_ss, records[0].temp, records[0].lum);
+            break;
+        case 2:
+            EEPROM_WriteRecord((0x0E + 5), records[1].clk_hh, records[1].clk_mm, records[1].clk_ss, records[1].temp, records[1].lum);
+            break;
+        case 3:
+            EEPROM_WriteRecord((0x0E + 2 * 5), records[2].clk_hh, records[2].clk_mm, records[2].clk_ss, records[2].temp, records[2].lum);
+            break;
+        case 4:
+            EEPROM_WriteRecord((0x0E + 3 * 5), records[3].clk_hh, records[3].clk_mm, records[3].clk_ss, records[3].temp, records[3].lum);
+            break;
+        default:
+            break;
+    }
+}
+
+void ClearRecords(void)
+{
+    for (uint8_t i = 0; i < 4; i++) {
+        records[i].clk_hh = 0;
+        records[i].clk_mm = 0;
+        records[i].clk_ss = 0;
+        records[i].temp = 0;
+        records[i].lum = 0;
+    }
+    EEPROM_WriteRecord((0x0E), records[0].clk_hh, records[0].clk_mm, records[0].clk_ss, records[0].temp, records[0].lum);
+    EEPROM_WriteRecord((0x0E + 5), records[1].clk_hh, records[1].clk_mm, records[1].clk_ss, records[1].temp, records[1].lum);
+    EEPROM_WriteRecord((0x0E + 2 * 5), records[2].clk_hh, records[2].clk_mm, records[2].clk_ss, records[2].temp, records[2].lum);
+    EEPROM_WriteRecord((0x0E + 3 * 5), records[3].clk_hh, records[3].clk_mm, records[3].clk_ss, records[3].temp, records[3].lum);
+}
 
 
 

@@ -897,99 +897,6 @@ static void pad(FILE *fp, char *buf, int p)
 
 
 }
-# 476 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
-static void ctoa(FILE *fp, char c)
-{
-    int l,w;
-
-
-    w = width ? width - 1 : width;
-
-
-
-    if (flags & (1 << 0)) {
-        fputc(c, fp);
-    }
-
-
-
-    w = (w < 0) ? 0 : w;
-    l = 0;
-    while (l < w) {
-        fputc(' ', fp);
-        ++l;
-    }
-
-
-    if (!(flags & (1 << 0))) {
-
-        fputc(c, fp);
-
-    }
-
-
-
-
-
-}
-
-
-
-static void dtoa(FILE *fp, vfpf_sint_t d)
-{
- char s;
-    int i, w;
-
-
-
- _Bool p = 1;
-
-
-
-    s = d < 0 ? 1 : 0;
-# 535 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
-    w = width;
-    if (s
-
-
-
-    ) {
-        --w;
-  s = s ? '-' : '+';
-    }
-# 552 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
-    i = sizeof(dbuf) - 1;
-    dbuf[i] = '\0';
-    while (!(i < 1) && (d != 0
-
-
-
-    || p
-
-
-    || ((0 < w) && (flags & (1 << 1)))
-
-    )) {
-        --i;
-        dbuf[i] = (char)((int)'0' + abs(d % 10));
-
-
-
-  p = 0;
-
-        --w;
-        d = d / 10;
-    }
-
-
-    if (s != 0) {
-        --i;
-        dbuf[i] = s;
-    }
-
-
-    return (void) pad(fp, &dbuf[i], w);
-}
 # 1001 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
 static void utoa(FILE *fp, vfpf_uint_t d)
 {
@@ -1096,33 +1003,9 @@ vfpfcnvrt(FILE *fp, char *fmt[], va_list ap)
    flags |= (1 << 0);
    width = -width;
   }
-# 1273 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
-        if ((*fmt)[0] == 'c') {
-            ++*fmt;
-            c = (unsigned char)(*(int *)__va_arg(*(int **)ap, (int)0));
-# 1284 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
-            return (void) ctoa(fp, c);
-
-        }
-
-
-
-
+# 1291 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
   cp = *fmt;
-# 1361 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
-  if (*cp == 'd' || *cp == 'i') {
-# 1404 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
-   convarg.sint = (vfpf_sint_t)(int)(*(int *)__va_arg(*(int **)ap, (int)0));
-
-   *fmt = cp+1;
-# 1432 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
-   return (void) dtoa(fp, convarg.sint);
-
-  }
-
-
-
-
+# 1439 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
   if (0
 # 1450 "/opt/microchip/xc8/v3.10/pic/sources/c99/common/doprnt.c"
     || *cp == 'u'

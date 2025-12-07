@@ -20820,17 +20820,17 @@ extern __bank0 __bit __timeout;
 # 1 "./mcc_generated_files/device_config.h" 1
 # 51 "./mcc_generated_files/mcc.h" 2
 # 1 "./mcc_generated_files/pin_manager.h" 1
-# 238 "./mcc_generated_files/pin_manager.h"
-void PIN_MANAGER_Initialize (void);
 # 250 "./mcc_generated_files/pin_manager.h"
+void PIN_MANAGER_Initialize (void);
+# 262 "./mcc_generated_files/pin_manager.h"
 void PIN_MANAGER_IOC(void);
-# 263 "./mcc_generated_files/pin_manager.h"
+# 275 "./mcc_generated_files/pin_manager.h"
 void IOCCF5_ISR(void);
-# 286 "./mcc_generated_files/pin_manager.h"
+# 298 "./mcc_generated_files/pin_manager.h"
 void IOCCF5_SetInterruptHandler(void (* InterruptHandler)(void));
-# 310 "./mcc_generated_files/pin_manager.h"
+# 322 "./mcc_generated_files/pin_manager.h"
 extern void (*IOCCF5_InterruptHandler)(void);
-# 334 "./mcc_generated_files/pin_manager.h"
+# 346 "./mcc_generated_files/pin_manager.h"
 void IOCCF5_DefaultInterruptHandler(void);
 # 52 "./mcc_generated_files/mcc.h" 2
 
@@ -21134,6 +21134,223 @@ void TMR1_GATE_ISR(void);
 # 462 "./mcc_generated_files/tmr1.h"
 void TMR1_SetGateInterruptHandler(void (* InterruptHandler)(void));
 # 59 "./mcc_generated_files/mcc.h" 2
+# 1 "./mcc_generated_files/pwm6.h" 1
+# 102 "./mcc_generated_files/pwm6.h"
+ void PWM6_Initialize(void);
+# 129 "./mcc_generated_files/pwm6.h"
+ void PWM6_LoadDutyValue(uint16_t dutyValue);
+# 60 "./mcc_generated_files/mcc.h" 2
+# 1 "./mcc_generated_files/tmr2.h" 1
+# 79 "./mcc_generated_files/tmr2.h"
+typedef enum
+{
+# 89 "./mcc_generated_files/tmr2.h"
+   TMR2_ROP_STARTS_TMRON,
+
+
+
+
+   TMR2_ROP_STARTS_TMRON_ERSHIGH,
+
+
+
+
+   TMR2_ROP_STARTS_TMRON_ERSLOW,
+
+
+
+
+   TMR2_ROP_RESETS_ERSBOTHEDGE,
+
+
+
+
+   TMR2_ROP_RESETS_ERSRISINGEDGE,
+
+
+
+
+   TMR2_ROP_RESETS_ERSFALLINGEDGE,
+
+
+
+
+   TMR2_ROP_RESETS_ERSLOW,
+
+
+
+
+   TMR2_ROP_RESETS_ERSHIGH,
+# 135 "./mcc_generated_files/tmr2.h"
+   TMR2_OS_STARTS_TMRON,
+
+
+
+
+   TMR2_OS_STARTS_ERSRISINGEDGE ,
+
+
+
+
+   TMR2_OS_STARTS_ERSFALLINGEDGE ,
+
+
+
+
+   TMR2_OS_STARTS_ERSBOTHEDGE,
+
+
+
+
+
+   TMR2_OS_STARTS_ERSFIRSTRISINGEDGE,
+
+
+
+
+
+   TMR2_OS_STARTS_ERSFIRSTFALLINGEDGE,
+
+
+
+
+
+   TMR2_OS_STARTS_ERSRISINGEDGEDETECT,
+
+
+
+
+   TMR2_OS_STARTS_ERSFALLINGEDGEDETECT,
+
+
+
+
+   TMR2_OS_STARTS_TMRON_ERSHIGH = 0x16,
+
+
+
+
+   TMR2_OS_STARTS_TMRON_ERSLOW = 0x17,
+# 192 "./mcc_generated_files/tmr2.h"
+   TMR2_MS_STARTS_TMRON_ERSRISINGEDGEDETECT = 0x11,
+
+
+
+
+   TMR2_MS_STARTS_TMRON_ERSFALLINGEDGEDETECT = 0x12,
+
+
+
+
+
+   TMR2_MS_STARTS_TMRON_ERSBOTHEDGE = 0x13
+
+} TMR2_HLT_MODE;
+# 220 "./mcc_generated_files/tmr2.h"
+typedef enum
+{
+
+
+    TMR2_T2INPPS,
+
+
+
+    TMR2_RESERVED,
+
+
+
+    TMR2_T4POSTSCALED,
+
+
+
+    TMR2_T6POSTSCALED,
+
+
+    TMR2_CCP1_OUT,
+
+
+
+    TMR2_CCP2_OUT,
+
+
+
+    TMR2_CCP3_OUT,
+
+
+
+    TMR2_CCP4_OUT,
+
+
+
+    TMR2_CCP5_OUT,
+
+
+
+    TMR2_PWM6_OUT,
+
+
+
+    TMR2_PWM7_OUT,
+
+
+
+    TMR2_C1_OUT_SYNC,
+
+
+
+    TMR2_C2_OUT_SYNC,
+
+
+
+    TMR2_ZCD_OUTPUT,
+
+
+
+    TMR2_CLC1_OUT,
+
+
+
+    TMR2_CLC2_OUT,
+
+
+
+    TMR2_CLC3_OUT,
+
+
+
+    TMR2_CLC4_OUT
+
+
+} TMR2_HLT_EXT_RESET_SOURCE;
+# 336 "./mcc_generated_files/tmr2.h"
+void TMR2_Initialize(void);
+# 372 "./mcc_generated_files/tmr2.h"
+void TMR2_ModeSet(TMR2_HLT_MODE mode);
+# 407 "./mcc_generated_files/tmr2.h"
+void TMR2_ExtResetSourceSet(TMR2_HLT_EXT_RESET_SOURCE reset);
+# 436 "./mcc_generated_files/tmr2.h"
+void TMR2_Start(void);
+# 465 "./mcc_generated_files/tmr2.h"
+void TMR2_StartTimer(void);
+# 497 "./mcc_generated_files/tmr2.h"
+void TMR2_Stop(void);
+# 529 "./mcc_generated_files/tmr2.h"
+void TMR2_StopTimer(void);
+# 564 "./mcc_generated_files/tmr2.h"
+uint8_t TMR2_Counter8BitGet(void);
+# 599 "./mcc_generated_files/tmr2.h"
+uint8_t TMR2_ReadTimer(void);
+# 638 "./mcc_generated_files/tmr2.h"
+void TMR2_Counter8BitSet(uint8_t timerVal);
+# 677 "./mcc_generated_files/tmr2.h"
+void TMR2_WriteTimer(uint8_t timerVal);
+# 729 "./mcc_generated_files/tmr2.h"
+void TMR2_Period8BitSet(uint8_t periodVal);
+# 781 "./mcc_generated_files/tmr2.h"
+void TMR2_LoadPeriodRegister(uint8_t periodVal);
+# 819 "./mcc_generated_files/tmr2.h"
+_Bool TMR2_HasOverflowOccured(void);
+# 61 "./mcc_generated_files/mcc.h" 2
 # 1 "./mcc_generated_files/tmr0.h" 1
 # 100 "./mcc_generated_files/tmr0.h"
 void TMR0_Initialize(void);
@@ -21147,15 +21364,76 @@ uint8_t TMR0_ReadTimer(void);
 void TMR0_WriteTimer(uint8_t timerVal);
 # 272 "./mcc_generated_files/tmr0.h"
 void TMR0_Reload(uint8_t periodVal);
-# 291 "./mcc_generated_files/tmr0.h"
-void TMR0_ISR(void);
-# 310 "./mcc_generated_files/tmr0.h"
- void TMR0_SetInterruptHandler(void (* InterruptHandler)(void));
-# 328 "./mcc_generated_files/tmr0.h"
-extern void (*TMR0_InterruptHandler)(void);
-# 346 "./mcc_generated_files/tmr0.h"
-void TMR0_DefaultInterruptHandler(void);
-# 60 "./mcc_generated_files/mcc.h" 2
+# 308 "./mcc_generated_files/tmr0.h"
+_Bool TMR0_HasOverflowOccured(void);
+# 62 "./mcc_generated_files/mcc.h" 2
+# 1 "./mcc_generated_files/adcc.h" 1
+# 72 "./mcc_generated_files/adcc.h"
+typedef uint16_t adc_result_t;
+# 86 "./mcc_generated_files/adcc.h"
+typedef enum
+{
+    channel_ANA0 = 0x0,
+    channel_VSS = 0x3C,
+    channel_Temp = 0x3D,
+    channel_DAC1 = 0x3E,
+    channel_FVR_buf1 = 0x3F
+} adcc_channel_t;
+# 127 "./mcc_generated_files/adcc.h"
+void ADCC_Initialize(void);
+# 156 "./mcc_generated_files/adcc.h"
+void ADCC_StartConversion(adcc_channel_t channel);
+# 186 "./mcc_generated_files/adcc.h"
+_Bool ADCC_IsConversionDone(void);
+# 218 "./mcc_generated_files/adcc.h"
+adc_result_t ADCC_GetConversionResult(void);
+# 249 "./mcc_generated_files/adcc.h"
+adc_result_t ADCC_GetSingleConversion(adcc_channel_t channel);
+# 274 "./mcc_generated_files/adcc.h"
+void ADCC_StopConversion(void);
+# 301 "./mcc_generated_files/adcc.h"
+void ADCC_SetStopOnInterrupt(void);
+# 326 "./mcc_generated_files/adcc.h"
+void ADCC_DischargeSampleCapacitor(void);
+# 352 "./mcc_generated_files/adcc.h"
+void ADCC_LoadAcquisitionRegister(uint8_t);
+# 378 "./mcc_generated_files/adcc.h"
+void ADCC_SetPrechargeTime(uint8_t);
+# 403 "./mcc_generated_files/adcc.h"
+void ADCC_SetRepeatCount(uint8_t);
+# 431 "./mcc_generated_files/adcc.h"
+uint8_t ADCC_GetCurrentCountofConversions(void);
+# 455 "./mcc_generated_files/adcc.h"
+void ADCC_ClearAccumulator(void);
+# 480 "./mcc_generated_files/adcc.h"
+uint16_t ADCC_GetAccumulatorValue(void);
+# 508 "./mcc_generated_files/adcc.h"
+_Bool ADCC_HasAccumulatorOverflowed(void);
+# 533 "./mcc_generated_files/adcc.h"
+uint16_t ADCC_GetFilterValue(void);
+# 561 "./mcc_generated_files/adcc.h"
+uint16_t ADCC_GetPreviousResult(void);
+# 587 "./mcc_generated_files/adcc.h"
+void ADCC_DefineSetPoint(uint16_t);
+# 613 "./mcc_generated_files/adcc.h"
+void ADCC_SetUpperThreshold(uint16_t);
+# 639 "./mcc_generated_files/adcc.h"
+void ADCC_SetLowerThreshold(uint16_t);
+# 666 "./mcc_generated_files/adcc.h"
+uint16_t ADCC_GetErrorCalculation(void);
+# 693 "./mcc_generated_files/adcc.h"
+void ADCC_EnableDoubleSampling(void);
+# 717 "./mcc_generated_files/adcc.h"
+void ADCC_EnableContinuousConversion(void);
+# 741 "./mcc_generated_files/adcc.h"
+void ADCC_DisableContinuousConversion(void);
+# 769 "./mcc_generated_files/adcc.h"
+_Bool ADCC_HasErrorCrossedUpperThreshold(void);
+# 797 "./mcc_generated_files/adcc.h"
+_Bool ADCC_HasErrorCrossedLowerThreshold(void);
+# 824 "./mcc_generated_files/adcc.h"
+uint8_t ADCC_GetConversionStageStatus(void);
+# 63 "./mcc_generated_files/mcc.h" 2
 # 1 "./mcc_generated_files/memory.h" 1
 # 99 "./mcc_generated_files/memory.h"
 uint16_t FLASH_ReadWord(uint16_t flashAddr);
@@ -21169,7 +21447,7 @@ void FLASH_EraseBlock(uint16_t startAddr);
 void DATAEE_WriteByte(uint16_t bAdd, uint8_t bData);
 # 248 "./mcc_generated_files/memory.h"
 uint8_t DATAEE_ReadByte(uint16_t bAdd);
-# 61 "./mcc_generated_files/mcc.h" 2
+# 64 "./mcc_generated_files/mcc.h" 2
 # 1 "./mcc_generated_files/ext_int.h" 1
 # 250 "./mcc_generated_files/ext_int.h"
 void EXT_INT_Initialize(void);
@@ -21183,16 +21461,16 @@ void INT_SetInterruptHandler(void (* InterruptHandler)(void));
 extern void (*INT_InterruptHandler)(void);
 # 367 "./mcc_generated_files/ext_int.h"
 void INT_DefaultInterruptHandler(void);
-# 62 "./mcc_generated_files/mcc.h" 2
+# 65 "./mcc_generated_files/mcc.h" 2
 # 1 "./mcc_generated_files/clkref.h" 1
 # 92 "./mcc_generated_files/clkref.h"
 void CLKREF_Initialize(void);
-# 63 "./mcc_generated_files/mcc.h" 2
-# 77 "./mcc_generated_files/mcc.h"
+# 66 "./mcc_generated_files/mcc.h" 2
+# 80 "./mcc_generated_files/mcc.h"
 void SYSTEM_Initialize(void);
-# 90 "./mcc_generated_files/mcc.h"
+# 93 "./mcc_generated_files/mcc.h"
 void OSCILLATOR_Initialize(void);
-# 103 "./mcc_generated_files/mcc.h"
+# 106 "./mcc_generated_files/mcc.h"
 void PMD_Initialize(void);
 # 45 "main.c" 2
 # 1 "./I2C/i2c.h" 1
@@ -21238,6 +21516,22 @@ uint8_t AppClock_ConsumeTick1s(void);
 
 
 
+# 1 "./ui/../EEPROM/EEPROM.h" 1
+# 46 "./ui/../EEPROM/EEPROM.h"
+void EEPROM_WriteConfig(uint8_t config_id, uint8_t value);
+uint8_t EEPROM_ReadConfig(uint8_t config_id);
+
+void EEPROM_WriteRecord(uint16_t base_addr, uint8_t h, uint8_t m, uint8_t s, uint8_t T, uint8_t L);
+void EEPROM_ReadRecord(uint16_t base_addr, uint8_t *h, uint8_t *m, uint8_t *s, uint8_t *T, uint8_t *L);
+
+void EEPROM_WriteHeader(uint16_t magic, uint8_t checksum);
+void EEPROM_ReadHeader(uint16_t *magic, uint8_t *checksum);
+# 6 "./ui/ui.h" 2
+
+
+
+uint8_t pmon = 5;
+
 
 
 
@@ -21262,7 +21556,9 @@ void ReadSensors(void);
 
 
 void CompareReading(void);
-void SaveRecord(void);
+void SaveRecord_EEPROM(int record_to_save);
+void ClearRecords(void);
+
 
 
 
@@ -21273,7 +21569,9 @@ int S2_check(void);
 void Reset_flag_S1(void);
 void Reset_flag_S2(void);
 # 51 "main.c" 2
-# 60 "main.c"
+
+
+
 void main(void)
 {
     unsigned char c;
@@ -21286,6 +21584,7 @@ void main(void)
     OpenI2C();
     LCDinit();
     AppClock_Init();
+    LCDcmd(0x80); LCDpos(0,0);LCDstr("Antes do INIT"); while (LCDbusy());
     UI_Init();
 
 
@@ -21309,15 +21608,15 @@ void main(void)
             Clock_Tick1s();
             uint32_t now = AppClock_Seconds();
 
-            if ((now - last_update) >= 5 | last_update == 0)
+            if ((now - last_update) >= pmon | last_update == 0)
             {
                 last_update = now;
                 ReadSensors();
             }
 
-        UI_OnTick1s();
-        __asm("sleep");
-        __nop();
+            UI_OnTick1s();
+            __asm("sleep");
+            __nop();
         }
     }
 }

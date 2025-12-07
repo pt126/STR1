@@ -27,11 +27,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "272 mcc_generated_files/ext_int.h
 [; ;mcc_generated_files/ext_int.h: 272: void INT_ISR(void);
 [v _INT_ISR `(v ~T0 @X0 0 ef ]
-"291 mcc_generated_files/tmr0.h
-[; ;mcc_generated_files/tmr0.h: 291: void TMR0_ISR(void);
-[v _TMR0_ISR `(v ~T0 @X0 0 ef ]
-"250 mcc_generated_files/pin_manager.h
-[; ;mcc_generated_files/pin_manager.h: 250: void PIN_MANAGER_IOC(void);
+"262 mcc_generated_files/pin_manager.h
+[; ;mcc_generated_files/pin_manager.h: 262: void PIN_MANAGER_IOC(void);
 [v _PIN_MANAGER_IOC `(v ~T0 @X0 0 ef ]
 "358 /home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/proc/pic16f18875.h
 [; ;/home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/proc/pic16f18875.h: 358:     struct {
@@ -1758,96 +1755,81 @@ Version 4.0 HI-TECH Software Intermediate Code
 }
 [e $U 1624  ]
 "59
-[; ;mcc_generated_files/interrupt_manager.c: 59:     else if(PIE0bits.TMR0IE == 1 && PIR0bits.TMR0IF == 1)
+[; ;mcc_generated_files/interrupt_manager.c: 59:     else if(PIE0bits.IOCIE == 1 && PIR0bits.IOCIF == 1)
 [e :U 1623 ]
-[e $ ! && == -> . . _PIE0bits 0 3 `i -> 1 `i == -> . . _PIR0bits 0 3 `i -> 1 `i 1625  ]
+[e $ ! && == -> . . _PIE0bits 0 2 `i -> 1 `i == -> . . _PIR0bits 0 2 `i -> 1 `i 1625  ]
 "60
 [; ;mcc_generated_files/interrupt_manager.c: 60:     {
 {
 "61
-[; ;mcc_generated_files/interrupt_manager.c: 61:         TMR0_ISR();
-[e ( _TMR0_ISR ..  ]
+[; ;mcc_generated_files/interrupt_manager.c: 61:         PIN_MANAGER_IOC();
+[e ( _PIN_MANAGER_IOC ..  ]
 "62
 [; ;mcc_generated_files/interrupt_manager.c: 62:     }
 }
 [e $U 1626  ]
 "63
-[; ;mcc_generated_files/interrupt_manager.c: 63:     else if(PIE0bits.IOCIE == 1 && PIR0bits.IOCIF == 1)
+[; ;mcc_generated_files/interrupt_manager.c: 63:     else if(INTCONbits.PEIE == 1)
 [e :U 1625 ]
-[e $ ! && == -> . . _PIE0bits 0 2 `i -> 1 `i == -> . . _PIR0bits 0 2 `i -> 1 `i 1627  ]
+[e $ ! == -> . . _INTCONbits 0 2 `i -> 1 `i 1627  ]
 "64
 [; ;mcc_generated_files/interrupt_manager.c: 64:     {
 {
 "65
-[; ;mcc_generated_files/interrupt_manager.c: 65:         PIN_MANAGER_IOC();
-[e ( _PIN_MANAGER_IOC ..  ]
+[; ;mcc_generated_files/interrupt_manager.c: 65:         if(PIE4bits.TMR1IE == 1 && PIR4bits.TMR1IF == 1)
+[e $ ! && == -> . . _PIE4bits 0 0 `i -> 1 `i == -> . . _PIR4bits 0 0 `i -> 1 `i 1628  ]
 "66
-[; ;mcc_generated_files/interrupt_manager.c: 66:     }
-}
-[e $U 1628  ]
-"67
-[; ;mcc_generated_files/interrupt_manager.c: 67:     else if(INTCONbits.PEIE == 1)
-[e :U 1627 ]
-[e $ ! == -> . . _INTCONbits 0 2 `i -> 1 `i 1629  ]
-"68
-[; ;mcc_generated_files/interrupt_manager.c: 68:     {
+[; ;mcc_generated_files/interrupt_manager.c: 66:         {
 {
+"67
+[; ;mcc_generated_files/interrupt_manager.c: 67:             TMR1_ISR();
+[e ( _TMR1_ISR ..  ]
+"68
+[; ;mcc_generated_files/interrupt_manager.c: 68:         }
+}
+[e $U 1629  ]
 "69
-[; ;mcc_generated_files/interrupt_manager.c: 69:         if(PIE4bits.TMR1IE == 1 && PIR4bits.TMR1IF == 1)
-[e $ ! && == -> . . _PIE4bits 0 0 `i -> 1 `i == -> . . _PIR4bits 0 0 `i -> 1 `i 1630  ]
+[; ;mcc_generated_files/interrupt_manager.c: 69:         else if(PIE5bits.TMR1GIE == 1 && PIR5bits.TMR1GIF == 1)
+[e :U 1628 ]
+[e $ ! && == -> . . _PIE5bits 0 0 `i -> 1 `i == -> . . _PIR5bits 0 0 `i -> 1 `i 1630  ]
 "70
 [; ;mcc_generated_files/interrupt_manager.c: 70:         {
 {
 "71
-[; ;mcc_generated_files/interrupt_manager.c: 71:             TMR1_ISR();
-[e ( _TMR1_ISR ..  ]
+[; ;mcc_generated_files/interrupt_manager.c: 71:             TMR1_GATE_ISR();
+[e ( _TMR1_GATE_ISR ..  ]
 "72
 [; ;mcc_generated_files/interrupt_manager.c: 72:         }
 }
 [e $U 1631  ]
 "73
-[; ;mcc_generated_files/interrupt_manager.c: 73:         else if(PIE5bits.TMR1GIE == 1 && PIR5bits.TMR1GIF == 1)
+[; ;mcc_generated_files/interrupt_manager.c: 73:         else
 [e :U 1630 ]
-[e $ ! && == -> . . _PIE5bits 0 0 `i -> 1 `i == -> . . _PIR5bits 0 0 `i -> 1 `i 1632  ]
 "74
 [; ;mcc_generated_files/interrupt_manager.c: 74:         {
 {
-"75
-[; ;mcc_generated_files/interrupt_manager.c: 75:             TMR1_GATE_ISR();
-[e ( _TMR1_GATE_ISR ..  ]
 "76
 [; ;mcc_generated_files/interrupt_manager.c: 76:         }
 }
-[e $U 1633  ]
-"77
-[; ;mcc_generated_files/interrupt_manager.c: 77:         else
-[e :U 1632 ]
-"78
-[; ;mcc_generated_files/interrupt_manager.c: 78:         {
-{
-"80
-[; ;mcc_generated_files/interrupt_manager.c: 80:         }
-}
-[e :U 1633 ]
 [e :U 1631 ]
+[e :U 1629 ]
+"77
+[; ;mcc_generated_files/interrupt_manager.c: 77:     }
+}
+[e $U 1632  ]
+"78
+[; ;mcc_generated_files/interrupt_manager.c: 78:     else
+[e :U 1627 ]
+"79
+[; ;mcc_generated_files/interrupt_manager.c: 79:     {
+{
 "81
 [; ;mcc_generated_files/interrupt_manager.c: 81:     }
 }
-[e $U 1634  ]
-"82
-[; ;mcc_generated_files/interrupt_manager.c: 82:     else
-[e :U 1629 ]
-"83
-[; ;mcc_generated_files/interrupt_manager.c: 83:     {
-{
-"85
-[; ;mcc_generated_files/interrupt_manager.c: 85:     }
-}
-[e :U 1634 ]
-[e :U 1628 ]
+[e :U 1632 ]
 [e :U 1626 ]
 [e :U 1624 ]
-"86
-[; ;mcc_generated_files/interrupt_manager.c: 86: }
+"82
+[; ;mcc_generated_files/interrupt_manager.c: 82: }
 [e :UE 1622 ]
 }

@@ -13,11 +13,7 @@
             <sourceEncoding>ISO-8859-1</sourceEncoding>
             <make-dep-projects/>
             <sourceRootList>
-                <sourceRootElem>I2C</sourceRootElem>
-                <sourceRootElem>LCD</sourceRootElem>
-                <sourceRootElem>mcc_generated_files</sourceRootElem>
-                <sourceRootElem>Clock</sourceRootElem>
-                <sourceRootElem>ui</sourceRootElem>
+                <sourceRootElem>.</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

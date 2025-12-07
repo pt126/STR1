@@ -16,14 +16,14 @@
         <itemPath>mcc_generated_files/i2c1_master.h</itemPath>
         <itemPath>mcc_generated_files/tmr1.h</itemPath>
         <itemPath>mcc_generated_files/interrupt_manager.h</itemPath>
-        <itemPath>mcc_generated_files/clkref.h</itemPath>
-        <itemPath>mcc_generated_files/tmr0.h</itemPath>
         <itemPath>mcc_generated_files/smt1.h</itemPath>
         <itemPath>mcc_generated_files/ext_int.h</itemPath>
         <itemPath>mcc_generated_files/memory.h</itemPath>
         <itemPath>mcc_generated_files/pwm6.h</itemPath>
         <itemPath>mcc_generated_files/tmr2.h</itemPath>
         <itemPath>mcc_generated_files/adcc.h</itemPath>
+        <itemPath>mcc_generated_files/tmr0.h</itemPath>
+        <itemPath>mcc_generated_files/clkref.h</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -42,6 +42,10 @@
       <logicalFolder name="Clock" displayName="Clock" projectFiles="true">
         <itemPath>Clock/clock.c</itemPath>
         <itemPath>Clock/clock.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="EEPROM" displayName="EEPROM" projectFiles="true">
+        <itemPath>EEPROM/EEPROM.c</itemPath>
+        <itemPath>EEPROM/EEPROM.h</itemPath>
       </logicalFolder>
       <logicalFolder name="I2C" displayName="I2C" projectFiles="true">
         <itemPath>I2C/i2c.c</itemPath>
@@ -63,14 +67,14 @@
         <itemPath>mcc_generated_files/i2c1_master.c</itemPath>
         <itemPath>mcc_generated_files/tmr1.c</itemPath>
         <itemPath>mcc_generated_files/interrupt_manager.c</itemPath>
-        <itemPath>mcc_generated_files/clkref.c</itemPath>
-        <itemPath>mcc_generated_files/tmr0.c</itemPath>
         <itemPath>mcc_generated_files/smt1.c</itemPath>
         <itemPath>mcc_generated_files/ext_int.c</itemPath>
         <itemPath>mcc_generated_files/memory.c</itemPath>
         <itemPath>mcc_generated_files/tmr2.c</itemPath>
         <itemPath>mcc_generated_files/pwm6.c</itemPath>
         <itemPath>mcc_generated_files/adcc.c</itemPath>
+        <itemPath>mcc_generated_files/tmr0.c</itemPath>
+        <itemPath>mcc_generated_files/clkref.c</itemPath>
       </logicalFolder>
       <logicalFolder name="ui" displayName="ui" projectFiles="true">
         <itemPath>ui/ui.c</itemPath>
@@ -80,11 +84,7 @@
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
-    <Elem>I2C</Elem>
-    <Elem>LCD</Elem>
-    <Elem>mcc_generated_files</Elem>
-    <Elem>Clock</Elem>
-    <Elem>ui</Elem>
+    <Elem>.</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -221,7 +221,6 @@
         <property key="event.recorder.debugger.behavior" value="Running"/>
         <property key="event.recorder.enabled" value="false"/>
         <property key="event.recorder.scvd.files" value=""/>
-        <property key="firmware.download.all" value="false"/>
         <property key="lastid" value=""/>
         <property key="memories.configurationmemory" value="true"/>
         <property key="memories.dataflash" value="true"/>

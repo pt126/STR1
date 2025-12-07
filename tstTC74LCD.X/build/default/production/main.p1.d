@@ -7,11 +7,15 @@ mcc_generated_files/interrupt_manager.h  \
 mcc_generated_files/i2c1_master.h  \
 mcc_generated_files/smt1.h  \
 mcc_generated_files/tmr1.h  \
+mcc_generated_files/pwm6.h  \
+mcc_generated_files/tmr2.h  \
 mcc_generated_files/tmr0.h  \
+mcc_generated_files/adcc.h  \
 mcc_generated_files/memory.h  \
 mcc_generated_files/ext_int.h  \
 mcc_generated_files/clkref.h  \
 I2C/i2c.h  \
 LCD/lcd.h  \
 Clock/clock.h  \
-ui/ui.h 
+ui/ui.h  \
+ui/../EEPROM/EEPROM.h 

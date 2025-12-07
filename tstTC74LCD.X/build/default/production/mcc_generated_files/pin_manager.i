@@ -20817,17 +20817,17 @@ extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 29 "/home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/xc.h" 2 3
 # 55 "mcc_generated_files/pin_manager.h" 2
-# 238 "mcc_generated_files/pin_manager.h"
-void PIN_MANAGER_Initialize (void);
 # 250 "mcc_generated_files/pin_manager.h"
+void PIN_MANAGER_Initialize (void);
+# 262 "mcc_generated_files/pin_manager.h"
 void PIN_MANAGER_IOC(void);
-# 263 "mcc_generated_files/pin_manager.h"
+# 275 "mcc_generated_files/pin_manager.h"
 void IOCCF5_ISR(void);
-# 286 "mcc_generated_files/pin_manager.h"
+# 298 "mcc_generated_files/pin_manager.h"
 void IOCCF5_SetInterruptHandler(void (* InterruptHandler)(void));
-# 310 "mcc_generated_files/pin_manager.h"
+# 322 "mcc_generated_files/pin_manager.h"
 extern void (*IOCCF5_InterruptHandler)(void);
-# 334 "mcc_generated_files/pin_manager.h"
+# 346 "mcc_generated_files/pin_manager.h"
 void IOCCF5_DefaultInterruptHandler(void);
 # 50 "mcc_generated_files/pin_manager.c" 2
 
@@ -20864,7 +20864,7 @@ void PIN_MANAGER_Initialize(void)
     ANSELC = 0xC4;
     ANSELB = 0xEF;
     ANSELE = 0x07;
-    ANSELA = 0xFF;
+    ANSELA = 0xAF;
 
 
 
@@ -20927,7 +20927,9 @@ void PIN_MANAGER_Initialize(void)
     RC3PPS = 0x14;
     SMT1WINPPS = 0x10;
     RC4PPS = 0x15;
+    RA6PPS = 0x0E;
     SMT1SIGPPS = 0x11;
+    T0CKIPPS = 0x04;
     SSP1DATPPS = 0x14;
 }
 

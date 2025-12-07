@@ -49,12 +49,6 @@
 #include <stdint.h>
 #include "ui/ui.h"
 
-/*--------------------------------  MACROS(values for variable init mostly) -------------------------------------*/
-#define PMON 5   /*5 sec monitoring period*/
-#define TALA 3   /*3 seconds duration of alarm signal (PWM)*/
-#define CLKH 0   /*clock hours*/
-#define CLKM 0   /*clock minutes*/
-
 
 
 void main(void)
@@ -69,6 +63,7 @@ void main(void)
     OpenI2C();
     LCDinit();
     AppClock_Init();
+    LCDcmd(0x80); LCDpos(0,0);LCDstr("Antes do INIT"); while (LCDbusy());
     UI_Init();
     
     
@@ -92,15 +87,15 @@ void main(void)
             Clock_Tick1s(); /*tick the clock inside the interrupt!!*/
             uint32_t now = AppClock_Seconds();     
             
-            if ((now - last_update) >= PMON | last_update == 0)
+            if ((now - last_update) >= pmon | last_update == 0)
             {
                 last_update = now;
                 ReadSensors();    
             }
             
-        UI_OnTick1s();   // updates hh:mm:ss and renders again    
-        SLEEP();
-        NOP();
+            UI_OnTick1s();   // updates hh:mm:ss and renders again    
+            SLEEP();
+            NOP();
         }
     }
 }

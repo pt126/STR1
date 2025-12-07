@@ -2,6 +2,12 @@
 #include <stdint.h>
 #ifndef UI_H
 #define UI_H
+#include "../EEPROM/EEPROM.h"
+
+
+
+uint8_t pmon = PMON;  // monitoring period
+
 
 /*-----------------------     Utils functions...    ---------------------*/
 
@@ -26,7 +32,9 @@ void ReadSensors(void);
 
 /*--------------------    Records functions ------------------------*/
 void CompareReading(void);
-void SaveRecord(void);
+void SaveRecord_EEPROM(int record_to_save);
+void ClearRecords(void);
+
 
 /*--------------------    Button Flags ----------------------------*/
 

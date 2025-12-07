@@ -4,14 +4,7 @@
 #include "../I2C/i2c.h"
 #include <stdio.h>
 
-#define ALAF 0   /*alarm flag – alarms initially disabled*/
-#define ALAH 12  /*alarm clock hours*/
-#define ALAM 0   /*alarm clock minutes*/
-#define ALAS 0   /*alarm clock seconds*/
-#define ALAT 20  /*20ºC threshold for temperature alarm*/
-#define ALAL 2   /*threshold for luminosity level alarm */
 
-#define TINA 10  /*10 sec inactivity time*/
 
 
 /*-----------------  State Enums ---------------------------*/
@@ -64,14 +57,14 @@ record_field_t records[4]; // [0 - max temp, 1 - min temp, 2 - max lum, 3 - min 
 uint8_t record_index = 0;
 
 // thresholds shown in config mode (spec says tt and l show threshold values there)
+uint8_t tala = TALA;  // alarm signal duration
+uint8_t tina = TINA;  // inactivity time
 uint8_t thrSecond = ALAS;
 uint8_t thrMinute = ALAM;
 uint8_t thrHour   = ALAH;
 char thrTemp   = ALAT;   // 0 -50
 char thrLum    = ALAL;    // 0 - 3
 
-// simple previous sampled state? for polling buttons once per second
-static uint8_t s1_prev = 1, s2_prev = 1;
 
 uint8_t time_inactive;
 
@@ -79,20 +72,101 @@ uint8_t time_inactive;
 static volatile int S1_pressed ;
 static volatile int S2_pressed ;
 
+/* alarm edge tracking */
+static uint8_t prevTempCond, prevLumCond, prevClockCond;
+
+/* PWM countdown */
+static volatile uint8_t pwm_seconds_left;
+
+/* -------------------- PWM helpers -------------------- */
+static inline void PWM6_Start(void)
+{
+    PWM6CONbits.PWM6EN = 1;
+}
+
+static inline void PWM6_Stop(void)
+{
+    PWM6_LoadDutyValue(0);
+    PWM6CONbits.PWM6EN = 0;
+}
+
+static inline void Alarm_BeepStart(void)
+{
+    // only start if not already beeping
+    if (pwm_seconds_left != 0) return;
+
+    pwm_seconds_left = TALA;
+    PWM6_LoadDutyValue(512); // keep your duty choice
+    PWM6_Start();
+}
+
+static inline void Alarm_BeepTick1s(void)
+{
+    if (pwm_seconds_left == 0) return;
+    if (--pwm_seconds_left == 0) PWM6_Stop();
+}
+
 /*-----------------------     Utils functions...    ---------------------*/
 
+/* -------------------- Utility: build fixed 16-char lines -------------------- */
+static void fill16(char s[17])
+{
+    for (uint8_t i = 0; i < 16; i++) s[i] = ' ';
+    s[16] = '\0';
+}
+
+/*put two digits in a string -> for printing values*/
+static void put2(char *p, uint8_t v)
+{
+    //p[0] = (char)('0' + (v / 10));
+    uint8_t rightdigit = v%10;
+    uint8_t leftdigit  = (v%100 - rightdigit)/10;
+    p[0] = (char)('0' + leftdigit);
+    p[1] = (char)('0' + rightdigit);
+}
+
+/*Clock Tick-> public!*/
 void Clock_Tick1s(void) /*I really hate this here >=(*/
 {
     if (++ss >= 60) { 
         ss = 0; 
         if (++mm >= 60) { 
-            mm = 0; 
-            if (++hh >= 24) {hh = 0;} 
-        } 
+            mm = 0;
+            EEPROM_WriteConfig(EEPROM_CONFIG_CLKM, mm);
+            if (++hh >= 24) { 
+                hh = 0; 
+                EEPROM_WriteConfig(EEPROM_CONFIG_CLKH, hh);
+            } else {
+                EEPROM_WriteConfig(EEPROM_CONFIG_CLKH, hh);
+            }
+        } else {
+            EEPROM_WriteConfig(EEPROM_CONFIG_CLKM, mm);
+        }
     }
 }
 
 void ClearAlarmFlags(void) { alarmFlagC = alarmFlagT = alarmFlagL = 0; }
+
+/*------- Config stepping ----------*/
+static cfg_field_t cfg_next(cfg_field_t f)
+{
+    switch (f) {
+        case CF_CLK_HH:     return CF_CLK_MM;
+        case CF_CLK_MM:     return CF_CLK_SS;
+        case CF_CLK_SS:     return CF_CTL_C;
+
+        case CF_CTL_C:      return CF_CTL_T;
+        case CF_CTL_T:      return CF_CTL_L;
+        case CF_CTL_L:      return CF_ALARM_EN;
+        case CF_ALARM_EN:   return CF_RESET;
+        case CF_RESET:      return CF_CLK_HH;   // wrap, then exit handled by UI logic
+
+        case CF_CTL_C_HH:   return CF_CTL_C_MM;
+        case CF_CTL_C_MM:   return CF_CTL_C_SS;
+        case CF_CTL_C_SS:   return CF_CTL_T;    // after editing alarm time -> continue
+        default:            return CF_CLK_HH;
+    }
+} 
 
 /*-------------------- Button resolving functions ----------------------*/
 
@@ -100,7 +174,6 @@ void OnS1Pressed(void)
 {
     // S1 clears CTL *and* is used to enter config and move between fields :contentReference[oaicite:13]{index=13}
     ClearAlarmFlags();
-
     time_inactive = 0;
 
     if (mode == UI_NORMAL) {
@@ -110,16 +183,14 @@ void OnS1Pressed(void)
     }
 
     if (mode == UI_CONFIG) {
-        field = (cfg_field_t)(field + 1);
-        if (field == CF_DONE) {
-            mode = UI_NORMAL;
+        cfg_field_t next = cfg_next(field);
+        if (field == CF_RESET) {
+            mode  = UI_NORMAL;
             field = CF_CLK_HH;
             return;
         }
-        if (field > CF_CTL_C_SS){
-            field = CF_CTL_T;
-        }
-        
+
+        field = next;
         return;
     }
 
@@ -131,8 +202,8 @@ void OnS1Pressed(void)
             return;
         }
         else if (record_type == RECORD_LUM){
-            record_type = (record_type_t)(record_type - 1);
-            record_index -= 2;
+            record_type = RECORD_TEMP;
+            record_index = 0;
             return;
         }
     }
@@ -144,25 +215,51 @@ void OnS2Pressed(void)
     time_inactive = 0;
     if (mode == UI_CONFIG) {
         switch (field) {
-            case CF_CLK_HH: hh = (hh + 1) % 24;  break;                 // :contentReference[oaicite:14]{index=14}
-            case CF_CLK_MM: mm = (mm + 1) % 60;  break;
-            case CF_CLK_SS: ss = (ss + 1) % 60;  break;
+            case CF_CLK_HH: 
+                hh = (hh + 1) % 24;
+                EEPROM_WriteConfig(EEPROM_CONFIG_CLKH, hh);
+                break;           
+            case CF_CLK_MM: 
+                mm = (mm + 1) % 60;  
+                EEPROM_WriteConfig(EEPROM_CONFIG_CLKM, mm);
+                break;
+            case CF_CLK_SS: 
+                ss = (ss + 1) % 60;  
+                break;
             case CF_CTL_C:  field = CF_CTL_C_HH; break;
-            case CF_CTL_C_HH :thrHour   = (thrHour + 1) % 24; break;
-            case CF_CTL_C_MM :thrMinute = (thrMinute + 1) %60; break;
-            case CF_CTL_C_SS :thrSecond = (thrSecond + 1) %60; break; 
-            case CF_CTL_T:  thrTemp = (thrTemp + 1) % 51; break;       // 0..50 :contentReference[oaicite:15]{index=15}
-            case CF_CTL_L:  thrLum  = (thrLum  + 1) % 4;  break;       // 0..3  :contentReference[oaicite:16]{index=16}
-            case CF_ALARM_EN: alarmsEnabled ^= 1; break;               // A/a :contentReference[oaicite:17]{index=17}
-            case CF_RESET:   /* reset max/min records here */ break;   // 'R' :contentReference[oaicite:18]{index=18}
+            case CF_CTL_C_HH :
+                thrHour = (thrHour + 1) %24;
+                EEPROM_WriteConfig(EEPROM_CONFIG_ALAH, thrHour);
+                break;
+            case CF_CTL_C_MM :
+                thrMinute = (thrMinute + 1) %60;
+                EEPROM_WriteConfig(EEPROM_CONFIG_ALAM, thrMinute);
+                break;
+            case CF_CTL_C_SS :
+                thrSecond = (thrSecond + 1) %60;
+                EEPROM_WriteConfig(EEPROM_CONFIG_ALAS, thrSecond);
+                break; 
+            case CF_CTL_T:  
+                thrTemp = (thrTemp + 1) % 51; 
+                EEPROM_WriteConfig(EEPROM_CONFIG_ALAT, thrTemp);
+                break;       // 0..50 
+            case CF_CTL_L:  
+                thrLum  = (thrLum  + 1) % 4;
+                EEPROM_WriteConfig(EEPROM_CONFIG_ALAL, thrLum);
+                break;       // 0..3 
+            case CF_ALARM_EN: 
+                alarmsEnabled ^= 1; 
+                EEPROM_WriteConfig(EEPROM_CONFIG_ALAF, alarmsEnabled);
+                break;       // A/a 
+            case CF_RESET:   
+                ClearRecords(); 
+                break;   // 'R'
             default: break;
         }
         return;
     }
 
     if (mode == UI_NORMAL) {
-        // Later: implement ?show saved records sequence with each press of S2? :contentReference[oaicite:19]{index=19}
-        // Keep as no-op until EEPROM records exist.
         mode = UI_SHOW_RECORDS;
         record_type = RECORD_TEMP;
         record_index = 0;
@@ -177,29 +274,112 @@ void OnS2Pressed(void)
             return;
         } 
         else if (record_type == RECORD_TEMP)  {
-            record_type = (record_type_t)(record_type + 1);
+            record_type = RECORD_LUM;
             record_index += 2;
             return;
         }
         
     }
 
-
-
     return;
 }
 
 /*-------------------    UI functions ----------------------------*/
+void set_defaults(void){
+    pmon = PMON;
+    tala = TALA;
+    tina = TINA;
+    alarmsEnabled = ALAF;
+    thrHour   = ALAH;
+    thrMinute = ALAM;
+    thrSecond = ALAS;
+    thrTemp   = ALAT;
+    thrLum    = ALAL;
+    hh = CLKH;
+    mm = CLKM;
+    ss = 0;
+
+    // Save default config to EEPROM
+    EEPROM_WriteConfig(EEPROM_CONFIG_PMON, pmon);
+    EEPROM_WriteConfig(EEPROM_CONFIG_TALA, tala);
+    EEPROM_WriteConfig(EEPROM_CONFIG_TINA, tina);
+    EEPROM_WriteConfig(EEPROM_CONFIG_ALAF, alarmsEnabled);
+    EEPROM_WriteConfig(EEPROM_CONFIG_ALAH, thrHour);
+    EEPROM_WriteConfig(EEPROM_CONFIG_ALAM, thrMinute);
+    EEPROM_WriteConfig(EEPROM_CONFIG_ALAS, thrSecond);
+    EEPROM_WriteConfig(EEPROM_CONFIG_ALAT, thrTemp);
+    EEPROM_WriteConfig(EEPROM_CONFIG_ALAL, thrLum);        
+    ClearRecords();
+
+    // init records to sane extremes
+    records[0].temp = 0;   records[0].lum = 0;
+    records[1].temp = 255; records[1].lum = 3;
+    records[2].temp = 0;   records[2].lum = 0;
+    records[3].temp = 255; records[3].lum = 3;
+}
 
 void UI_Init(void)
 {
 
-    // initial/default values from spec (you can later load from EEPROM)
-    alarmsEnabled = 0;
-    hh = mm = ss = 0;
-    thrTemp = 20;
-    thrLum  = 2;    // example defaults shown in doc :contentReference[oaicite:20]{index=20}
+    uint16_t magic;
+    uint8_t stored_checksum, calc_checksum = 0;
 
+    //LCDcmd(0x80); LCDpos(0,0);LCDstr("1"); while (LCDbusy()){};__delay_ms(5000);
+
+    EEPROM_ReadHeader(&magic, &stored_checksum);
+    
+    if (magic != MAGIC_WORD) {
+        // EEPROM not initialized, set defaults and write magic word
+        set_defaults();
+        
+        // Calculate and write checksum
+        calc_checksum = 0;
+        for (uint8_t i = 0; i <= EEPROM_CONFIG_CLKM; i++) {
+            calc_checksum += EEPROM_ReadConfig(i);
+        }
+        EEPROM_WriteHeader(MAGIC_WORD, calc_checksum);
+
+    } else {
+        // EEPROM is initialized, check checksum
+        calc_checksum = 0;
+        for (uint8_t i = 0; i <= EEPROM_CONFIG_CLKM; i++) {
+            calc_checksum += EEPROM_ReadConfig(i);
+        }
+        if (stored_checksum != calc_checksum) {
+
+            set_defaults();
+            //UpdateEEPROMChecksum();
+            return;
+        }
+        // Load config and records from EEPROM
+        pmon = EEPROM_ReadConfig(EEPROM_CONFIG_PMON);
+        tala = EEPROM_ReadConfig(EEPROM_CONFIG_TALA);
+        tina = EEPROM_ReadConfig(EEPROM_CONFIG_TINA);
+        alarmsEnabled = EEPROM_ReadConfig(EEPROM_CONFIG_ALAF);
+        thrHour   = EEPROM_ReadConfig(EEPROM_CONFIG_ALAH);
+        thrMinute = EEPROM_ReadConfig(EEPROM_CONFIG_ALAM);
+        thrSecond = EEPROM_ReadConfig(EEPROM_CONFIG_ALAS);
+        thrTemp   = EEPROM_ReadConfig(EEPROM_CONFIG_ALAT);
+        thrLum    = EEPROM_ReadConfig(EEPROM_CONFIG_ALAL);
+        hh = EEPROM_ReadConfig(EEPROM_CONFIG_CLKH);
+        mm = EEPROM_ReadConfig(EEPROM_CONFIG_CLKM);
+
+        EEPROM_ReadRecord(EEPROM_ADDR_TMAX, &records[0].clk_hh, &records[0].clk_mm, &records[0].clk_ss, &records[0].temp, &records[0].lum);
+        EEPROM_ReadRecord(EEPROM_ADDR_TMIN, &records[1].clk_hh, &records[1].clk_mm, &records[1].clk_ss, &records[1].temp, &records[1].lum);
+        EEPROM_ReadRecord(EEPROM_ADDR_LMAX, &records[2].clk_hh, &records[2].clk_mm, &records[2].clk_ss, &records[2].temp, &records[2].lum);
+        EEPROM_ReadRecord(EEPROM_ADDR_LMIN, &records[3].clk_hh, &records[3].clk_mm, &records[3].clk_ss, &records[3].temp, &records[3].lum);
+    }
+
+    ClearAlarmFlags();
+
+    prevTempCond = 0;
+    prevLumCond  = 0;
+    prevClockCond = 0;
+
+    pwm_seconds_left = 0;
+    PWM6_Stop();
+
+    time_inactive = 0;
     mode = UI_NORMAL;
     field = CF_CLK_HH;
     record_type = RECORD_NONE;
@@ -210,8 +390,22 @@ void UI_Init(void)
 
 void UI_OnTick1s(void)
 {
-    if (time_inactive >= TINA) {mode = UI_NORMAL;}
+    //LCDcmd(0x80); LCDpos(0,0);LCDstr("Dentro do Tick"); while (LCDbusy()){}; __delay_ms(5000);
+    if (time_inactive >= tina) {mode = UI_NORMAL;}
+    
+    Alarm_BeepTick1s();
+    uint8_t clockCond = (hh == thrHour) && (mm == thrMinute) && (ss == thrSecond);
 
+    if (!alarmsEnabled) {
+        prevClockCond = clockCond;
+    } else {
+        if (clockCond && !prevClockCond) {
+            alarmFlagC = 1;
+            Alarm_BeepStart();
+        }
+        prevClockCond = clockCond;
+    }
+    
     // Render the UI according to the mode
     if      (mode == UI_NORMAL)      { RenderNormal (); }
     else if (mode == UI_CONFIG)      { RenderConfig (); }
@@ -224,6 +418,8 @@ void UI_OnTick1s(void)
     //IO_RA7_Toggle();
 }
 
+/*-------------------  Rendering  ---------------------------------*/
+
 void RenderRecords(void){
     char line1[17], line2[17];
     sprintf(line1,"%02u:%02u:%02u %02uC %ul", records[record_index].clk_hh, records[record_index].clk_mm, records[record_index].clk_ss, records[record_index].temp, records[record_index].lum);
@@ -234,153 +430,88 @@ void RenderRecords(void){
 
 void RenderConfig(void)
 {
-    /*
-    char mC = (field == CF_CTL_C) ? '^' : ' ';
-    char mT = (field == CF_CTL_T) ? '^' : ' ';
-    char mL = (field == CF_CTL_L) ? '^' : ' ';
-
-
-        snprintf(line1, sizeof(line1), "%02u:%02u:%02u %c%c%c %cR",
-                hh, mm, ss, mC, mT, mL, alarmsEnabled ? 'A' : 'a');
-
-        snprintf(line2, sizeof(line2), "%02u C   L  %u",
-                thrTemp, thrLum);
-
-        LCDcmd(0x80); LCDstr(line1);
-        LCDcmd(0xC0); LCDstr(line2); */
-
     char line1[17], line2[17];
+    fill16(line1);
+    fill16(line2);
 
-    switch (field) {
-        case CF_CLK_HH:
-            if(alarmsEnabled==1)
-            {     sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"                ");
-            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
-            LCDcmd(0x80); LCDpos(0,1);
-        break;
-        case CF_CLK_MM:
-            if(alarmsEnabled==1)
-            {     sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"                   ");
-            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
-            LCDcmd(0x80);LCDpos(0,4);
-        break;
-        case CF_CLK_SS:
-            if(alarmsEnabled==1)
-            {     sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"                   ");
-            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
-            LCDcmd(0x80);LCDpos(0,7);
-        break;
-        case CF_CTL_C:
-            if(alarmsEnabled==1)
-            {     sprintf(line1,"%02u:%02u:%02u   CTLAR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"                   ");
-            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy()); /*falta a atualização disto !!!!!!*/
-            LCDcmd(0x80);LCDpos(0,11);
-        break;
-        case CF_CTL_C_HH:
-            if(alarmsEnabled==1)
-            {     sprintf(line1,"%02u:%02u:%02u   CTLAR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"                   ");
-            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy()); /*falta a atualização disto !!!!!!*/
-            LCDcmd(0x80); LCDpos(0,1);
-        break;
-        case CF_CTL_C_MM:
-            if(alarmsEnabled==1)
-            {     sprintf(line1,"%02u:%02u:%02u   CTLAR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"                   ");
-            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy()); /*falta a atualização disto !!!!!!*/
-            LCDcmd(0x80);LCDpos(0,4);
-        break;
-        case CF_CTL_C_SS:
-            if(alarmsEnabled==1)
-            {     sprintf(line1,"%02u:%02u:%02u   CTLAR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",thrHour,thrMinute,thrSecond); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"                   ");
-            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy()); /*falta a atualização disto !!!!!!*/
-            LCDcmd(0x80);LCDpos(0,7);
-        break;
-        case CF_CTL_T:
-            if(alarmsEnabled==1)
-            {     sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"%02d C               ",thrTemp);
-            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
-            LCDcmd(0x80);LCDpos(0,12);
-        break;
-        case CF_CTL_L:
-            if(alarmsEnabled==1)
-            {     sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"             L %01d ",thrLum); /*<--- isto aqui não está a cooperar*/
-            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
-            LCDcmd(0x80);LCDpos(0,13);
-        break;
-        case CF_ALARM_EN:
-            if(alarmsEnabled==1)
-            {     sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"                ");
-            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
-            LCDcmd(0x80);LCDpos(0,14);
-        break;
-        case CF_RESET:
-            if(alarmsEnabled==1)
-            {     sprintf(line1,"%02u:%02u:%02u   CTLAR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            else{ sprintf(line1,"%02u:%02u:%02u   CTLaR",hh,mm,ss); LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            sprintf(line2,"                ");
-            LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
-            LCDcmd(0x80);LCDpos(0,15);
-        break;
-        default: break;
+    // --- line1 shows either current time OR alarm time when editing C ---
+    uint8_t show_hh = hh, show_mm = mm, show_ss = ss;
+
+    if (field == CF_CTL_C || field == CF_CTL_C_HH || field == CF_CTL_C_MM || field == CF_CTL_C_SS) {
+        show_hh = thrHour;
+        show_mm = thrMinute;
+        show_ss = thrSecond;
     }
 
+    put2(&line1[0], show_hh); line1[2] = ':';
+    put2(&line1[3], show_mm); line1[5] = ':';
+    put2(&line1[6], show_ss);
+
+    // positions 11..15 spell "CTLAR" with A/a
+    line1[11] = 'C';
+    line1[12] = 'T';
+    line1[13] = 'L';
+    line1[14] = alarmsEnabled ? 'A' : 'a';
+    line1[15] = 'R';
+
+    // --- line2 ALWAYS shows thresholds ---
+    put2(&line2[0], thrTemp);
+    line2[2] = ' ';
+    line2[3] = 'C';
+    line2[13] = 'L';
+    //line2[15] = (char)('0' + (thrLum % 10));
+    line2[15] = (char)('0' + thrLum );
+
+    LCDcmd(0x80); LCDpos(0,0); LCDstr(line1); while (LCDbusy());
+    LCDcmd(0xC0); LCDpos(8,0); LCDstr(line2); while (LCDbusy());
+
+    // Cursor positioning
+    LCDcmd(0x80);
+    switch (field) {
+        case CF_CLK_HH:    LCDpos(0,1);  break;
+        case CF_CLK_MM:    LCDpos(0,4);  break;
+        case CF_CLK_SS:    LCDpos(0,7);  break;
+
+        case CF_CTL_C:     LCDpos(0,11); break;
+        case CF_CTL_C_HH:  LCDpos(0,1);  break;
+        case CF_CTL_C_MM:  LCDpos(0,4);  break;
+        case CF_CTL_C_SS:  LCDpos(0,7);  break;
+
+        case CF_CTL_T:     LCDpos(0,12); break; // points at 'T'
+        case CF_CTL_L:     LCDpos(0,13); break; // points at 'L'
+        case CF_ALARM_EN:  LCDpos(0,14); break; // points at 'A/a'
+        case CF_RESET:     LCDpos(0,15); break; // points at 'R'
+        default: break;
+    }
 }
 
 void RenderNormal(void)
 {
     char line1[17], line2[17];
-    /*clear LCD*/
-    sprintf(line1,"                ");
-    sprintf(line2,"                ");
-    
-    LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
+    fill16(line1);
+    fill16(line2);
 
-    // Line1: hh:mm:ss CTL A (in normal just A/a)
-    // show CTL letters only if flagged
-    int any_alarm = alarmFlagC+alarmFlagL+alarmFlagT;
-    if (alarmsEnabled == 1){
-        if (any_alarm  == 0){ /*no alarm going off*/
-            sprintf(line1,"%02u:%02u:%02u      A ",hh,mm,ss);
-            LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());
-        }
-        else{
-            if (alarmFlagC == 1){
-                sprintf(line1,"%02u:%02u:%02u CA ",hh,mm,ss);
-                LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            if (alarmFlagT == 1){
-                sprintf(line1,"%02u:%02u:%02u TA ",hh,mm,ss);
-                LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-            if (alarmFlagL == 1){
-                sprintf(line1,"%02u:%02u:%02u LA ",hh,mm,ss);
-                LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());}
-        }
-    }else{/*alarms disabled*/
-        sprintf(line1,"%02u:%02u:%02u      a ",hh,mm,ss);
-        LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());
-    }
-    
-    sprintf(line2,"%02d C         L %c ",temp,light);
-    //LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());
-    LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
+    // line1: "hh:mm:ss CTL  A/a"
+    put2(&line1[0], hh); line1[2] = ':';
+    put2(&line1[3], mm); line1[5] = ':';
+    put2(&line1[6], ss); line1[8] = ' ';
+
+    // show all flags at once
+    line1[9]  = alarmFlagC ? 'C' : ' ';
+    line1[10] = alarmFlagT ? 'T' : ' ';
+    line1[11] = alarmFlagL ? 'L' : ' ';
+
+    line1[14] = alarmsEnabled ? 'A' : 'a';
+
+    // line2: "tt C         L x"
+    put2(&line2[0], temp);
+    line2[2] = ' ';
+    line2[3] = 'C';
+    line2[13] = 'L';
+    line2[15] = (char)('0' + (light % 10));
+
+    LCDcmd(0x80); LCDpos(0,0); LCDstr(line1); while (LCDbusy());
+    LCDcmd(0xC0); LCDpos(8,0); LCDstr(line2); while (LCDbusy());
 }
 
 /*--------------------    Sensor functions ------------------------*/
@@ -413,43 +544,122 @@ unsigned char readTC74 (void)
 	return value;
 }
 
+static uint8_t readLuminosityLevel(void)
+{
+    adc_result_t raw = ADCC_GetSingleConversion((adcc_channel_t)0x00); // 0x00 = ANA0 (RA0)
+    //adc_result_t raw = ADCC_GetSingleConversion(channel_ANA0); // RA0/AN0
+    
+
+    uint8_t level = (uint8_t)(raw >> 8); // 0..3 for 10-bit ADC
+    if (level > 3u) level = 3u;
+    return level;
+}
+
 void ReadSensors(){
     temp = readTC74();
-    light = 'H'; /*switch with proper ADC reading*/
+    light = readLuminosityLevel();
+    CompareReading();
+}
+
+/* Call after ReadSensors() each PMON cycle */
+void EvaluateTempLumAlarms(void)
+{
+    uint8_t tempCond = (temp > thrTemp);
+    uint8_t lumCond  = (light < thrLum);
+
+    // indicator LEDs
+    if (tempCond) IO_RA5_SetHigh(); else IO_RA5_SetLow();
+    if (lumCond)  IO_RA4_SetHigh(); else IO_RA4_SetLow();
+
+    if (!alarmsEnabled) {
+        prevTempCond = tempCond;
+        prevLumCond  = lumCond;
+        return;
+    }
+
+    // rising edge triggers
+    if (tempCond && !prevTempCond) { alarmFlagT = 1; Alarm_BeepStart(); }
+    if (lumCond  && !prevLumCond)  { alarmFlagL = 1; Alarm_BeepStart(); }
+
+    prevTempCond = tempCond;
+    prevLumCond  = lumCond;
 }
 
 /*--------------------    Records functions ------------------------*/
 void CompareReading(void){
 
+    int record_to_save = 0;
     // compare current reading with records and update if needed
     if (temp > records[0].temp) {
         records[0].temp = temp;
         records[0].clk_hh = hh;
         records[0].clk_mm = mm;
         records[0].clk_ss = ss;
+        record_to_save = 1;
+        SaveRecord_EEPROM(record_to_save);
     }
     if (temp < records[1].temp) {
         records[1].temp = temp;
         records[1].clk_hh = hh;
         records[1].clk_mm = mm;
         records[1].clk_ss = ss;
+        record_to_save = 2;
+        SaveRecord_EEPROM(record_to_save);
     }
     if (light > records[2].lum) {
         records[2].lum = light;
         records[2].clk_hh = hh;
         records[2].clk_mm = mm;
         records[2].clk_ss = ss;
+        record_to_save = 3;
+        SaveRecord_EEPROM(record_to_save);
     }
     if (light < records[3].lum) {
         records[3].lum = light;
         records[3].clk_hh = hh;
         records[3].clk_mm = mm;
         records[3].clk_ss = ss;
+        record_to_save = 4;
+        SaveRecord_EEPROM(record_to_save);
     }
 
 }
-void SaveRecord(void);
-/* Not implemented: would save records to EEPROM */
+
+void SaveRecord_EEPROM(int record_to_save)
+{
+    
+    switch(record_to_save){
+        case 1:
+            EEPROM_WriteRecord(EEPROM_ADDR_TMAX, records[0].clk_hh, records[0].clk_mm, records[0].clk_ss, records[0].temp, records[0].lum);
+            break;
+        case 2:
+            EEPROM_WriteRecord(EEPROM_ADDR_TMIN, records[1].clk_hh, records[1].clk_mm, records[1].clk_ss, records[1].temp, records[1].lum);
+            break;
+        case 3:
+            EEPROM_WriteRecord(EEPROM_ADDR_LMAX, records[2].clk_hh, records[2].clk_mm, records[2].clk_ss, records[2].temp, records[2].lum);
+            break;
+        case 4:
+            EEPROM_WriteRecord(EEPROM_ADDR_LMIN, records[3].clk_hh, records[3].clk_mm, records[3].clk_ss, records[3].temp, records[3].lum);
+            break;
+        default:
+            break;
+    }
+}
+
+void ClearRecords(void)
+{
+    for (uint8_t i = 0; i < 4; i++) {
+        records[i].clk_hh = 0;
+        records[i].clk_mm = 0;
+        records[i].clk_ss = 0;
+        records[i].temp   = 0;
+        records[i].lum    = 0;
+    }
+    EEPROM_WriteRecord(EEPROM_ADDR_TMAX, records[0].clk_hh, records[0].clk_mm, records[0].clk_ss, records[0].temp, records[0].lum);
+    EEPROM_WriteRecord(EEPROM_ADDR_TMIN, records[1].clk_hh, records[1].clk_mm, records[1].clk_ss, records[1].temp, records[1].lum);
+    EEPROM_WriteRecord(EEPROM_ADDR_LMAX, records[2].clk_hh, records[2].clk_mm, records[2].clk_ss, records[2].temp, records[2].lum);
+    EEPROM_WriteRecord(EEPROM_ADDR_LMIN, records[3].clk_hh, records[3].clk_mm, records[3].clk_ss, records[3].temp, records[3].lum);
+}
 
 /*--------------------    Button Flags ----------------------------*/
 
