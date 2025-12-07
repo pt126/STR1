@@ -5,8 +5,9 @@
         <group>
             <file>file:/home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/mcc_generated_files/memory.c</file>
             <file>file:/home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/EEPROM/EEPROM.c</file>
+            <file>file:/home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.h</file>
             <file>file:/home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/main.c</file>
-            <file>file:/home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/ui/ui.c</file>
+            <file>file:/home/barbichas/projetos/Microchip/Project1_STR_agora_sim/STR1/tstTC74LCD.X/EEPROM/EEPROM.h</file>
         </group>
     </open-files>
 </project-private>

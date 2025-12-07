@@ -34,7 +34,7 @@ void ReadSensors(void);
 void CompareReading(void);
 void SaveRecord_EEPROM(int record_to_save);
 void ClearRecords(void);
-
+void UpdateEEPROMChecksum(void);
 
 /*--------------------    Button Flags ----------------------------*/
 

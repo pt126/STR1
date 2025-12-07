@@ -84,6 +84,7 @@ void main(void)
 
         if (AppClock_ConsumeTick1s()) /*one second has passed*/
         {
+            IO_RA7_Toggle(); //status LED
             Clock_Tick1s(); /*tick the clock inside the interrupt!!*/
             uint32_t now = AppClock_Seconds();     
             

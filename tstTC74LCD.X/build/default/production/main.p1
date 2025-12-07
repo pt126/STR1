@@ -69,6 +69,17 @@ Version 4.0 HI-TECH Software Intermediate Code
 "83 ./Clock/clock.h
 [; ;./Clock/clock.h: 83: uint8_t AppClock_ConsumeTick1s(void);
 [v _AppClock_ConsumeTick1s `(uc ~T0 @X0 0 ef ]
+"957 /home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/proc/pic16f18875.h
+[; ;/home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/proc/pic16f18875.h: 957:     struct {
+[s S53 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S53 . LATA0 LATA1 LATA2 LATA3 LATA4 LATA5 LATA6 LATA7 ]
+"956
+[; ;/home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/proc/pic16f18875.h: 956: typedef union {
+[u S52 `S53 1 ]
+[n S52 . . ]
+"968
+[; ;/home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/proc/pic16f18875.h: 968: extern volatile LATAbits_t LATAbits __attribute__((address(0x016)));
+[v _LATAbits `VS52 ~T0 @X0 0 e@22 ]
 "14 ./ui/ui.h
 [; ;./ui/ui.h: 14: void Clock_Tick1s(void);
 [v _Clock_Tick1s `(v ~T0 @X0 0 ef ]
@@ -1819,49 +1830,56 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main.c: 86:         {
 {
 "87
-[; ;main.c: 87:             Clock_Tick1s();
-[e ( _Clock_Tick1s ..  ]
+[; ;main.c: 87:             do { LATAbits.LATA7 = ~LATAbits.LATA7; } while(0);
+[e :U 1634 ]
+{
+[e = . . _LATAbits 0 7 -> ~ -> . . _LATAbits 0 7 `i `uc ]
+}
+[e :U 1633 ]
 "88
-[; ;main.c: 88:             uint32_t now = AppClock_Seconds();
+[; ;main.c: 88:             Clock_Tick1s();
+[e ( _Clock_Tick1s ..  ]
+"89
+[; ;main.c: 89:             uint32_t now = AppClock_Seconds();
 [v _now `ul ~T0 @X0 1 a ]
 [e = _now ( _AppClock_Seconds ..  ]
-"90
-[; ;main.c: 90:             if ((now - last_update) >= pmon | last_update == 0)
-[e $ ! | >= - _now _last_update -> _pmon `ul == _last_update -> -> -> 0 `i `l `ul 1632  ]
 "91
-[; ;main.c: 91:             {
-{
+[; ;main.c: 91:             if ((now - last_update) >= pmon | last_update == 0)
+[e $ ! | >= - _now _last_update -> _pmon `ul == _last_update -> -> -> 0 `i `l `ul 1635  ]
 "92
-[; ;main.c: 92:                 last_update = now;
-[e = _last_update _now ]
+[; ;main.c: 92:             {
+{
 "93
-[; ;main.c: 93:                 ReadSensors();
-[e ( _ReadSensors ..  ]
+[; ;main.c: 93:                 last_update = now;
+[e = _last_update _now ]
 "94
-[; ;main.c: 94:             }
+[; ;main.c: 94:                 ReadSensors();
+[e ( _ReadSensors ..  ]
+"95
+[; ;main.c: 95:             }
 }
-[e :U 1632 ]
-"96
-[; ;main.c: 96:             UI_OnTick1s();
-[e ( _UI_OnTick1s ..  ]
+[e :U 1635 ]
 "97
-[; ;main.c: 97:             __asm("sleep");
-[; <" sleep ;# ">
+[; ;main.c: 97:             UI_OnTick1s();
+[e ( _UI_OnTick1s ..  ]
 "98
-[; ;main.c: 98:             __nop();
-[e ( ___nop ..  ]
+[; ;main.c: 98:             __asm("sleep");
+[; <" sleep ;# ">
 "99
-[; ;main.c: 99:         }
+[; ;main.c: 99:             __nop();
+[e ( ___nop ..  ]
+"100
+[; ;main.c: 100:         }
 }
 [e :U 1631 ]
-"100
-[; ;main.c: 100:     }
+"101
+[; ;main.c: 101:     }
 }
 [e :U 1626 ]
 [e $U 1627  ]
 [e :U 1628 ]
-"101
-[; ;main.c: 101: }
+"102
+[; ;main.c: 102: }
 [e :UE 1622 ]
 }
 [a 1C 65 110 116 101 115 32 100 111 32 73 78 73 84 0 ]

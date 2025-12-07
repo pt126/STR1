@@ -159,7 +159,7 @@ void ReadSensors(void);
 void CompareReading(void);
 void SaveRecord_EEPROM(int record_to_save);
 void ClearRecords(void);
-
+void UpdateEEPROMChecksum(void);
 
 
 
@@ -21694,6 +21694,7 @@ static void put2(char *p, uint8_t v)
 
 void Clock_Tick1s(void)
 {
+
     if (++ss >= 60) {
         ss = 0;
         if (++mm >= 60) {
@@ -21914,7 +21915,7 @@ void UI_Init(void)
         if (stored_checksum != calc_checksum) {
 
             set_defaults();
-
+            UpdateEEPROMChecksum();
             return;
         }
 
@@ -21957,7 +21958,8 @@ void UI_Init(void)
 void UI_OnTick1s(void)
 {
 
-    if (time_inactive >= tina) {mode = UI_NORMAL;}
+
+    if (time_inactive > tina) {time_inactive = 0;mode = UI_NORMAL;}
 
     Alarm_BeepTick1s();
     uint8_t clockCond = (hh == thrHour) && (mm == thrMinute) && (ss == thrSecond);
@@ -21988,9 +21990,25 @@ void UI_OnTick1s(void)
 
 void RenderRecords(void){
     char line1[17], line2[17];
-    sprintf(line1,"%02u:%02u:%02u %02uC %ul", records[record_index].clk_hh, records[record_index].clk_mm, records[record_index].clk_ss, records[record_index].temp, records[record_index].lum);
+    fill16(line1);
+    fill16(line2);
+
+    put2(&line1[0], records[record_index].clk_hh); line1[2] = ':';
+    put2(&line1[3], records[record_index].clk_mm); line1[5] = ':';
+    put2(&line1[6], records[record_index].clk_ss); line1[8] = ' ';
+    put2(&line1[9], records[record_index].temp); line1[11]= 'C';
+    line1[15] = (char)('0' + records[record_index].lum); line1[14]= 'L';
+
+    put2(&line2[0], records[record_index+1].clk_hh); line2[2] = ':';
+    put2(&line2[3], records[record_index+1].clk_mm); line2[5] = ':';
+    put2(&line2[6], records[record_index+1].clk_ss); line2[8] = ' ';
+    put2(&line2[9], records[record_index+1].temp); line2[11]= 'C';
+    line2[15] = (char)('0' + records[record_index+1].lum); line2[14]= 'L';
+
+
+
+
     LCDcmd(0x80); LCDpos(0,0);LCDstr(line1); while (LCDbusy());
-    sprintf(line2,"%02u:%02u:%02u %02uC %ul", records[record_index+1].clk_hh, records[record_index+1].clk_mm, records[record_index+1].clk_ss, records[record_index+1].temp, records[record_index+1].lum);
     LCDcmd(0xC0); LCDpos(8,0);LCDstr(line2); while (LCDbusy());
 }
 
@@ -22227,6 +22245,20 @@ void ClearRecords(void)
     EEPROM_WriteRecord((0x0E + 3 * 5), records[3].clk_hh, records[3].clk_mm, records[3].clk_ss, records[3].temp, records[3].lum);
 }
 
+void UpdateEEPROMChecksum(void)
+{
+    uint8_t calc_checksum = 0;
+
+    for (uint8_t i = 0; i <= 10; i++) {
+        calc_checksum += EEPROM_ReadConfig(i);
+    }
+
+    for (uint16_t addr = (0x0E); addr <= (0x0E + 3 * 5) + 4; addr++) {
+        calc_checksum += DATAEE_ReadByte(addr);
+    }
+
+    EEPROM_WriteHeader(0xF1A1, calc_checksum);
+}
 
 
 void S1_Callback(void){ S1_pressed = 1; }

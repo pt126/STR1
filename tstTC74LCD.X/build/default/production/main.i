@@ -21558,7 +21558,7 @@ void ReadSensors(void);
 void CompareReading(void);
 void SaveRecord_EEPROM(int record_to_save);
 void ClearRecords(void);
-
+void UpdateEEPROMChecksum(void);
 
 
 
@@ -21605,6 +21605,7 @@ void main(void)
 
         if (AppClock_ConsumeTick1s())
         {
+            do { LATAbits.LATA7 = ~LATAbits.LATA7; } while(0);
             Clock_Tick1s();
             uint32_t now = AppClock_Seconds();
 
