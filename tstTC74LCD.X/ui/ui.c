@@ -365,7 +365,7 @@ void UI_Init(void)
 
             set_defaults();
             UpdateEEPROMChecksum();
-            return;
+            //return;
         }
         // Load config and records from EEPROM
         pmon = (uint8_t) EEPROM_ReadConfig(EEPROM_CONFIG_PMON);
@@ -684,33 +684,42 @@ void SaveRecord_EEPROM(int record_to_save)
 
 void ClearRecords(void)
 {
+    // Reset timestamps
     for (uint8_t i = 0; i < 4; i++) {
         records[i].clk_hh = 0;
         records[i].clk_mm = 0;
         records[i].clk_ss = 0;
-        records[i].temp   = 0;
-        records[i].lum    = 0;
     }
-    EEPROM_WriteRecord(EEPROM_ADDR_TMAX, records[0].clk_hh, records[0].clk_mm, records[0].clk_ss, records[0].temp, records[0].lum);
-    EEPROM_WriteRecord(EEPROM_ADDR_TMIN, records[1].clk_hh, records[1].clk_mm, records[1].clk_ss, records[1].temp, records[1].lum);
-    EEPROM_WriteRecord(EEPROM_ADDR_LMAX, records[2].clk_hh, records[2].clk_mm, records[2].clk_ss, records[2].temp, records[2].lum);
-    EEPROM_WriteRecord(EEPROM_ADDR_LMIN, records[3].clk_hh, records[3].clk_mm, records[3].clk_ss, records[3].temp, records[3].lum);
+
+    // Set "extreme" initial values so min/max comparisons work:
+    // [0] Tmax, [1] Tmin, [2] Lmax, [3] Lmin
+    records[0].temp = 0;    records[0].lum = 0;   // Tmax
+    records[1].temp = 255;  records[1].lum = 0;   // Tmin (temp starts high)
+    records[2].temp = 0;    records[2].lum = 0;   // Lmax
+    records[3].temp = 0;    records[3].lum = 3;   // Lmin (lum starts high)
+
+    // Persist to EEPROM
+    EEPROM_WriteRecord(EEPROM_ADDR_TMAX,
+                       records[0].clk_hh, records[0].clk_mm, records[0].clk_ss,
+                       records[0].temp, records[0].lum);
+
+    EEPROM_WriteRecord(EEPROM_ADDR_TMIN,
+                       records[1].clk_hh, records[1].clk_mm, records[1].clk_ss,
+                       records[1].temp, records[1].lum);
+
+    EEPROM_WriteRecord(EEPROM_ADDR_LMAX,
+                       records[2].clk_hh, records[2].clk_mm, records[2].clk_ss,
+                       records[2].temp, records[2].lum);
+
+    EEPROM_WriteRecord(EEPROM_ADDR_LMIN,
+                       records[3].clk_hh, records[3].clk_mm, records[3].clk_ss,
+                       records[3].temp, records[3].lum);
+
+    // If you keep checksum logic, refresh it here
+    UpdateEEPROMChecksum();
 }
 
-void UpdateEEPROMChecksum(void)
-{
-    uint8_t calc_checksum = 0;
-    
-    for (uint8_t i = 0; i <= EEPROM_CONFIG_CLKM; i++) {
-        calc_checksum += EEPROM_ReadConfig(i);
-    }
-    
-    for (uint16_t addr = EEPROM_ADDR_TMAX; addr <= EEPROM_ADDR_LMIN + 4; addr++) {
-        calc_checksum += DATAEE_ReadByte(addr);
-    }
-    
-    EEPROM_WriteHeader(MAGIC_WORD, calc_checksum);
-}
+
 /*--------------------    Button Flags ----------------------------*/
 
 void S1_Callback(void){ S1_pressed = 1; }

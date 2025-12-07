@@ -1,17 +1,17 @@
 Version 4.0 HI-TECH Software Intermediate Code
-[v F12676 `(v ~T0 @X0 0 tf ]
+[v F12677 `(v ~T0 @X0 0 tf ]
 "37 ui/ui.c
 [; ;ui/ui.c: 37: static ui_mode_t mode;
-[c E12893 0 1 2 .. ]
-[n E12893 . UI_NORMAL UI_CONFIG UI_SHOW_RECORDS  ]
+[c E12894 0 1 2 .. ]
+[n E12894 . UI_NORMAL UI_CONFIG UI_SHOW_RECORDS  ]
 "38
 [; ;ui/ui.c: 38: static cfg_field_t field;
-[c E12898 0 1 2 3 4 5 6 7 8 9 10 11 .. ]
-[n E12898 . CF_CLK_HH CF_CLK_MM CF_CLK_SS CF_CTL_C CF_CTL_T CF_CTL_L CF_ALARM_EN CF_RESET CF_DONE CF_CTL_C_HH CF_CTL_C_MM CF_CTL_C_SS  ]
+[c E12899 0 1 2 3 4 5 6 7 8 9 10 11 .. ]
+[n E12899 . CF_CLK_HH CF_CLK_MM CF_CLK_SS CF_CTL_C CF_CTL_T CF_CTL_L CF_ALARM_EN CF_RESET CF_DONE CF_CTL_C_HH CF_CTL_C_MM CF_CTL_C_SS  ]
 "39
 [; ;ui/ui.c: 39: static record_type_t record_type;
-[c E12912 0 1 2 .. ]
-[n E12912 . RECORD_NONE RECORD_TEMP RECORD_LUM  ]
+[c E12913 0 1 2 .. ]
+[n E12913 . RECORD_NONE RECORD_TEMP RECORD_LUM  ]
 "48
 [; ;ui/ui.c: 48: typedef struct {
 [s S1622 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 ]
@@ -37,8 +37,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "46 ui/../EEPROM/EEPROM.h
 [; ;ui/../EEPROM/EEPROM.h: 46: void EEPROM_WriteConfig(uint8_t config_id, uint8_t value);
 [v _EEPROM_WriteConfig `(v ~T0 @X0 0 ef2`uc`uc ]
-"36 ui/ui.h
-[; ;ui/ui.h: 36: void ClearRecords(void);
+"37 ui/ui.h
+[; ;ui/ui.h: 37: void ClearRecords(void);
 [v _ClearRecords `(v ~T0 @X0 0 ef ]
 "53 ui/../EEPROM/EEPROM.h
 [; ;ui/../EEPROM/EEPROM.h: 53: void EEPROM_ReadHeader(uint16_t *magic, uint8_t *checksum);
@@ -52,10 +52,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 "52 ui/../EEPROM/EEPROM.h
 [; ;ui/../EEPROM/EEPROM.h: 52: void EEPROM_WriteHeader(uint16_t magic, uint8_t checksum);
 [v _EEPROM_WriteHeader `(v ~T0 @X0 0 ef2`us`uc ]
-"37 ui/ui.h
-[; ;ui/ui.h: 37: void UpdateEEPROMChecksum(void);
+"55
+[; ;ui/../EEPROM/EEPROM.h: 55: void UpdateEEPROMChecksum(void);
 [v _UpdateEEPROMChecksum `(v ~T0 @X0 0 ef ]
-"50 ui/../EEPROM/EEPROM.h
+"50
 [; ;ui/../EEPROM/EEPROM.h: 50: void EEPROM_ReadRecord(uint16_t base_addr, uint8_t *h, uint8_t *m, uint8_t *s, uint8_t *T, uint8_t *L);
 [v _EEPROM_ReadRecord `(v ~T0 @X0 0 ef6`us`*uc`*uc`*uc`*uc`*uc ]
 "18 ui/../LCD/lcd.h
@@ -187,13 +187,13 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _ReadI2C `(uc ~T0 @X0 0 ef ]
 "585 ui/ui.c
 [; ;ui/ui.c: 585:     adc_result_t raw = ADCC_GetSingleConversion((adcc_channel_t)0x00);
-[c E12797 0 60 61 62 63 .. ]
-[n E12797 . channel_ANA0 channel_VSS channel_Temp channel_DAC1 channel_FVR_buf1  ]
+[c E12798 0 60 61 62 63 .. ]
+[n E12798 . channel_ANA0 channel_VSS channel_Temp channel_DAC1 channel_FVR_buf1  ]
 "249 ui/../mcc_generated_files/adcc.h
 [; ;ui/../mcc_generated_files/adcc.h: 249: adc_result_t ADCC_GetSingleConversion(adcc_channel_t channel);
-[v _ADCC_GetSingleConversion `(us ~T0 @X0 0 ef1`E12797 ]
-"34 ui/ui.h
-[; ;ui/ui.h: 34: void CompareReading(void);
+[v _ADCC_GetSingleConversion `(us ~T0 @X0 0 ef1`E12798 ]
+"35 ui/ui.h
+[; ;ui/ui.h: 35: void CompareReading(void);
 [v _CompareReading `(v ~T0 @X0 0 ef ]
 "957 /home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/proc/pic16f18875.h
 [; ;/home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/proc/pic16f18875.h: 957:     struct {
@@ -206,8 +206,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "968
 [; ;/home/barbichas/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8/pic/include/proc/pic16f18875.h: 968: extern volatile LATAbits_t LATAbits __attribute__((address(0x016)));
 [v _LATAbits `VS52 ~T0 @X0 0 e@22 ]
-"35 ui/ui.h
-[; ;ui/ui.h: 35: void SaveRecord_EEPROM(int record_to_save);
+"36 ui/ui.h
+[; ;ui/ui.h: 36: void SaveRecord_EEPROM(int record_to_save);
 [v _SaveRecord_EEPROM `(v ~T0 @X0 0 ef1`i ]
 "49 ui/../EEPROM/EEPROM.h
 [; ;ui/../EEPROM/EEPROM.h: 49: void EEPROM_WriteRecord(uint16_t base_addr, uint8_t h, uint8_t m, uint8_t s, uint8_t T, uint8_t L);
@@ -1858,16 +1858,16 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; <" TOSH equ 0FEFh ;# ">
 "213 ui/../mcc_generated_files/i2c1_master.h
 [; ;ui/../mcc_generated_files/i2c1_master.h: 213: void (*MSSP1_InterruptHandler)(void);
-[v _MSSP1_InterruptHandler `*F12676 ~T0 @X0 1 e ]
+[v _MSSP1_InterruptHandler `*F12677 ~T0 @X0 1 e ]
 "37 ui/ui.c
 [; ;ui/ui.c: 37: static ui_mode_t mode;
-[v _mode `E12893 ~T0 @X0 1 s ]
+[v _mode `E12894 ~T0 @X0 1 s ]
 "38
 [; ;ui/ui.c: 38: static cfg_field_t field;
-[v _field `E12898 ~T0 @X0 1 s ]
+[v _field `E12899 ~T0 @X0 1 s ]
 "39
 [; ;ui/ui.c: 39: static record_type_t record_type;
-[v _record_type `E12912 ~T0 @X0 1 s ]
+[v _record_type `E12913 ~T0 @X0 1 s ]
 "42
 [; ;ui/ui.c: 42: static uint8_t hh, mm, ss;
 [v _hh `uc ~T0 @X0 1 s ]
@@ -1958,10 +1958,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 "79
 [; ;ui/ui.c: 79: static volatile uint8_t pwm_seconds_left;
 [v _pwm_seconds_left `Vuc ~T0 @X0 1 s ]
-[v F12953 `(v ~T0 @X0 1 tf ]
+[v F12954 `(v ~T0 @X0 1 tf ]
 "82
 [; ;ui/ui.c: 82: static __attribute__((inline)) void PWM6_Start(void)
-[v _PWM6_Start `TF12953 ~T0 @X0 1 s ]
+[v _PWM6_Start `TF12954 ~T0 @X0 1 s ]
 "83
 [; ;ui/ui.c: 83: {
 {
@@ -1974,10 +1974,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;ui/ui.c: 85: }
 [e :UE 1623 ]
 }
-[v F12955 `(v ~T0 @X0 1 tf ]
+[v F12956 `(v ~T0 @X0 1 tf ]
 "87
 [; ;ui/ui.c: 87: static __attribute__((inline)) void PWM6_Stop(void)
-[v _PWM6_Stop `TF12955 ~T0 @X0 1 s ]
+[v _PWM6_Stop `TF12956 ~T0 @X0 1 s ]
 "88
 [; ;ui/ui.c: 88: {
 {
@@ -1993,10 +1993,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;ui/ui.c: 91: }
 [e :UE 1624 ]
 }
-[v F12957 `(v ~T0 @X0 1 tf ]
+[v F12958 `(v ~T0 @X0 1 tf ]
 "93
 [; ;ui/ui.c: 93: static __attribute__((inline)) void Alarm_BeepStart(void)
-[v _Alarm_BeepStart `TF12957 ~T0 @X0 1 s ]
+[v _Alarm_BeepStart `TF12958 ~T0 @X0 1 s ]
 "94
 [; ;ui/ui.c: 94: {
 {
@@ -2020,10 +2020,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;ui/ui.c: 101: }
 [e :UE 1625 ]
 }
-[v F12959 `(v ~T0 @X0 1 tf ]
+[v F12960 `(v ~T0 @X0 1 tf ]
 "103
 [; ;ui/ui.c: 103: static __attribute__((inline)) void Alarm_BeepTick1s(void)
-[v _Alarm_BeepTick1s `TF12959 ~T0 @X0 1 s ]
+[v _Alarm_BeepTick1s `TF12960 ~T0 @X0 1 s ]
 "104
 [; ;ui/ui.c: 104: {
 {
@@ -2188,14 +2188,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 }
 "152
 [; ;ui/ui.c: 152: static cfg_field_t cfg_next(cfg_field_t f)
-[v _cfg_next `(E12898 ~T0 @X0 1 sf1`E12898 ]
+[v _cfg_next `(E12899 ~T0 @X0 1 sf1`E12899 ]
 "153
 [; ;ui/ui.c: 153: {
 {
 [e :U _cfg_next ]
 "152
 [; ;ui/ui.c: 152: static cfg_field_t cfg_next(cfg_field_t f)
-[v _f `E12898 ~T0 @X0 1 r1 ]
+[v _f `E12899 ~T0 @X0 1 r1 ]
 "153
 [; ;ui/ui.c: 153: {
 [f ]
@@ -2206,79 +2206,79 @@ Version 4.0 HI-TECH Software Intermediate Code
 "155
 [; ;ui/ui.c: 155:         case CF_CLK_HH: return CF_CLK_MM;
 [e :U 1645 ]
-[e ) . `E12898 1 ]
+[e ) . `E12899 1 ]
 [e $UE 1642  ]
 "156
 [; ;ui/ui.c: 156:         case CF_CLK_MM: return CF_CLK_SS;
 [e :U 1646 ]
-[e ) . `E12898 2 ]
+[e ) . `E12899 2 ]
 [e $UE 1642  ]
 "157
 [; ;ui/ui.c: 157:         case CF_CLK_SS: return CF_CTL_C;
 [e :U 1647 ]
-[e ) . `E12898 3 ]
+[e ) . `E12899 3 ]
 [e $UE 1642  ]
 "159
 [; ;ui/ui.c: 159:         case CF_CTL_C: return CF_CTL_T;
 [e :U 1648 ]
-[e ) . `E12898 4 ]
+[e ) . `E12899 4 ]
 [e $UE 1642  ]
 "160
 [; ;ui/ui.c: 160:         case CF_CTL_T: return CF_CTL_L;
 [e :U 1649 ]
-[e ) . `E12898 5 ]
+[e ) . `E12899 5 ]
 [e $UE 1642  ]
 "161
 [; ;ui/ui.c: 161:         case CF_CTL_L: return CF_ALARM_EN;
 [e :U 1650 ]
-[e ) . `E12898 6 ]
+[e ) . `E12899 6 ]
 [e $UE 1642  ]
 "162
 [; ;ui/ui.c: 162:         case CF_ALARM_EN: return CF_RESET;
 [e :U 1651 ]
-[e ) . `E12898 7 ]
+[e ) . `E12899 7 ]
 [e $UE 1642  ]
 "163
 [; ;ui/ui.c: 163:         case CF_RESET: return CF_CLK_HH;
 [e :U 1652 ]
-[e ) . `E12898 0 ]
+[e ) . `E12899 0 ]
 [e $UE 1642  ]
 "165
 [; ;ui/ui.c: 165:         case CF_CTL_C_HH: return CF_CTL_C_MM;
 [e :U 1653 ]
-[e ) . `E12898 10 ]
+[e ) . `E12899 10 ]
 [e $UE 1642  ]
 "166
 [; ;ui/ui.c: 166:         case CF_CTL_C_MM: return CF_CTL_C_SS;
 [e :U 1654 ]
-[e ) . `E12898 11 ]
+[e ) . `E12899 11 ]
 [e $UE 1642  ]
 "167
 [; ;ui/ui.c: 167:         case CF_CTL_C_SS: return CF_CTL_T;
 [e :U 1655 ]
-[e ) . `E12898 4 ]
+[e ) . `E12899 4 ]
 [e $UE 1642  ]
 "168
 [; ;ui/ui.c: 168:         default: return CF_CLK_HH;
 [e :U 1656 ]
-[e ) . `E12898 0 ]
+[e ) . `E12899 0 ]
 [e $UE 1642  ]
 "169
 [; ;ui/ui.c: 169:     }
 }
 [e $U 1643  ]
 [e :U 1644 ]
-[e [\ -> _f `ui , $ -> . `E12898 0 `ui 1645
- , $ -> . `E12898 1 `ui 1646
- , $ -> . `E12898 2 `ui 1647
- , $ -> . `E12898 3 `ui 1648
- , $ -> . `E12898 4 `ui 1649
- , $ -> . `E12898 5 `ui 1650
- , $ -> . `E12898 6 `ui 1651
- , $ -> . `E12898 7 `ui 1652
- , $ -> . `E12898 9 `ui 1653
- , $ -> . `E12898 10 `ui 1654
- , $ -> . `E12898 11 `ui 1655
+[e [\ -> _f `ui , $ -> . `E12899 0 `ui 1645
+ , $ -> . `E12899 1 `ui 1646
+ , $ -> . `E12899 2 `ui 1647
+ , $ -> . `E12899 3 `ui 1648
+ , $ -> . `E12899 4 `ui 1649
+ , $ -> . `E12899 5 `ui 1650
+ , $ -> . `E12899 6 `ui 1651
+ , $ -> . `E12899 7 `ui 1652
+ , $ -> . `E12899 9 `ui 1653
+ , $ -> . `E12899 10 `ui 1654
+ , $ -> . `E12899 11 `ui 1655
  1656 ]
 [e :U 1643 ]
 "170
@@ -2301,14 +2301,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = _time_inactive -> -> 0 `i `uc ]
 "180
 [; ;ui/ui.c: 180:     if (mode == UI_NORMAL) {
-[e $ ! == -> _mode `ui -> . `E12893 0 `ui 1658  ]
+[e $ ! == -> _mode `ui -> . `E12894 0 `ui 1658  ]
 {
 "181
 [; ;ui/ui.c: 181:         mode = UI_CONFIG;
-[e = _mode . `E12893 1 ]
+[e = _mode . `E12894 1 ]
 "182
 [; ;ui/ui.c: 182:         field = CF_CLK_HH;
-[e = _field . `E12898 0 ]
+[e = _field . `E12899 0 ]
 "183
 [; ;ui/ui.c: 183:         return;
 [e $UE 1657  ]
@@ -2318,22 +2318,22 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U 1658 ]
 "186
 [; ;ui/ui.c: 186:     if (mode == UI_CONFIG) {
-[e $ ! == -> _mode `ui -> . `E12893 1 `ui 1659  ]
+[e $ ! == -> _mode `ui -> . `E12894 1 `ui 1659  ]
 {
 "187
 [; ;ui/ui.c: 187:         cfg_field_t next = cfg_next(field);
-[v _next `E12898 ~T0 @X0 1 a ]
+[v _next `E12899 ~T0 @X0 1 a ]
 [e = _next ( _cfg_next (1 _field ]
 "188
 [; ;ui/ui.c: 188:         if (field == CF_RESET) {
-[e $ ! == -> _field `ui -> . `E12898 7 `ui 1660  ]
+[e $ ! == -> _field `ui -> . `E12899 7 `ui 1660  ]
 {
 "189
 [; ;ui/ui.c: 189:             mode = UI_NORMAL;
-[e = _mode . `E12893 0 ]
+[e = _mode . `E12894 0 ]
 "190
 [; ;ui/ui.c: 190:             field = CF_CLK_HH;
-[e = _field . `E12898 0 ]
+[e = _field . `E12899 0 ]
 "191
 [; ;ui/ui.c: 191:             return;
 [e $UE 1657  ]
@@ -2353,18 +2353,18 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U 1659 ]
 "198
 [; ;ui/ui.c: 198:     if (mode == UI_SHOW_RECORDS){
-[e $ ! == -> _mode `ui -> . `E12893 2 `ui 1661  ]
+[e $ ! == -> _mode `ui -> . `E12894 2 `ui 1661  ]
 {
 "199
 [; ;ui/ui.c: 199:         if(record_type == RECORD_TEMP){
-[e $ ! == -> _record_type `ui -> . `E12912 1 `ui 1662  ]
+[e $ ! == -> _record_type `ui -> . `E12913 1 `ui 1662  ]
 {
 "200
 [; ;ui/ui.c: 200:             mode = UI_NORMAL;
-[e = _mode . `E12893 0 ]
+[e = _mode . `E12894 0 ]
 "201
 [; ;ui/ui.c: 201:             record_type = RECORD_NONE;
-[e = _record_type . `E12912 0 ]
+[e = _record_type . `E12913 0 ]
 "202
 [; ;ui/ui.c: 202:             record_index = 0;
 [e = _record_index -> -> 0 `i `uc ]
@@ -2378,11 +2378,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 "205
 [; ;ui/ui.c: 205:         else if (record_type == RECORD_LUM){
 [e :U 1662 ]
-[e $ ! == -> _record_type `ui -> . `E12912 2 `ui 1664  ]
+[e $ ! == -> _record_type `ui -> . `E12913 2 `ui 1664  ]
 {
 "206
 [; ;ui/ui.c: 206:             record_type = RECORD_TEMP;
-[e = _record_type . `E12912 1 ]
+[e = _record_type . `E12913 1 ]
 "207
 [; ;ui/ui.c: 207:             record_index = 0;
 [e = _record_index -> -> 0 `i `uc ]
@@ -2418,7 +2418,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = _time_inactive -> -> 0 `i `uc ]
 "217
 [; ;ui/ui.c: 217:     if (mode == UI_CONFIG) {
-[e $ ! == -> _mode `ui -> . `E12893 1 `ui 1666  ]
+[e $ ! == -> _mode `ui -> . `E12894 1 `ui 1666  ]
 {
 "218
 [; ;ui/ui.c: 218:         switch (field) {
@@ -2460,7 +2460,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 "233
 [; ;ui/ui.c: 233:             case CF_CTL_C: field = CF_CTL_C_HH; break;
 [e :U 1672 ]
-[e = _field . `E12898 9 ]
+[e = _field . `E12899 9 ]
 [e $U 1667  ]
 "234
 [; ;ui/ui.c: 234:             case CF_CTL_C_HH :
@@ -2552,17 +2552,17 @@ Version 4.0 HI-TECH Software Intermediate Code
 }
 [e $U 1667  ]
 [e :U 1668 ]
-[e [\ -> _field `ui , $ -> . `E12898 0 `ui 1669
- , $ -> . `E12898 1 `ui 1670
- , $ -> . `E12898 2 `ui 1671
- , $ -> . `E12898 3 `ui 1672
- , $ -> . `E12898 9 `ui 1673
- , $ -> . `E12898 10 `ui 1674
- , $ -> . `E12898 11 `ui 1675
- , $ -> . `E12898 4 `ui 1676
- , $ -> . `E12898 5 `ui 1677
- , $ -> . `E12898 6 `ui 1678
- , $ -> . `E12898 7 `ui 1679
+[e [\ -> _field `ui , $ -> . `E12899 0 `ui 1669
+ , $ -> . `E12899 1 `ui 1670
+ , $ -> . `E12899 2 `ui 1671
+ , $ -> . `E12899 3 `ui 1672
+ , $ -> . `E12899 9 `ui 1673
+ , $ -> . `E12899 10 `ui 1674
+ , $ -> . `E12899 11 `ui 1675
+ , $ -> . `E12899 4 `ui 1676
+ , $ -> . `E12899 5 `ui 1677
+ , $ -> . `E12899 6 `ui 1678
+ , $ -> . `E12899 7 `ui 1679
  1680 ]
 [e :U 1667 ]
 "265
@@ -2574,14 +2574,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U 1666 ]
 "268
 [; ;ui/ui.c: 268:     if (mode == UI_NORMAL) {
-[e $ ! == -> _mode `ui -> . `E12893 0 `ui 1681  ]
+[e $ ! == -> _mode `ui -> . `E12894 0 `ui 1681  ]
 {
 "269
 [; ;ui/ui.c: 269:         mode = UI_SHOW_RECORDS;
-[e = _mode . `E12893 2 ]
+[e = _mode . `E12894 2 ]
 "270
 [; ;ui/ui.c: 270:         record_type = RECORD_TEMP;
-[e = _record_type . `E12912 1 ]
+[e = _record_type . `E12913 1 ]
 "271
 [; ;ui/ui.c: 271:         record_index = 0;
 [e = _record_index -> -> 0 `i `uc ]
@@ -2594,18 +2594,18 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U 1681 ]
 "275
 [; ;ui/ui.c: 275:     if(mode == UI_SHOW_RECORDS){
-[e $ ! == -> _mode `ui -> . `E12893 2 `ui 1682  ]
+[e $ ! == -> _mode `ui -> . `E12894 2 `ui 1682  ]
 {
 "276
 [; ;ui/ui.c: 276:         if(record_type == RECORD_LUM){
-[e $ ! == -> _record_type `ui -> . `E12912 2 `ui 1683  ]
+[e $ ! == -> _record_type `ui -> . `E12913 2 `ui 1683  ]
 {
 "277
 [; ;ui/ui.c: 277:             mode = UI_NORMAL;
-[e = _mode . `E12893 0 ]
+[e = _mode . `E12894 0 ]
 "278
 [; ;ui/ui.c: 278:             record_type = RECORD_NONE;
-[e = _record_type . `E12912 0 ]
+[e = _record_type . `E12913 0 ]
 "279
 [; ;ui/ui.c: 279:             record_index = 0;
 [e = _record_index -> -> 0 `i `uc ]
@@ -2619,11 +2619,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 "282
 [; ;ui/ui.c: 282:         else if (record_type == RECORD_TEMP) {
 [e :U 1683 ]
-[e $ ! == -> _record_type `ui -> . `E12912 1 `ui 1685  ]
+[e $ ! == -> _record_type `ui -> . `E12913 1 `ui 1685  ]
 {
 "283
 [; ;ui/ui.c: 283:             record_type = RECORD_LUM;
-[e = _record_type . `E12912 2 ]
+[e = _record_type . `E12913 2 ]
 "284
 [; ;ui/ui.c: 284:             record_index += 2;
 [e =+ _record_index -> -> 2 `i `uc ]
@@ -2758,8 +2758,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;ui/ui.c: 335:     EEPROM_ReadHeader(&magic, &stored_checksum);
 [e ( _EEPROM_ReadHeader (2 , &U _magic &U _stored_checksum ]
 "337
-[; ;ui/ui.c: 337:     if (magic != 0xF1A4) {
-[e $ ! != -> _magic `ui -> 61860 `ui 1688  ]
+[; ;ui/ui.c: 337:     if (magic != 0xF1A5) {
+[e $ ! != -> _magic `ui -> 61861 `ui 1688  ]
 {
 "339
 [; ;ui/ui.c: 339:         set_defaults();
@@ -2806,8 +2806,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U 1693 ]
 }
 "351
-[; ;ui/ui.c: 351:         EEPROM_WriteHeader(0xF1A4, calc_checksum);
-[e ( _EEPROM_WriteHeader (2 , -> -> 61860 `ui `us _calc_checksum ]
+[; ;ui/ui.c: 351:         EEPROM_WriteHeader(0xF1A5, calc_checksum);
+[e ( _EEPROM_WriteHeader (2 , -> -> 61861 `ui `us _calc_checksum ]
 "353
 [; ;ui/ui.c: 353:     } else {
 }
@@ -2865,9 +2865,6 @@ Version 4.0 HI-TECH Software Intermediate Code
 "367
 [; ;ui/ui.c: 367:             UpdateEEPROMChecksum();
 [e ( _UpdateEEPROMChecksum ..  ]
-"368
-[; ;ui/ui.c: 368:             return;
-[e $UE 1687  ]
 "369
 [; ;ui/ui.c: 369:         }
 }
@@ -2947,13 +2944,13 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = _time_inactive -> -> 0 `i `uc ]
 "401
 [; ;ui/ui.c: 401:     mode = UI_NORMAL;
-[e = _mode . `E12893 0 ]
+[e = _mode . `E12894 0 ]
 "402
 [; ;ui/ui.c: 402:     field = CF_CLK_HH;
-[e = _field . `E12898 0 ]
+[e = _field . `E12899 0 ]
 "403
 [; ;ui/ui.c: 403:     record_type = RECORD_NONE;
-[e = _record_type . `E12912 0 ]
+[e = _record_type . `E12913 0 ]
 "405
 [; ;ui/ui.c: 405:     LCDinit();
 [e ( _LCDinit ..  ]
@@ -2977,7 +2974,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e $ ! > -> _time_inactive `i -> _tina `i 1704  ]
 {
 [e = _time_inactive -> -> 0 `i `uc ]
-[e = _mode . `E12893 0 ]
+[e = _mode . `E12894 0 ]
 }
 [e :U 1704 ]
 "416
@@ -3023,7 +3020,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U 1706 ]
 "430
 [; ;ui/ui.c: 430:     if (mode == UI_NORMAL) { RenderNormal (); }
-[e $ ! == -> _mode `ui -> . `E12893 0 `ui 1708  ]
+[e $ ! == -> _mode `ui -> . `E12894 0 `ui 1708  ]
 {
 [e ( _RenderNormal ..  ]
 }
@@ -3031,7 +3028,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 "431
 [; ;ui/ui.c: 431:     else if (mode == UI_CONFIG) { time_inactive ++; RenderConfig (); }
 [e :U 1708 ]
-[e $ ! == -> _mode `ui -> . `E12893 1 `ui 1710  ]
+[e $ ! == -> _mode `ui -> . `E12894 1 `ui 1710  ]
 {
 [e ++ _time_inactive -> -> 1 `i `uc ]
 [e ( _RenderConfig ..  ]
@@ -3040,7 +3037,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 "432
 [; ;ui/ui.c: 432:     else if (mode == UI_SHOW_RECORDS){ time_inactive ++; RenderRecords(); }
 [e :U 1710 ]
-[e $ ! == -> _mode `ui -> . `E12893 2 `ui 1712  ]
+[e $ ! == -> _mode `ui -> . `E12894 2 `ui 1712  ]
 {
 [e ++ _time_inactive -> -> 1 `i `uc ]
 [e ( _RenderRecords ..  ]
@@ -3163,7 +3160,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = _show_ss _ss ]
 "476
 [; ;ui/ui.c: 476:     if (field == CF_CTL_C || field == CF_CTL_C_HH || field == CF_CTL_C_MM || field == CF_CTL_C_SS) {
-[e $ ! || || || == -> _field `ui -> . `E12898 3 `ui == -> _field `ui -> . `E12898 9 `ui == -> _field `ui -> . `E12898 10 `ui == -> _field `ui -> . `E12898 11 `ui 1721  ]
+[e $ ! || || || == -> _field `ui -> . `E12899 3 `ui == -> _field `ui -> . `E12899 9 `ui == -> _field `ui -> . `E12899 10 `ui == -> _field `ui -> . `E12899 11 `ui 1721  ]
 {
 "477
 [; ;ui/ui.c: 477:         show_hh = thrHour;
@@ -3310,17 +3307,17 @@ Version 4.0 HI-TECH Software Intermediate Code
 }
 [e $U 1728  ]
 [e :U 1729 ]
-[e [\ -> _field `ui , $ -> . `E12898 0 `ui 1730
- , $ -> . `E12898 1 `ui 1731
- , $ -> . `E12898 2 `ui 1732
- , $ -> . `E12898 3 `ui 1733
- , $ -> . `E12898 9 `ui 1734
- , $ -> . `E12898 10 `ui 1735
- , $ -> . `E12898 11 `ui 1736
- , $ -> . `E12898 4 `ui 1737
- , $ -> . `E12898 5 `ui 1738
- , $ -> . `E12898 6 `ui 1739
- , $ -> . `E12898 7 `ui 1740
+[e [\ -> _field `ui , $ -> . `E12899 0 `ui 1730
+ , $ -> . `E12899 1 `ui 1731
+ , $ -> . `E12899 2 `ui 1732
+ , $ -> . `E12899 3 `ui 1733
+ , $ -> . `E12899 9 `ui 1734
+ , $ -> . `E12899 10 `ui 1735
+ , $ -> . `E12899 11 `ui 1736
+ , $ -> . `E12899 4 `ui 1737
+ , $ -> . `E12899 5 `ui 1738
+ , $ -> . `E12899 6 `ui 1739
+ , $ -> . `E12899 7 `ui 1740
  1741 ]
 [e :U 1728 ]
 "522
@@ -3653,7 +3650,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 "585
 [; ;ui/ui.c: 585:     adc_result_t raw = ADCC_GetSingleConversion((adcc_channel_t)0x00);
 [v _raw `us ~T0 @X0 1 a ]
-[e = _raw ( _ADCC_GetSingleConversion (1 -> -> 0 `i `E12797 ]
+[e = _raw ( _ADCC_GetSingleConversion (1 -> -> 0 `i `E12798 ]
 "589
 [; ;ui/ui.c: 589:     uint8_t level = (uint8_t)(raw >> 8);
 [v _level `uc ~T0 @X0 1 a ]
@@ -4028,116 +4025,59 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;ui/ui.c: 698: }
 [e :UE 1885 ]
 }
-"700
-[; ;ui/ui.c: 700: void UpdateEEPROMChecksum(void)
-[v _UpdateEEPROMChecksum `(v ~T0 @X0 1 ef ]
-"701
-[; ;ui/ui.c: 701: {
-{
-[e :U _UpdateEEPROMChecksum ]
-[f ]
-"702
-[; ;ui/ui.c: 702:     uint8_t calc_checksum = 0;
-[v _calc_checksum `uc ~T0 @X0 1 a ]
-[e = _calc_checksum -> -> 0 `i `uc ]
-"704
-[; ;ui/ui.c: 704:     for (uint8_t i = 0; i <= 0x0A; i++) {
-{
-[v _i `uc ~T0 @X0 1 a ]
-[e = _i -> -> 0 `i `uc ]
-[e $ <= -> _i `i -> 10 `i 1890  ]
-[e $U 1891  ]
-[e :U 1890 ]
-{
-"705
-[; ;ui/ui.c: 705:         calc_checksum += EEPROM_ReadConfig(i);
-[e =+ _calc_checksum -> ( _EEPROM_ReadConfig (1 _i `uc ]
-"706
-[; ;ui/ui.c: 706:     }
-}
-[e ++ _i -> -> 1 `i `uc ]
-[e $ <= -> _i `i -> 10 `i 1890  ]
-[e :U 1891 ]
-}
-"708
-[; ;ui/ui.c: 708:     for (uint16_t addr = (0x0E); addr <= (0x0E + 3 * 0x05) + 4; addr++) {
-{
-[v _addr `us ~T0 @X0 1 a ]
-[e = _addr -> -> 14 `i `us ]
-[e $ <= -> _addr `ui -> + + -> 14 `i * -> 3 `i -> 5 `i -> 4 `i `ui 1893  ]
-[e $U 1894  ]
-[e :U 1893 ]
-{
-"709
-[; ;ui/ui.c: 709:         calc_checksum += DATAEE_ReadByte(addr);
-[e =+ _calc_checksum -> ( _DATAEE_ReadByte (1 _addr `uc ]
-"710
-[; ;ui/ui.c: 710:     }
-}
-[e ++ _addr -> -> 1 `i `us ]
-[e $ <= -> _addr `ui -> + + -> 14 `i * -> 3 `i -> 5 `i -> 4 `i `ui 1893  ]
-[e :U 1894 ]
-}
-"712
-[; ;ui/ui.c: 712:     EEPROM_WriteHeader(0xF1A4, calc_checksum);
-[e ( _EEPROM_WriteHeader (2 , -> -> 61860 `ui `us _calc_checksum ]
-"713
-[; ;ui/ui.c: 713: }
-[e :UE 1889 ]
-}
-"716
-[; ;ui/ui.c: 716: void S1_Callback(void){ S1_pressed = 1; }
+"703
+[; ;ui/ui.c: 703: void S1_Callback(void){ S1_pressed = 1; }
 [v _S1_Callback `(v ~T0 @X0 1 ef ]
 {
 [e :U _S1_Callback ]
 [f ]
 [e = _S1_pressed -> 1 `i ]
-[e :UE 1896 ]
+[e :UE 1889 ]
 }
-"717
-[; ;ui/ui.c: 717: void S2_Callback(void){ S2_pressed = 1; }
+"704
+[; ;ui/ui.c: 704: void S2_Callback(void){ S2_pressed = 1; }
 [v _S2_Callback `(v ~T0 @X0 1 ef ]
 {
 [e :U _S2_Callback ]
 [f ]
 [e = _S2_pressed -> 1 `i ]
-[e :UE 1897 ]
+[e :UE 1890 ]
 }
-"718
-[; ;ui/ui.c: 718: int S1_check(void){return S1_pressed;}
+"705
+[; ;ui/ui.c: 705: int S1_check(void){return S1_pressed;}
 [v _S1_check `(i ~T0 @X0 1 ef ]
 {
 [e :U _S1_check ]
 [f ]
 [e ) _S1_pressed ]
-[e $UE 1898  ]
-[e :UE 1898 ]
+[e $UE 1891  ]
+[e :UE 1891 ]
 }
-"719
-[; ;ui/ui.c: 719: int S2_check(void){return S2_pressed;}
+"706
+[; ;ui/ui.c: 706: int S2_check(void){return S2_pressed;}
 [v _S2_check `(i ~T0 @X0 1 ef ]
 {
 [e :U _S2_check ]
 [f ]
 [e ) _S2_pressed ]
-[e $UE 1899  ]
-[e :UE 1899 ]
+[e $UE 1892  ]
+[e :UE 1892 ]
 }
-"720
-[; ;ui/ui.c: 720: void Reset_flag_S1(void){S1_pressed = 0;}
+"707
+[; ;ui/ui.c: 707: void Reset_flag_S1(void){S1_pressed = 0;}
 [v _Reset_flag_S1 `(v ~T0 @X0 1 ef ]
 {
 [e :U _Reset_flag_S1 ]
 [f ]
 [e = _S1_pressed -> 0 `i ]
-[e :UE 1900 ]
+[e :UE 1893 ]
 }
-"721
-[; ;ui/ui.c: 721: void Reset_flag_S2(void){S2_pressed = 0;}
+"708
+[; ;ui/ui.c: 708: void Reset_flag_S2(void){S2_pressed = 0;}
 [v _Reset_flag_S2 `(v ~T0 @X0 1 ef ]
 {
 [e :U _Reset_flag_S2 ]
 [f ]
 [e = _S2_pressed -> 0 `i ]
-[e :UE 1901 ]
+[e :UE 1894 ]
 }

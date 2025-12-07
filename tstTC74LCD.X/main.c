@@ -62,10 +62,10 @@ void main(void)
 
     OpenI2C();
     LCDinit();
-    AppClock_Init();
+    
     LCDcmd(0x80); LCDpos(0,0);LCDstr("Antes do INIT"); while (LCDbusy());
     UI_Init();
-    
+    AppClock_Init();
     
     /*S1 interrupt setup*/
     EXT_INT_Initialize();
@@ -91,7 +91,8 @@ void main(void)
             if ((now - last_update) >= pmon | last_update == 0)
             {
                 last_update = now;
-                ReadSensors();    
+                ReadSensors();
+                EvaluateTempLumAlarms();    
             }
             
             UI_OnTick1s();   // updates hh:mm:ss and renders again    

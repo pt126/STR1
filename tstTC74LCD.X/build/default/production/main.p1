@@ -10,10 +10,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 "18 ./LCD/lcd.h
 [; ;./LCD/lcd.h: 18: void LCDinit(void);
 [v _LCDinit `(v ~T0 @X0 0 ef ]
-"81 ./Clock/clock.h
-[; ;./Clock/clock.h: 81: void AppClock_Init(void);
-[v _AppClock_Init `(v ~T0 @X0 0 ef ]
-"20 ./LCD/lcd.h
+"20
 [; ;./LCD/lcd.h: 20: void LCDcmd(unsigned char c);
 [v _LCDcmd `(v ~T0 @X0 0 ef1`uc ]
 "28
@@ -28,6 +25,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 "23 ./ui/ui.h
 [; ;./ui/ui.h: 23: void UI_Init(void);
 [v _UI_Init `(v ~T0 @X0 0 ef ]
+"81 ./Clock/clock.h
+[; ;./Clock/clock.h: 81: void AppClock_Init(void);
+[v _AppClock_Init `(v ~T0 @X0 0 ef ]
 "250 ./mcc_generated_files/ext_int.h
 [; ;./mcc_generated_files/ext_int.h: 250: void EXT_INT_Initialize(void);
 [v _EXT_INT_Initialize `(v ~T0 @X0 0 ef ]
@@ -89,6 +89,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 "31 ./ui/ui.h
 [; ;./ui/ui.h: 31: void ReadSensors(void);
 [v _ReadSensors `(v ~T0 @X0 0 ef ]
+"32
+[; ;./ui/ui.h: 32: void EvaluateTempLumAlarms(void);
+[v _EvaluateTempLumAlarms `(v ~T0 @X0 0 ef ]
 "24
 [; ;./ui/ui.h: 24: void UI_OnTick1s(void);
 [v _UI_OnTick1s `(v ~T0 @X0 0 ef ]
@@ -1773,9 +1776,6 @@ Version 4.0 HI-TECH Software Intermediate Code
 "64
 [; ;main.c: 64:     LCDinit();
 [e ( _LCDinit ..  ]
-"65
-[; ;main.c: 65:     AppClock_Init();
-[e ( _AppClock_Init ..  ]
 "66
 [; ;main.c: 66:     LCDcmd(0x80); LCDpos(0,0);LCDstr("Antes do INIT"); while (LCDbusy());
 [e ( _LCDcmd (1 -> -> 128 `i `uc ]
@@ -1789,6 +1789,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 "67
 [; ;main.c: 67:     UI_Init();
 [e ( _UI_Init ..  ]
+"68
+[; ;main.c: 68:     AppClock_Init();
+[e ( _AppClock_Init ..  ]
 "71
 [; ;main.c: 71:     EXT_INT_Initialize();
 [e ( _EXT_INT_Initialize ..  ]
@@ -1856,30 +1859,33 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main.c: 94:                 ReadSensors();
 [e ( _ReadSensors ..  ]
 "95
-[; ;main.c: 95:             }
+[; ;main.c: 95:                 EvaluateTempLumAlarms();
+[e ( _EvaluateTempLumAlarms ..  ]
+"96
+[; ;main.c: 96:             }
 }
 [e :U 1635 ]
-"97
-[; ;main.c: 97:             UI_OnTick1s();
-[e ( _UI_OnTick1s ..  ]
 "98
-[; ;main.c: 98:             __asm("sleep");
-[; <" sleep ;# ">
+[; ;main.c: 98:             UI_OnTick1s();
+[e ( _UI_OnTick1s ..  ]
 "99
-[; ;main.c: 99:             __nop();
-[e ( ___nop ..  ]
+[; ;main.c: 99:             __asm("sleep");
+[; <" sleep ;# ">
 "100
-[; ;main.c: 100:         }
+[; ;main.c: 100:             __nop();
+[e ( ___nop ..  ]
+"101
+[; ;main.c: 101:         }
 }
 [e :U 1631 ]
-"101
-[; ;main.c: 101:     }
+"102
+[; ;main.c: 102:     }
 }
 [e :U 1626 ]
 [e $U 1627  ]
 [e :U 1628 ]
-"102
-[; ;main.c: 102: }
+"103
+[; ;main.c: 103: }
 [e :UE 1622 ]
 }
 [a 1C 65 110 116 101 115 32 100 111 32 73 78 73 84 0 ]

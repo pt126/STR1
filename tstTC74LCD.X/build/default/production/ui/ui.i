@@ -127,6 +127,8 @@ void EEPROM_ReadRecord(uint16_t base_addr, uint8_t *h, uint8_t *m, uint8_t *s, u
 
 void EEPROM_WriteHeader(uint16_t magic, uint8_t checksum);
 void EEPROM_ReadHeader(uint16_t *magic, uint8_t *checksum);
+
+void UpdateEEPROMChecksum(void);
 # 6 "ui/ui.h" 2
 
 
@@ -154,12 +156,12 @@ void RenderNormal(void);
 
 unsigned char readTC74 (void);
 void ReadSensors(void);
+void EvaluateTempLumAlarms(void);
 
 
 void CompareReading(void);
 void SaveRecord_EEPROM(int record_to_save);
 void ClearRecords(void);
-void UpdateEEPROMChecksum(void);
 
 
 
@@ -21900,7 +21902,7 @@ void UI_Init(void)
 
     EEPROM_ReadHeader(&magic, &stored_checksum);
 
-    if (magic != 0xF1A4) {
+    if (magic != 0xF1A5) {
 
         set_defaults();
 
@@ -21914,7 +21916,7 @@ void UI_Init(void)
             calc_checksum += DATAEE_ReadByte(addr);
         }
 
-        EEPROM_WriteHeader(0xF1A4, calc_checksum);
+        EEPROM_WriteHeader(0xF1A5, calc_checksum);
 
     } else {
 
@@ -21931,7 +21933,7 @@ void UI_Init(void)
 
             set_defaults();
             UpdateEEPROMChecksum();
-            return;
+
         }
 
         pmon = (uint8_t) EEPROM_ReadConfig(0x00);
@@ -22263,20 +22265,7 @@ void ClearRecords(void)
     EEPROM_WriteRecord((0x0E + 3 * 0x05), records[3].clk_hh, records[3].clk_mm, records[3].clk_ss, records[3].temp, records[3].lum);
 }
 
-void UpdateEEPROMChecksum(void)
-{
-    uint8_t calc_checksum = 0;
 
-    for (uint8_t i = 0; i <= 0x0A; i++) {
-        calc_checksum += EEPROM_ReadConfig(i);
-    }
-
-    for (uint16_t addr = (0x0E); addr <= (0x0E + 3 * 0x05) + 4; addr++) {
-        calc_checksum += DATAEE_ReadByte(addr);
-    }
-
-    EEPROM_WriteHeader(0xF1A4, calc_checksum);
-}
 
 
 void S1_Callback(void){ S1_pressed = 1; }

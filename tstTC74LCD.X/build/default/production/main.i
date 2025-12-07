@@ -21526,6 +21526,8 @@ void EEPROM_ReadRecord(uint16_t base_addr, uint8_t *h, uint8_t *m, uint8_t *s, u
 
 void EEPROM_WriteHeader(uint16_t magic, uint8_t checksum);
 void EEPROM_ReadHeader(uint16_t *magic, uint8_t *checksum);
+
+void UpdateEEPROMChecksum(void);
 # 6 "./ui/ui.h" 2
 
 
@@ -21553,12 +21555,12 @@ void RenderNormal(void);
 
 unsigned char readTC74 (void);
 void ReadSensors(void);
+void EvaluateTempLumAlarms(void);
 
 
 void CompareReading(void);
 void SaveRecord_EEPROM(int record_to_save);
 void ClearRecords(void);
-void UpdateEEPROMChecksum(void);
 
 
 
@@ -21583,10 +21585,10 @@ void main(void)
 
     OpenI2C();
     LCDinit();
-    AppClock_Init();
+
     LCDcmd(0x80); LCDpos(0,0);LCDstr("Antes do INIT"); while (LCDbusy());
     UI_Init();
-
+    AppClock_Init();
 
 
     EXT_INT_Initialize();
@@ -21613,6 +21615,7 @@ void main(void)
             {
                 last_update = now;
                 ReadSensors();
+                EvaluateTempLumAlarms();
             }
 
             UI_OnTick1s();

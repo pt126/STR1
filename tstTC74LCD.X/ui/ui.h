@@ -29,12 +29,12 @@ void RenderNormal(void);
 /*--------------------    Sensor functions ------------------------*/
 unsigned char readTC74 (void);
 void ReadSensors(void);
+void EvaluateTempLumAlarms(void);
 
 /*--------------------    Records functions ------------------------*/
 void CompareReading(void);
 void SaveRecord_EEPROM(int record_to_save);
 void ClearRecords(void);
-void UpdateEEPROMChecksum(void);
 
 /*--------------------    Button Flags ----------------------------*/
 

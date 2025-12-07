@@ -2,88 +2,47 @@ Version 4.0 HI-TECH Software Intermediate Code
 "222 EEPROM/../mcc_generated_files/memory.h
 [; ;EEPROM/../mcc_generated_files/memory.h: 222: void DATAEE_WriteByte(uint16_t bAdd, uint8_t bData);
 [v _DATAEE_WriteByte `(v ~T0 @X0 0 ef2`us`uc ]
-"248
+"55 EEPROM/EEPROM.h
+[; ;EEPROM/EEPROM.h: 55: void UpdateEEPROMChecksum(void);
+[v _UpdateEEPROMChecksum `(v ~T0 @X0 0 ef ]
+"248 EEPROM/../mcc_generated_files/memory.h
 [; ;EEPROM/../mcc_generated_files/memory.h: 248: uint8_t DATAEE_ReadByte(uint16_t bAdd);
 [v _DATAEE_ReadByte `(uc ~T0 @X0 0 ef1`us ]
-"4 EEPROM/EEPROM.c
-[; ;EEPROM/EEPROM.c: 4: uint8_t reverse_bits(uint8_t x) {
-[v _reverse_bits `(uc ~T0 @X0 1 ef1`uc ]
-{
-[e :U _reverse_bits ]
-[v _x `uc ~T0 @X0 1 r1 ]
-[f ]
-"5
-[; ;EEPROM/EEPROM.c: 5:     x = (x >> 4) | (x << 4);
-[e = _x -> | >> -> _x `i -> 4 `i << -> _x `i -> 4 `i `uc ]
-"6
-[; ;EEPROM/EEPROM.c: 6:     x = ((x & 0xCC) >> 2) | ((x & 0x33) << 2);
-[e = _x -> | >> & -> _x `i -> 204 `i -> 2 `i << & -> _x `i -> 51 `i -> 2 `i `uc ]
-"7
-[; ;EEPROM/EEPROM.c: 7:     x = ((x & 0xAA) >> 1) | ((x & 0x55) << 1);
-[e = _x -> | >> & -> _x `i -> 170 `i -> 1 `i << & -> _x `i -> 85 `i -> 1 `i `uc ]
-"9
-[; ;EEPROM/EEPROM.c: 9:     uint8_t rev = 0;
-[v _rev `uc ~T0 @X0 1 a ]
-[e = _rev -> -> 0 `i `uc ]
-"10
-[; ;EEPROM/EEPROM.c: 10:     for(int i= 0; i<8;i++){
-{
-[v _i `i ~T0 @X0 1 a ]
-[e = _i -> 0 `i ]
-[e $ < _i -> 8 `i 2  ]
-[e $U 3  ]
-[e :U 2 ]
-{
-"11
-[; ;EEPROM/EEPROM.c: 11:         rev += ((x>>i) && 0x01)<<(7-i);
-[e =+ _rev -> << -> && != >> -> _x `i _i -> 0 `i != -> 1 `i -> 0 `i `i - -> 7 `i _i `uc ]
-"12
-[; ;EEPROM/EEPROM.c: 12:     }
-}
-[e ++ _i -> 1 `i ]
-[e $ < _i -> 8 `i 2  ]
-[e :U 3 ]
-}
-"13
-[; ;EEPROM/EEPROM.c: 13:     return rev;
-[e ) _rev ]
-[e $UE 1  ]
-"14
-[; ;EEPROM/EEPROM.c: 14: }
-[e :UE 1 ]
-}
-"16
-[; ;EEPROM/EEPROM.c: 16: void EEPROM_WriteConfig(uint8_t config_id, uint8_t value) {
+"5 EEPROM/EEPROM.c
+[; ;EEPROM/EEPROM.c: 5: void EEPROM_WriteConfig(uint8_t config_id, uint8_t value) {
 [v _EEPROM_WriteConfig `(v ~T0 @X0 1 ef2`uc`uc ]
 {
 [e :U _EEPROM_WriteConfig ]
 [v _config_id `uc ~T0 @X0 1 r1 ]
 [v _value `uc ~T0 @X0 1 r2 ]
 [f ]
-"17
-[; ;EEPROM/EEPROM.c: 17:     DATAEE_WriteByte(0x03 + config_id, reverse_bits(value));
-[e ( _DATAEE_WriteByte (2 , -> + -> 3 `i -> _config_id `i `us ( _reverse_bits (1 _value ]
-"18
-[; ;EEPROM/EEPROM.c: 18: }
-[e :UE 5 ]
+"6
+[; ;EEPROM/EEPROM.c: 6:     DATAEE_WriteByte(0x03 + config_id, value);
+[e ( _DATAEE_WriteByte (2 , -> + -> 3 `i -> _config_id `i `us _value ]
+"7
+[; ;EEPROM/EEPROM.c: 7:     UpdateEEPROMChecksum();
+[e ( _UpdateEEPROMChecksum ..  ]
+"8
+[; ;EEPROM/EEPROM.c: 8: }
+[e :UE 1 ]
 }
-"20
-[; ;EEPROM/EEPROM.c: 20: uint8_t EEPROM_ReadConfig(uint8_t config_id) {
+"10
+[; ;EEPROM/EEPROM.c: 10: uint8_t EEPROM_ReadConfig(uint8_t config_id) {
 [v _EEPROM_ReadConfig `(uc ~T0 @X0 1 ef1`uc ]
 {
 [e :U _EEPROM_ReadConfig ]
 [v _config_id `uc ~T0 @X0 1 r1 ]
 [f ]
-"21
-[; ;EEPROM/EEPROM.c: 21:     return DATAEE_ReadByte(0x03 + config_id);
+"12
+[; ;EEPROM/EEPROM.c: 12:     return DATAEE_ReadByte(0x03 + config_id);
 [e ) ( _DATAEE_ReadByte (1 -> + -> 3 `i -> _config_id `i `us ]
-[e $UE 6  ]
-"22
-[; ;EEPROM/EEPROM.c: 22: }
-[e :UE 6 ]
+[e $UE 2  ]
+"13
+[; ;EEPROM/EEPROM.c: 13: }
+[e :UE 2 ]
 }
-"24
-[; ;EEPROM/EEPROM.c: 24: void EEPROM_WriteRecord(uint16_t base_addr, uint8_t h, uint8_t m, uint8_t s, uint8_t T, uint8_t L) {
+"15
+[; ;EEPROM/EEPROM.c: 15: void EEPROM_WriteRecord(uint16_t base_addr, uint8_t h, uint8_t m, uint8_t s, uint8_t T, uint8_t L) {
 [v _EEPROM_WriteRecord `(v ~T0 @X0 1 ef6`us`uc`uc`uc`uc`uc ]
 {
 [e :U _EEPROM_WriteRecord ]
@@ -94,27 +53,30 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _T `uc ~T0 @X0 1 r5 ]
 [v _L `uc ~T0 @X0 1 r6 ]
 [f ]
-"25
-[; ;EEPROM/EEPROM.c: 25:     DATAEE_WriteByte(base_addr, h);
+"16
+[; ;EEPROM/EEPROM.c: 16:     DATAEE_WriteByte(base_addr, h);
 [e ( _DATAEE_WriteByte (2 , _base_addr _h ]
-"26
-[; ;EEPROM/EEPROM.c: 26:     DATAEE_WriteByte(base_addr + 1, m);
+"17
+[; ;EEPROM/EEPROM.c: 17:     DATAEE_WriteByte(base_addr + 1, m);
 [e ( _DATAEE_WriteByte (2 , -> + -> _base_addr `ui -> -> 1 `i `ui `us _m ]
-"27
-[; ;EEPROM/EEPROM.c: 27:     DATAEE_WriteByte(base_addr + 2, s);
+"18
+[; ;EEPROM/EEPROM.c: 18:     DATAEE_WriteByte(base_addr + 2, s);
 [e ( _DATAEE_WriteByte (2 , -> + -> _base_addr `ui -> -> 2 `i `ui `us _s ]
-"28
-[; ;EEPROM/EEPROM.c: 28:     DATAEE_WriteByte(base_addr + 3, T);
+"19
+[; ;EEPROM/EEPROM.c: 19:     DATAEE_WriteByte(base_addr + 3, T);
 [e ( _DATAEE_WriteByte (2 , -> + -> _base_addr `ui -> -> 3 `i `ui `us _T ]
-"29
-[; ;EEPROM/EEPROM.c: 29:     DATAEE_WriteByte(base_addr + 4, L);
+"20
+[; ;EEPROM/EEPROM.c: 20:     DATAEE_WriteByte(base_addr + 4, L);
 [e ( _DATAEE_WriteByte (2 , -> + -> _base_addr `ui -> -> 4 `i `ui `us _L ]
-"30
-[; ;EEPROM/EEPROM.c: 30: }
-[e :UE 7 ]
+"21
+[; ;EEPROM/EEPROM.c: 21:     UpdateEEPROMChecksum();
+[e ( _UpdateEEPROMChecksum ..  ]
+"22
+[; ;EEPROM/EEPROM.c: 22: }
+[e :UE 3 ]
 }
-"32
-[; ;EEPROM/EEPROM.c: 32: void EEPROM_ReadRecord(uint16_t base_addr, uint8_t *h, uint8_t *m, uint8_t *s, uint8_t *T, uint8_t *L) {
+"24
+[; ;EEPROM/EEPROM.c: 24: void EEPROM_ReadRecord(uint16_t base_addr, uint8_t *h, uint8_t *m, uint8_t *s, uint8_t *T, uint8_t *L) {
 [v _EEPROM_ReadRecord `(v ~T0 @X0 1 ef6`us`*uc`*uc`*uc`*uc`*uc ]
 {
 [e :U _EEPROM_ReadRecord ]
@@ -125,69 +87,126 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _T `*uc ~T0 @X0 1 r5 ]
 [v _L `*uc ~T0 @X0 1 r6 ]
 [f ]
-"33
-[; ;EEPROM/EEPROM.c: 33:     *h = DATAEE_ReadByte(base_addr);
+"25
+[; ;EEPROM/EEPROM.c: 25:     *h = DATAEE_ReadByte(base_addr);
 [e = *U _h ( _DATAEE_ReadByte (1 _base_addr ]
-"34
-[; ;EEPROM/EEPROM.c: 34:     *m = DATAEE_ReadByte(base_addr + 1);
+"26
+[; ;EEPROM/EEPROM.c: 26:     *m = DATAEE_ReadByte(base_addr + 1);
 [e = *U _m ( _DATAEE_ReadByte (1 -> + -> _base_addr `ui -> -> 1 `i `ui `us ]
-"35
-[; ;EEPROM/EEPROM.c: 35:     *s = DATAEE_ReadByte(base_addr + 2);
+"27
+[; ;EEPROM/EEPROM.c: 27:     *s = DATAEE_ReadByte(base_addr + 2);
 [e = *U _s ( _DATAEE_ReadByte (1 -> + -> _base_addr `ui -> -> 2 `i `ui `us ]
-"36
-[; ;EEPROM/EEPROM.c: 36:     *T = DATAEE_ReadByte(base_addr + 3);
+"28
+[; ;EEPROM/EEPROM.c: 28:     *T = DATAEE_ReadByte(base_addr + 3);
 [e = *U _T ( _DATAEE_ReadByte (1 -> + -> _base_addr `ui -> -> 3 `i `ui `us ]
-"37
-[; ;EEPROM/EEPROM.c: 37:     *L = DATAEE_ReadByte(base_addr + 4);
+"29
+[; ;EEPROM/EEPROM.c: 29:     *L = DATAEE_ReadByte(base_addr + 4);
 [e = *U _L ( _DATAEE_ReadByte (1 -> + -> _base_addr `ui -> -> 4 `i `ui `us ]
-"38
-[; ;EEPROM/EEPROM.c: 38: }
-[e :UE 8 ]
+"30
+[; ;EEPROM/EEPROM.c: 30: }
+[e :UE 4 ]
 }
-"40
-[; ;EEPROM/EEPROM.c: 40: void EEPROM_WriteHeader(uint16_t magic, uint8_t checksum) {
+"33
+[; ;EEPROM/EEPROM.c: 33: void EEPROM_WriteHeader(uint16_t magic, uint8_t checksum) {
 [v _EEPROM_WriteHeader `(v ~T0 @X0 1 ef2`us`uc ]
 {
 [e :U _EEPROM_WriteHeader ]
 [v _magic `us ~T0 @X0 1 r1 ]
 [v _checksum `uc ~T0 @X0 1 r2 ]
 [f ]
-"41
-[; ;EEPROM/EEPROM.c: 41:     DATAEE_WriteByte((0x00), (magic & 0xFF));
+"34
+[; ;EEPROM/EEPROM.c: 34:     DATAEE_WriteByte((0x00), (magic & 0xFF));
 [e ( _DATAEE_WriteByte (2 , -> -> 0 `i `us -> & -> _magic `ui -> -> 255 `i `ui `uc ]
-"42
-[; ;EEPROM/EEPROM.c: 42:     DATAEE_WriteByte((0x00) + 1, (magic >> 8) & 0xFF);
+"35
+[; ;EEPROM/EEPROM.c: 35:     DATAEE_WriteByte((0x00) + 1, (magic >> 8) & 0xFF);
 [e ( _DATAEE_WriteByte (2 , -> + -> 0 `i -> 1 `i `us -> & >> -> _magic `ui -> 8 `i -> -> 255 `i `ui `uc ]
-"43
-[; ;EEPROM/EEPROM.c: 43:     DATAEE_WriteByte((0x00 + 2), checksum);
+"36
+[; ;EEPROM/EEPROM.c: 36:     DATAEE_WriteByte((0x00 + 2), checksum);
 [e ( _DATAEE_WriteByte (2 , -> + -> 0 `i -> 2 `i `us _checksum ]
-"44
-[; ;EEPROM/EEPROM.c: 44: }
-[e :UE 9 ]
+"37
+[; ;EEPROM/EEPROM.c: 37: }
+[e :UE 5 ]
 }
-"46
-[; ;EEPROM/EEPROM.c: 46: void EEPROM_ReadHeader(uint16_t *magic, uint8_t *checksum) {
+"39
+[; ;EEPROM/EEPROM.c: 39: void EEPROM_ReadHeader(uint16_t *magic, uint8_t *checksum) {
 [v _EEPROM_ReadHeader `(v ~T0 @X0 1 ef2`*us`*uc ]
 {
 [e :U _EEPROM_ReadHeader ]
 [v _magic `*us ~T0 @X0 1 r1 ]
 [v _checksum `*uc ~T0 @X0 1 r2 ]
 [f ]
-"47
-[; ;EEPROM/EEPROM.c: 47:     uint8_t low = DATAEE_ReadByte((0x00));
+"40
+[; ;EEPROM/EEPROM.c: 40:     uint8_t low = DATAEE_ReadByte((0x00));
 [v _low `uc ~T0 @X0 1 a ]
 [e = _low ( _DATAEE_ReadByte (1 -> -> 0 `i `us ]
-"48
-[; ;EEPROM/EEPROM.c: 48:     uint8_t high = DATAEE_ReadByte((0x00) + 1);
+"41
+[; ;EEPROM/EEPROM.c: 41:     uint8_t high = DATAEE_ReadByte((0x00) + 1);
 [v _high `uc ~T0 @X0 1 a ]
 [e = _high ( _DATAEE_ReadByte (1 -> + -> 0 `i -> 1 `i `us ]
-"49
-[; ;EEPROM/EEPROM.c: 49:     *magic = (uint16_t)( (high << 8) | low) ;
+"42
+[; ;EEPROM/EEPROM.c: 42:     *magic = (uint16_t)( (high << 8) | low) ;
 [e = *U _magic -> | << -> _high `i -> 8 `i -> _low `i `us ]
-"50
-[; ;EEPROM/EEPROM.c: 50:     *checksum = DATAEE_ReadByte((0x00 + 2));
+"43
+[; ;EEPROM/EEPROM.c: 43:     *checksum = DATAEE_ReadByte((0x00 + 2));
 [e = *U _checksum ( _DATAEE_ReadByte (1 -> + -> 0 `i -> 2 `i `us ]
+"44
+[; ;EEPROM/EEPROM.c: 44: }
+[e :UE 6 ]
+}
+"46
+[; ;EEPROM/EEPROM.c: 46: void UpdateEEPROMChecksum(void)
+[v _UpdateEEPROMChecksum `(v ~T0 @X0 1 ef ]
+"47
+[; ;EEPROM/EEPROM.c: 47: {
+{
+[e :U _UpdateEEPROMChecksum ]
+[f ]
+"48
+[; ;EEPROM/EEPROM.c: 48:     uint8_t calc_checksum = 0;
+[v _calc_checksum `uc ~T0 @X0 1 a ]
+[e = _calc_checksum -> -> 0 `i `uc ]
+"50
+[; ;EEPROM/EEPROM.c: 50:     for (uint8_t i = 0; i <= 0x0A; i++) {
+{
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+[e $ <= -> _i `i -> 10 `i 8  ]
+[e $U 9  ]
+[e :U 8 ]
+{
 "51
-[; ;EEPROM/EEPROM.c: 51: }
-[e :UE 10 ]
+[; ;EEPROM/EEPROM.c: 51:         calc_checksum += EEPROM_ReadConfig(i);
+[e =+ _calc_checksum -> ( _EEPROM_ReadConfig (1 _i `uc ]
+"52
+[; ;EEPROM/EEPROM.c: 52:     }
+}
+[e ++ _i -> -> 1 `i `uc ]
+[e $ <= -> _i `i -> 10 `i 8  ]
+[e :U 9 ]
+}
+"54
+[; ;EEPROM/EEPROM.c: 54:     for (uint16_t addr = (0x0E); addr <= (0x0E + 3 * 0x05) + 4; addr++) {
+{
+[v _addr `us ~T0 @X0 1 a ]
+[e = _addr -> -> 14 `i `us ]
+[e $ <= -> _addr `ui -> + + -> 14 `i * -> 3 `i -> 5 `i -> 4 `i `ui 11  ]
+[e $U 12  ]
+[e :U 11 ]
+{
+"55
+[; ;EEPROM/EEPROM.c: 55:         calc_checksum += DATAEE_ReadByte(addr);
+[e =+ _calc_checksum -> ( _DATAEE_ReadByte (1 _addr `uc ]
+"56
+[; ;EEPROM/EEPROM.c: 56:     }
+}
+[e ++ _addr -> -> 1 `i `us ]
+[e $ <= -> _addr `ui -> + + -> 14 `i * -> 3 `i -> 5 `i -> 4 `i `ui 11  ]
+[e :U 12 ]
+}
+"58
+[; ;EEPROM/EEPROM.c: 58:     EEPROM_WriteHeader(0xF1A5, calc_checksum);
+[e ( _EEPROM_WriteHeader (2 , -> -> 61861 `ui `us _calc_checksum ]
+"59
+[; ;EEPROM/EEPROM.c: 59: }
+[e :UE 7 ]
 }

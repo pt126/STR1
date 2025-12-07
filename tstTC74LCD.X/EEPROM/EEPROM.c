@@ -1,23 +1,14 @@
 #include "EEPROM.h"
 #include "../mcc_generated_files/memory.h" 
 
-uint8_t reverse_bits(uint8_t x) {
-    x = (x >> 4) | (x << 4);              // swap nibbles
-    x = ((x & 0xCC) >> 2) | ((x & 0x33) << 2); // swap pairs
-    x = ((x & 0xAA) >> 1) | ((x & 0x55) << 1); // swap individual bits
-
-    uint8_t rev = 0;
-    for(int i= 0; i<8;i++){
-        rev +=  ((x>>i) && 0x01)<<(7-i);
-    }
-    return rev;
-}
 
 void EEPROM_WriteConfig(uint8_t config_id, uint8_t value) {
-    DATAEE_WriteByte(EEPROM_ADDR_CONFIG + config_id, reverse_bits(value));
+    DATAEE_WriteByte(EEPROM_ADDR_CONFIG + config_id, value);
+    UpdateEEPROMChecksum();
 }
 
 uint8_t EEPROM_ReadConfig(uint8_t config_id) {
+    
     return DATAEE_ReadByte(EEPROM_ADDR_CONFIG + config_id);
 }
 
@@ -27,6 +18,7 @@ void EEPROM_WriteRecord(uint16_t base_addr, uint8_t h, uint8_t m, uint8_t s, uin
     DATAEE_WriteByte(base_addr + 2, s);
     DATAEE_WriteByte(base_addr + 3, T);
     DATAEE_WriteByte(base_addr + 4, L);
+    UpdateEEPROMChecksum();
 }
 
 void EEPROM_ReadRecord(uint16_t base_addr, uint8_t *h, uint8_t *m, uint8_t *s, uint8_t *T, uint8_t *L) {
@@ -36,6 +28,7 @@ void EEPROM_ReadRecord(uint16_t base_addr, uint8_t *h, uint8_t *m, uint8_t *s, u
     *T = DATAEE_ReadByte(base_addr + 3);
     *L = DATAEE_ReadByte(base_addr + 4);
 }
+
 
 void EEPROM_WriteHeader(uint16_t magic, uint8_t checksum) {
     DATAEE_WriteByte(EEPROM_ADDR_MAGIC,     (magic & 0xFF));
@@ -50,3 +43,17 @@ void EEPROM_ReadHeader(uint16_t *magic, uint8_t *checksum) {
     *checksum = DATAEE_ReadByte(EEPROM_ADDR_CHECKSUM);
 }
 
+void UpdateEEPROMChecksum(void)
+{
+    uint8_t calc_checksum = 0;
+    
+    for (uint8_t i = 0; i <= EEPROM_CONFIG_CLKM; i++) {
+        calc_checksum += EEPROM_ReadConfig(i);
+    }
+    
+    for (uint16_t addr = EEPROM_ADDR_TMAX; addr <= EEPROM_ADDR_LMIN + 4; addr++) {
+        calc_checksum += DATAEE_ReadByte(addr);
+    }
+    
+    EEPROM_WriteHeader(MAGIC_WORD, calc_checksum);
+}

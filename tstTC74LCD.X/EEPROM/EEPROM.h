@@ -18,7 +18,7 @@
 
 // EEPROM Address Map
 #define EEPROM_ADDR_HEADER      0x00
-#define MAGIC_WORD              0xF1A4
+#define MAGIC_WORD              0xF1A5
 #define EEPROM_ADDR_MAGIC       (EEPROM_ADDR_HEADER)
 #define EEPROM_ADDR_CHECKSUM    (EEPROM_ADDR_HEADER + 2)
 
@@ -51,5 +51,8 @@ void EEPROM_ReadRecord(uint16_t base_addr, uint8_t *h, uint8_t *m, uint8_t *s, u
 
 void EEPROM_WriteHeader(uint16_t magic, uint8_t checksum);
 void EEPROM_ReadHeader(uint16_t *magic, uint8_t *checksum);
+
+void UpdateEEPROMChecksum(void);
+
 
 #endif // EEPROM_H
